@@ -1,13 +1,16 @@
 import React from "react";
+import "./focusedElement.css";
 
-export const FocusedElement = ({ title, children }) => {
+export const FocusedElement = ({ title, children, onCloseClick }) => {
   return (
-    <div className="focus-container">
-      <div className="focus-header">
-        <h1 className="focus-title">{title}</h1>
-        <div className="close-focus-icon">x</div>
+    <div className="focused-element-container">
+      <div className="focused-element-header">
+        <h1 className="focused-element-title">{title}</h1>
+        <button className="focused-element-close-icon" onClick={onCloseClick}>
+          X
+        </button>
       </div>
-      <div className="focus-element">{children}</div>
+      <div className="focused-element">{children}</div>
     </div>
   );
 };

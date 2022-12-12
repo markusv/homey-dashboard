@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
+import { getHomey } from './getHomey'
 
-const getFavorites = async (homey) => {
-  const me = await homey.users.getUserMe();
+const getFavorites = async () => {
+  const homeyApi = await getHomey()
+  const me = await homeyApi.users.getUserMe();
   return {
     favoriteDevices: me.properties?.favoriteDevices ?? [],
     favoriteFlows: me.properties?.favoriteFlows ?? []
   }
 }
 
-export const useGetFavorites = (homey) => {
+export const useGetFavoriteIds = () => {
   const [favoriteDevices, setFavoriteDevies] = useState();
   const [favoriteFlows, setFavoriteFlows] = useState();
   useEffect(() => {
     async function getF() {
-      const favorites = await getFavorites(homey);
+      const favorites = await getFavorites();
       setFavoriteDevies(favorites.favoriteDevices)
       setFavoriteFlows(favorites.favoriteFlows)
     }
-    if (homey) {
-      getF()
-    }
-  }, [homey])
+    getF()
+  }, [])
   return [favoriteDevices, favoriteFlows]
 }

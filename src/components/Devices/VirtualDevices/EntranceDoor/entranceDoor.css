@@ -1,0 +1,25 @@
+.entrance-focused-container {
+    display: flex;
+    height: 100%;
+}
+
+.entrance-focused-icon-image {
+    max-width: 30%;
+    filter: invert(100%);
+}
+
+.entrance-focused-buttton {
+    margin-bottom: 0.5rem;
+}
+
+.entrance-focused-content {
+    margin-left: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.entrance-focused-text {
+    font-weight: bold;
+    margin-bottom: 2rem;
+}

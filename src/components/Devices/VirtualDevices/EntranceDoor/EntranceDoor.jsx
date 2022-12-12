@@ -1,12 +1,14 @@
 import React from "react";
-import { useGetDevice } from "../helpers/useGetDevice";
-import { SvgIcon } from "../components/SvgIcon";
-import { StatusIndicator } from "../components/StatusIndicator/StatusIndicator";
-import { useMakeCapabilityInstance } from "../helpers/useMakeCapabilityInstance";
-import { getHomey } from "../../../helpers/getHomey";
+import { useGetDevice } from "../../helpers/useGetDevice";
+import { SvgIcon } from "../../components/SvgIcon";
+import { StatusIndicator } from "../../components/StatusIndicator/StatusIndicator";
+import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
+import { getHomey } from "../../../../helpers/getHomey";
+import { EntranceDoorFocused } from "./EntranceDoorFocused";
+import { FocusedElement } from "../../../Focus/FocusedElement/FocusedElement";
 
 const ENTRANCE_DOOR_SENSOR_ID = "6dffa047-b727-4b79-956b-1309f7492f66";
-const ENTRANCE_DOOR_LOCK_DEVICE = "b65fe2ba-b0fc-4f85-8622-a1e27b814cac";
+export const ENTRANCE_DOOR_LOCK_DEVICE = "b65fe2ba-b0fc-4f85-8622-a1e27b814cac";
 
 export const EntranceDoor = ({ onClick }) => {
   const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
@@ -21,16 +23,19 @@ export const EntranceDoor = ({ onClick }) => {
   );
 
   const onDeviceClick = async () => {
-    const homeyApi = await getHomey();
-    homeyApi.devices
-      .setCapabilityValue({
-        deviceId: entranceDoorLockDevice.id,
-        capabilityId: "locked",
-        value: false,
-      })
-      .catch(console.error);
     if (onClick) {
-      onClick("entranceDoor");
+      onClick({
+        id: "entranceDoor",
+        render: (close) => {
+          return (
+            <FocusedElement title="Inngangsdør" onCloseClick={close}>
+              <EntranceDoorFocused
+                entranceDoorLockDevice={entranceDoorLockDevice}
+              />
+            </FocusedElement>
+          );
+        },
+      });
     }
   };
 

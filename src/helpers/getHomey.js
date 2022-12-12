@@ -11,7 +11,6 @@ export const getHomey = async () => {
     redirectUrl: 'http://localhost',
   });
   const loggedIn = await cloudApi.isLoggedIn();
-  console.log('loggedIn', loggedIn)
   if (!loggedIn) {
     if (cloudApi.hasAuthorizationCode()) {
       const token = await  cloudApi.authenticateWithAuthorizationCode();

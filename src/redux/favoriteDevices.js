@@ -1,27 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { userAPI } from './userAPI'
+import { getHomey } from '../helpers/getHomey'
+
+export const fetchFavoriteDevices = createAsyncThunk(
+  'favoriteDevices/fetch',
+  async (userId, thunkAPI) => {
+    const homeyApi = await getHomey();
+    const me = await homeyApi.users.getUserMe();
+    return me.properties?.favoriteDevices ?? [];
+  }
+)
 
 const favoriteDevicesSlice = createSlice({
   name: 'favoriteDevices',
   initialState: {
     loading: true,
-    favoriteDevices: [],
+    favoriteDeviceIds: [],
   },
-  reducers: {
-    loading(state, action) {
-      state.loading = true
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchFavoriteDevices.fulfilled, (state, action) => {
+      state.favoriteDeviceIds = action.payload;
+      state.loading = false;
+    })
+    builder.addCase(fetchFavoriteDevices.pending, (state, action) => {
+      state.loading = true;
+    })
   },
 })
-
-
-// First, create the thunk
-const fetchUserById = createAsyncThunk(
-  'users/fetchByIdStatus',
-  async (userId, thunkAPI) => {
-    const response = await userAPI.fetchById(userId)
-    return response.data
-  }
-)
 
 export default favoriteDevicesSlice.reducer;

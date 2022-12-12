@@ -1,23 +1,47 @@
 import React from "react";
-import { useGetDevice } from "../helpers/useGetDevice";
-import { Icon } from "../components/Icon";
+import { useGetDevice } from "../../helpers/useGetDevice";
+import { getHomey } from "../../../../helpers/getHomey";
+import { StatusIndicator } from "../../components/StatusIndicator/StatusIndicator";
+import { SvgIcon } from "../../components/SvgIcon";
+import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
 
 const GARAGE_SENSOR_DEVICE_ID = "2b70d623-c675-4672-b2b8-715b9dd0f2ce";
 const GARAGE_OPENER_ID = "5e80d371-9b3d-4117-8f96-c5068830a88d";
 
-export const Garage = () => {
-  const [garageSensorDevice] = useGetDevice(GARAGE_SENSOR_DEVICE_ID);
+export const Garage = ({ onClick }) => {
+  const [garageSensorDevice, setGarageSensorDevice] = useGetDevice(
+    GARAGE_SENSOR_DEVICE_ID
+  );
   const [garageOpenerDevice] = useGetDevice(GARAGE_OPENER_ID);
-  console.log("garageOpenerDevice", garageOpenerDevice);
+
+  useMakeCapabilityInstance(
+    garageSensorDevice,
+    setGarageSensorDevice,
+    "alarm_contact"
+  );
+
+  const onDeviceClick = async () => {
+    const homeyApi = await getHomey();
+    homeyApi.devices
+      .setCapabilityValue({
+        deviceId: garageOpenerDevice.id,
+        capabilityId: "onoff.output1",
+        value: true,
+      })
+      .catch(console.error);
+    if (onClick) {
+      onClick("garage");
+    }
+  };
+
+  const isOpen =
+    garageSensorDevice?.capabilitiesObj?.["alarm_contact"]?.value ?? false;
+
   return (
-    <div className="device">
-      <div className="device-icon">
-        <img
-          className="device-icon-image"
-          src="https://my.homey.app/img/devices/garage-door.svg"
-        />
-      </div>
-      Garasje
+    <div className="device" onClick={onDeviceClick}>
+      <SvgIcon url="https://my.homey.app/img/devices/garage-door.svg" />
+      {isOpen && <StatusIndicator />}
+      <div className="device-content">Garasje port</div>
     </div>
   );
 };

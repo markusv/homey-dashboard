@@ -1,0 +1,21 @@
+
+.moods-container {
+    padding: 1rem;
+}
+
+.moods-header {
+    margin-top: 0px;
+}
+
+.mood {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.mood:last-child {
+    margin-bottom: 0;
+}
+
+.mood-button {
+    width: 100%;
+}

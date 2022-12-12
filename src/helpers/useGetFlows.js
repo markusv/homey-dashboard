@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
+import { getHomey } from "./getHomey";
 
-export const useGetFlows = (homey) => {
-  const [flows, setFlows] = useState();
+export const useGetFlows = () => {
+  const [flows, setFlows] = useState({});
   useEffect(() => {
     const getFlows = async () => {
-      setFlows(await homey.flow.getFlows())
-    }
-    if (homey) {
-      getFlows();
-    }
-  }, [homey])
-  return [flows]
-}
+      const homeyApi = await getHomey();
+      if (homeyApi) {
+        const [f, aF] = await Promise.all([
+          homeyApi.flow.getFlows(),
+          homeyApi.flow.getAdvancedFlows(),
+        ]);
+        setFlows({ ...f, ...aF });
+      }
+    };
+    getFlows();
+  }, []);
+  return [flows];
+};

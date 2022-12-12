@@ -1,0 +1,48 @@
+.devices {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.device {
+    position: relative;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid var(--sl-color-neutral-200);
+    border-radius: 15px;
+    background-color: var(--sl-panel-background-color);
+    max-width: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.device--active, .device:hover {
+    background-color: var(--sl-color-gray-400);
+}
+
+.device-icon {
+    width: 45px;
+    height: 45px;
+    margin-bottom: .5rem;
+}
+
+.device-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    word-break: break-word
+}
+
+.device-icon-image {
+    filter: invert(100%);
+    width: 100%;
+    height: 100%;
+}
+
+.device-temperature {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+}
