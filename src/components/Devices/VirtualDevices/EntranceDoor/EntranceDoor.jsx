@@ -1,0 +1,48 @@
+import React from "react";
+import { useGetDevice } from "../helpers/useGetDevice";
+import { SvgIcon } from "../components/SvgIcon";
+import { StatusIndicator } from "../components/StatusIndicator/StatusIndicator";
+import { useMakeCapabilityInstance } from "../helpers/useMakeCapabilityInstance";
+import { getHomey } from "../../../helpers/getHomey";
+
+const ENTRANCE_DOOR_SENSOR_ID = "6dffa047-b727-4b79-956b-1309f7492f66";
+const ENTRANCE_DOOR_LOCK_DEVICE = "b65fe2ba-b0fc-4f85-8622-a1e27b814cac";
+
+export const EntranceDoor = ({ onClick }) => {
+  const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
+    ENTRANCE_DOOR_SENSOR_ID
+  );
+  const [entranceDoorLockDevice] = useGetDevice(ENTRANCE_DOOR_LOCK_DEVICE);
+
+  useMakeCapabilityInstance(
+    entranceDoorSensorDevice,
+    setEntranceDoorSensorDevice,
+    "alarm_contact"
+  );
+
+  const onDeviceClick = async () => {
+    const homeyApi = await getHomey();
+    homeyApi.devices
+      .setCapabilityValue({
+        deviceId: entranceDoorLockDevice.id,
+        capabilityId: "locked",
+        value: false,
+      })
+      .catch(console.error);
+    if (onClick) {
+      onClick("entranceDoor");
+    }
+  };
+
+  const isOpen =
+    entranceDoorSensorDevice?.capabilitiesObj?.["alarm_contact"]?.value ??
+    false;
+
+  return (
+    <div className="device" onClick={onDeviceClick}>
+      <SvgIcon url="https://my.homey.app/img/devices/door.svg" />
+      {isOpen && <StatusIndicator />}
+      <div className="device-content">Inngangsdør</div>
+    </div>
+  );
+};
