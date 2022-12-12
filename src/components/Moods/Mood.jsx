@@ -4,7 +4,7 @@ import { triggerFlow } from "../Flows/helpers/triggerFlow";
 
 export const Mood = ({ flow, onClick }) => {
   const onMoodClick = async () => {
-    await triggerFlow(id);
+    await triggerFlow(flow.id);
     onClick(flow.id);
   };
   return (
