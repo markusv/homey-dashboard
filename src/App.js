@@ -8,7 +8,7 @@ import { Moods } from "./components/Moods/Moods";
 import { Rullegardiner } from "./components/Devices/VirtualDevices/Rullegardiner";
 import { Garage } from "./components/Devices/VirtualDevices/Garage/Garage";
 import { EntranceDoor } from "./components/Devices/VirtualDevices/EntranceDoor/EntranceDoor";
-import { Dishwasher } from "./components/Devices/VirtualDevices/Dishwasher/Dishwasher";
+import { Dishwasher } from "./components/Devices/Dishwasher/Dishwasher";
 import { Focus } from "./components/Focus/Focus";
 import "./components/Devices/device.css";
 
@@ -20,6 +20,7 @@ const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
 const App = () => {
   const [devices] = useGetDevices();
+  console.log("d", (devices || {})["743cf048-1bc1-4a2c-9713-a77c13daba4f"]);
   const [flows] = useGetFlows();
   const [focusElement, setFocusElement] = useState();
   useEffect(() => {
