@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
-import { getHomey } from '../../../helpers/getHomey'
+import { useEffect, useState } from "react";
+import { getHomey } from "../../../helpers/getHomey";
 
 export const useGetDevice = (deviceId) => {
   const [device, setDevice] = useState();
   useEffect(() => {
     const getD = async () => {
       try {
-        const homeyApi = await getHomey()
-        const d = await homeyApi.devices.getDevice({id: deviceId})
+        const homeyApi = await getHomey();
+        const d = await homeyApi.devices.getDevice({ id: deviceId });
         setDevice(d);
-      } catch {}
-    }
+      } catch (e) {
+        console.log("error in useGetDevice: ", e);
+      }
+    };
     getD();
-  }, []);
-  return [device, setDevice]
-}
+  }, [deviceId]);
+  return [device, setDevice];
+};

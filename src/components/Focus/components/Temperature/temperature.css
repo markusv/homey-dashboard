@@ -1,0 +1,12 @@
+.temperature {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.temperature--negative {
+    color: var(--sl-color-primary-700);
+}
+
+.temperature--positive {
+    color: var(--sl-color-danger-700);
+}
