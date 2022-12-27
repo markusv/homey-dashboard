@@ -3,10 +3,10 @@
     font-weight: bold;
 }
 
-.temperature--negative {
+.temperature--low {
     color: var(--sl-color-primary-700);
 }
 
-.temperature--positive {
+.temperature--high {
     color: var(--sl-color-danger-700);
 }

@@ -20,7 +20,7 @@ const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
 const App = () => {
   const [devices] = useGetDevices();
-  console.log("d", (devices || {})["743cf048-1bc1-4a2c-9713-a77c13daba4f"]);
+  //console.log("d", (devices || {})["743cf048-1bc1-4a2c-9713-a77c13daba4f"]);
   const [flows] = useGetFlows();
   const [focusElement, setFocusElement] = useState();
   useEffect(() => {

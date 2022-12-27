@@ -3,7 +3,6 @@ import { useGetDevice } from "../../helpers/useGetDevice";
 import { SvgIcon } from "../../components/SvgIcon";
 import { StatusIndicator } from "../../components/StatusIndicator/StatusIndicator";
 import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
-import { getHomey } from "../../../../helpers/getHomey";
 import { EntranceDoorFocused } from "./EntranceDoorFocused";
 import { FocusedElement } from "../../../Focus/FocusedElement/FocusedElement";
 
