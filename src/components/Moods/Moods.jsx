@@ -8,9 +8,14 @@ export const Moods = ({ flows, onMoodClick }) => {
     <div className="moods-container">
       <h2 className="moods-header">Stemninger</h2>
       {Object.entries(FlowIds).map(([key, value]) => {
-        const flow = flows[value];
+        const flow = flows[value.id];
         return flow ? (
-          <Mood key={`mood-id-${flow.id}`} flow={flow} onClick={onMoodClick} />
+          <Mood
+            key={`mood-id-${flow.id}`}
+            flow={flow}
+            onClick={onMoodClick}
+            title={value.title ?? flow.name}
+          />
         ) : null;
       })}
     </div>
