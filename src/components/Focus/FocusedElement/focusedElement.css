@@ -24,6 +24,8 @@
 }
 
 .focused-element {
-    flex: 1;
+    /*flex: 1; tatt bort pga scroll i audiopro focus*/
     margin-top: 1rem;
+    flex-grow: 0;
+    overflow: hidden;
 }

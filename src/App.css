@@ -29,11 +29,13 @@ body, html {
 .second-column {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .first-row {
-  flex: 1;
+  flex-grow: 1;
   display: flex;
+  overflow: hidden;
 }
 
 .focus-area {
@@ -41,8 +43,9 @@ body, html {
 }
 
 .second-row {
-  flex: 0;
   display: flex;
+  overflow-x: scroll;
+  flex-shrink: 0;
 }
 
 section {

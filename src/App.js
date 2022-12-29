@@ -11,6 +11,7 @@ import { EntranceDoor } from "./components/Devices/VirtualDevices/EntranceDoor/E
 import { Dishwasher } from "./components/Devices/Dishwasher/Dishwasher";
 import { Focus } from "./components/Focus/Focus";
 import "./components/Devices/device.css";
+import { AudioProSpeaker } from "./components/Devices/AudioProSpeaker/AudioProSpeaker";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
@@ -20,7 +21,7 @@ const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
 const App = () => {
   const [devices] = useGetDevices();
-  //console.log("d", (devices || {})["743cf048-1bc1-4a2c-9713-a77c13daba4f"]);
+  //console.log("d", (devices || {})["06d71bbf-5c0b-4aa6-a96a-cce4301fe916"]);
   const [flows] = useGetFlows();
   const [focusElement, setFocusElement] = useState();
   useEffect(() => {
@@ -66,6 +67,7 @@ const App = () => {
           <Garage onClick={onDeviceClick} />
           <EntranceDoor onClick={onDeviceClick} />
           <Dishwasher onClick={onDeviceClick} />
+          <AudioProSpeaker onClick={onDeviceClick} />
         </div>
       </div>
     </div>

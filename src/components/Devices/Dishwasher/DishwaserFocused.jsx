@@ -11,7 +11,7 @@ export const DishwasherFocused = ({ dishwasherDevice }) => {
   const [delayedStart] = useGetLogicVariable(
     DISHWASHER_DELAYED_START_VARIABLE_ID
   );
-  const onStartNightClick = async () => {
+  const onDelayedStartClick = async () => {
     await triggerFlow(DISHWASHER_DELAYED_START_FLOW_ID);
   };
   return (
@@ -30,7 +30,7 @@ export const DishwasherFocused = ({ dishwasherDevice }) => {
           <SlButton
             size="large"
             className="dishwasher-focused-buttton"
-            onClick={onStartNightClick}
+            onClick={onDelayedStartClick}
           >
             Start oppvaskmaskin når det er billig strøm
           </SlButton>
