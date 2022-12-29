@@ -29,15 +29,17 @@ export const EntranceDoorFocused = ({ entranceDoorLockDevice }) => {
 
   return (
     <div className="entrance-focused-container">
-      <img
-        className="entrance-focused-icon-image"
-        src="https://my.homey.app/img/devices/door.svg"
-      />
+      <div>
+        <img
+          className="entrance-focused-icon-image"
+          src="https://my.homey.app/img/devices/door.svg"
+        />
+      </div>
       <div className="entrance-focused-content">
-        <div className="entrance-focused-text">
-          {/*isLockedAutomatically && <o>Døren låses automatisk</o>*/}
-          {/*!isLockedAutomatically && <o>Døren er alltid åpen nå</o>*/}
-        </div>
+        {/*<div className="entrance-focused-text">*/}
+        {/*isLockedAutomatically && <o>Døren låses automatisk</o>*/}
+        {/*!isLockedAutomatically && <o>Døren er alltid åpen nå</o>*/}
+        {/*</div>*/}
         <SlButton
           size="large"
           className="entrance-focused-buttton"

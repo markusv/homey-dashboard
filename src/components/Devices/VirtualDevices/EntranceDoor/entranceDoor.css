@@ -4,7 +4,8 @@
 }
 
 .entrance-focused-icon-image {
-    max-width: 30%;
+    width: 128px;
+    height: 128px;
     filter: invert(100%);
 }
 
