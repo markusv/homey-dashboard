@@ -41,7 +41,9 @@ const App = () => {
   };
 
   const onDeviceClick = (obj) => {
-    setFocusElement(obj);
+    if (obj) {
+      setFocusElement(obj);
+    }
   };
 
   const clearFocus = () => {
@@ -63,8 +65,8 @@ const App = () => {
           </div>
         </div>
         <div className="second-row">
-          <Rullegardiner onClick={onDeviceClick} />
-          <Garage onClick={onDeviceClick} />
+          <Rullegardiner />
+          <Garage />
           <EntranceDoor onClick={onDeviceClick} />
           <Dishwasher onClick={onDeviceClick} />
           <AudioProSpeaker onClick={onDeviceClick} />

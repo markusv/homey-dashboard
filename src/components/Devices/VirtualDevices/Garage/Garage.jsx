@@ -8,7 +8,7 @@ import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstan
 const GARAGE_SENSOR_DEVICE_ID = "2b70d623-c675-4672-b2b8-715b9dd0f2ce";
 const GARAGE_OPENER_ID = "5e80d371-9b3d-4117-8f96-c5068830a88d";
 
-export const Garage = ({ onClick }) => {
+export const Garage = () => {
   const [garageSensorDevice, setGarageSensorDevice] = useGetDevice(
     GARAGE_SENSOR_DEVICE_ID
   );
@@ -29,9 +29,6 @@ export const Garage = ({ onClick }) => {
         value: true,
       })
       .catch(console.error);
-    if (onClick) {
-      onClick("garage");
-    }
   };
 
   const isOpen =
