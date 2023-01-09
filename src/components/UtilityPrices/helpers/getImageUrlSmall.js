@@ -55,7 +55,7 @@ export const getImageUrlSmall = (allPrices) => {
 
     if (i == iNow) {
       colors.push("'yellow'");
-      pointsize.push(2);
+      pointsize.push(6);
     } else if (d.getTime() == new Date(allPrices[i].startsAt).getTime()) {
       colors.push("'cyan'");
       pointsize.push(0);
