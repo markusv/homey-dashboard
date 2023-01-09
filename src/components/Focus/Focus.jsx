@@ -6,8 +6,9 @@ import { FocusTemperature } from "./FocusTemperature";
 import { SlRange } from "@shoelace-style/shoelace/dist/react";
 import { useDebounce } from "../../helpers/useDebounce";
 import { setLogicVariable } from "../../helpers/setLogicVariable";
+import { UtilityPricesSmall } from "../UtilityPrices/UtilityPricesSmall";
 
-export const Focus = () => {
+export const Focus = ({ onSetFocus }) => {
   const [localTempValue, setLocaltempValue] = useState(0);
   const [heatpumpSetTemperature] = useGetLogicVariable(
     HEATPUMP_SET_TEMPERATURE
@@ -34,16 +35,21 @@ export const Focus = () => {
 
   return (
     <div className="focus-container">
-      <FocusTemperature />
-      <div>
-        <div className="temperature">{`Ønsket temperatur: ${localTempValue}`}</div>
-        <SlRange
-          min={10}
-          max={30}
-          step={1}
-          value={localTempValue}
-          onSlChange={onChange}
-        />
+      <div className="focus-left">
+        <FocusTemperature />
+        <div>
+          <div className="temperature">{`Ønsket temperatur: ${localTempValue}`}</div>
+          <SlRange
+            min={10}
+            max={30}
+            step={1}
+            value={localTempValue}
+            onSlChange={onChange}
+          />
+        </div>
+      </div>
+      <div className="focus-right">
+        <UtilityPricesSmall onSetFocus={onSetFocus} />
       </div>
     </div>
   );

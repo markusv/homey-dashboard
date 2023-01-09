@@ -40,7 +40,7 @@ const App = () => {
     console.log("mood clicked", id);
   };
 
-  const onDeviceClick = (obj) => {
+  const onSetFocus = (obj) => {
     if (obj) {
       setFocusElement(obj);
     }
@@ -61,15 +61,15 @@ const App = () => {
         <div className="first-row">
           <div className="focus-area">
             {focusElement && focusElement.render(clearFocus)}
-            {!focusElement && <Focus />}
+            {!focusElement && <Focus onSetFocus={onSetFocus} />}
           </div>
         </div>
         <div className="second-row">
           <Rullegardiner />
           <Garage />
-          <EntranceDoor onClick={onDeviceClick} />
-          <Dishwasher onClick={onDeviceClick} />
-          <AudioProSpeaker onClick={onDeviceClick} />
+          <EntranceDoor onClick={onSetFocus} />
+          <Dishwasher onClick={onSetFocus} />
+          <AudioProSpeaker onClick={onSetFocus} />
         </div>
       </div>
     </div>
