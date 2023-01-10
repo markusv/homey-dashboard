@@ -11,6 +11,7 @@ export const getImageUrlSmall = (allPrices) => {
     return null;
   }
 
+  console.log("getImageUrlSmall: allPrices: ", allPrices);
   // Date-objekt for akkurat denne timen
   let d = new Date();
   d.setMinutes(0);
@@ -24,6 +25,9 @@ export const getImageUrlSmall = (allPrices) => {
     if (d.getTime() == dLoop.getTime()) {
       iNow = i;
       iStart = iNow - TIMER_BAKOVER;
+      if (iStart < 0) {
+        iStart = 0;
+      }
       iEnd = iNow + TIMER_FREMOVER;
       if (iEnd > allPrices.length) {
         iEnd = allPrices.length - 1;

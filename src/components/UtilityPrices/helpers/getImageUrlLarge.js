@@ -24,6 +24,9 @@ export const getImageUrlLarge = (allPrices) => {
     if (d.getTime() == dLoop.getTime()) {
       iNow = i;
       iStart = iNow - TIMER_BAKOVER;
+      if (iStart < 0) {
+        iStart = 0;
+      }
       iEnd = iNow + TIMER_FREMOVER;
       if (iEnd > allPrices.length) {
         iEnd = allPrices.length - 1;

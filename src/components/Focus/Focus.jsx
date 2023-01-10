@@ -7,6 +7,7 @@ import { SlRange } from "@shoelace-style/shoelace/dist/react";
 import { useDebounce } from "../../helpers/useDebounce";
 import { setLogicVariable } from "../../helpers/setLogicVariable";
 import { UtilityPricesSmall } from "../UtilityPrices/UtilityPricesSmall";
+import { ErrorBoundary } from "../ErrorBoundary";
 
 export const Focus = ({ onSetFocus }) => {
   const [localTempValue, setLocaltempValue] = useState(0);
@@ -49,7 +50,9 @@ export const Focus = ({ onSetFocus }) => {
         </div>
       </div>
       <div className="focus-right">
-        <UtilityPricesSmall onSetFocus={onSetFocus} />
+        <ErrorBoundary>
+          <UtilityPricesSmall onSetFocus={onSetFocus} />
+        </ErrorBoundary>
       </div>
     </div>
   );
