@@ -34,6 +34,7 @@ export const FocusTemperature = () => {
           <div className="temperature">Inne / Ute</div>
           <div>
             <TemperatureRange
+              className="focus-temperature-ramge"
               temperatureOneAsInt={temperature}
               temperatureTwoAsInt={outdoorTemperature}
             />

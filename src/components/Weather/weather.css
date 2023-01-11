@@ -1,0 +1,18 @@
+.forecast {
+    display: flex;
+}
+
+.forecast-for-day {
+    margin-top: 1rem;
+}
+
+.forecast-for-day:first-child {
+    margin-top: 0;
+}
+
+.forecast-item {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

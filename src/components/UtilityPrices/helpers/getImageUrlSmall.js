@@ -48,6 +48,7 @@ export const getImageUrlSmall = (allPrices) => {
   d.setHours(0);
   d.setDate(d.getDate() + 1);
 
+  console.log(`iStart: ${iStart} iEnd: ${iEnd}`);
   for (let i = iStart; i <= iEnd; i++) {
     avgPrice += allPrices[i].price;
     prices.push(Math.round(allPrices[i].price * 100));

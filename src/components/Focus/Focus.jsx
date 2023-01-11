@@ -8,6 +8,7 @@ import { useDebounce } from "../../helpers/useDebounce";
 import { setLogicVariable } from "../../helpers/setLogicVariable";
 import { UtilityPricesSmall } from "../UtilityPrices/UtilityPricesSmall";
 import { ErrorBoundary } from "../ErrorBoundary";
+import { Weather } from "../Weather/Weather";
 
 export const Focus = ({ onSetFocus }) => {
   const [localTempValue, setLocaltempValue] = useState(0);
@@ -51,7 +52,13 @@ export const Focus = ({ onSetFocus }) => {
       </div>
       <div className="focus-right">
         <ErrorBoundary>
-          <UtilityPricesSmall onSetFocus={onSetFocus} />
+          <UtilityPricesSmall
+            onSetFocus={onSetFocus}
+            className="focus-utilityprices"
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Weather className="focus-weather" />
         </ErrorBoundary>
       </div>
     </div>

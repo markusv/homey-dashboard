@@ -5,7 +5,7 @@ import "./utilityPricess.css";
 import { FocusedElement } from "../Focus/FocusedElement/FocusedElement";
 import { UtilityPricesLarge } from "./UtilityPricesLarge";
 
-export const UtilityPricesSmall = ({ onSetFocus }) => {
+export const UtilityPricesSmall = ({ onSetFocus, className }) => {
   const [utilityPrices] = useGetUtilityPrices();
   const [imageData, setImageData] = useState();
 
@@ -28,7 +28,7 @@ export const UtilityPricesSmall = ({ onSetFocus }) => {
   };
 
   return (
-    <div onClick={onUtilityClick}>
+    <div onClick={onUtilityClick} className={className}>
       {imageData && (
         <>
           <div>
