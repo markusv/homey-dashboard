@@ -4,7 +4,7 @@ import * as classnames from "classnames";
 
 export const Temperature = ({ ttemperatureAsInt }) => {
   const classes = classnames("temperature", {
-    "temperature--low": ttemperatureAsInt < 0,
+    "temperature--low": ttemperatureAsInt <= 0,
     "temperature--high": ttemperatureAsInt > 0,
   });
   return <span className={classes}>{ttemperatureAsInt}</span>;
