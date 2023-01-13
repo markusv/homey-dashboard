@@ -10,12 +10,12 @@ export const useFetchForecast = () => {
       const fetchedWeather = await getWeather();
       setForecast(fetchedWeather);
     };
-    const callEveryDay = () => {
-      intervalId = setInterval(getw, 1000 * 60 * 60 * 24);
+    const callEveryHour = () => {
+      intervalId = setInterval(getw, 1000 * 60 * 60);
     };
 
     getw();
-    callEveryDay();
+    callEveryHour();
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
