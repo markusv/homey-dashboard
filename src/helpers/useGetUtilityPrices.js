@@ -19,7 +19,7 @@ const getPrices = async () => {
     id: "fetch_prices",
     args: [],
   });
-  return JSON.parse(result?.returnTokens?.prices ?? "{}");
+  return JSON.parse(result?.returnTokens?.prices ?? "[]");
 };
 
 export const useGetUtilityPrices = () => {

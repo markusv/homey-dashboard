@@ -7,12 +7,7 @@ import { UtilityPricesLarge } from "./UtilityPricesLarge";
 
 export const UtilityPricesSmall = ({ onSetFocus, className }) => {
   const [utilityPrices] = useGetUtilityPrices();
-  const [imageData, setImageData] = useState();
-
-  useEffect(() => {
-    const data = getImageUrlSmall(utilityPrices);
-    if (data) setImageData(data);
-  }, [utilityPrices]);
+  const imageData = getImageUrlSmall(utilityPrices);
 
   const onUtilityClick = () => {
     onSetFocus({
