@@ -99,7 +99,7 @@ export const getImageUrlLarge = (allPrices) => {
       datasets:[ \
          { \
             label:'Øre pr kWh', \
-            steppedLine:true, \
+            steppedLine:false, \
             data:[ \
                " +
       prices +
@@ -166,5 +166,6 @@ export const getImageUrlLarge = (allPrices) => {
     avgPrice: avgPrices[0],
     minPrice,
     maxPrice,
+    priceNow: allPrices[iNow].price,
   };
 };

@@ -29,8 +29,8 @@ export const UtilityPricesSmall = ({ onSetFocus, className }) => {
           <div>
             <span className="utility-price-header">Strømpris: </span>
             {new Date(imageData.start).getHours()} -{" "}
-            {new Date(imageData.end).getHours()} gjnsnitt:{" "}
-            {imageData.avgPrice / 100} kr
+            {new Date(imageData.end).getHours()} nå:{" "}
+            {imageData.priceNow.toFixed(2)} kr
           </div>
           <img className="utilityPriceChart" src={imageData.url} />
         </>

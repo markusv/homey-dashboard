@@ -48,7 +48,6 @@ export const getImageUrlSmall = (allPrices) => {
   d.setHours(0);
   d.setDate(d.getDate() + 1);
 
-  iEnd = 71;
   console.log(`iStart: ${iStart} iEnd: ${iEnd}`);
   for (let i = iStart; i <= iEnd; i++) {
     console.log(`for loop i: ${i}`);
@@ -104,7 +103,7 @@ export const getImageUrlSmall = (allPrices) => {
       datasets:[ \
          { \
             label:'Øre pr kWh', \
-            steppedLine:true, \
+            steppedLine:false, \
             data:[ \
                " +
       prices +
@@ -167,5 +166,6 @@ export const getImageUrlSmall = (allPrices) => {
     start: allPrices[iStart].startsAt,
     end: allPrices[iEnd].startsAt,
     avgPrice: avgPrices[0],
+    priceNow: allPrices[iNow].price,
   };
 };
