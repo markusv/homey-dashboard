@@ -1,7 +1,13 @@
 import React from "react";
 import "./focusedElement.css";
 
-export const FocusedElement = ({ title, children, onCloseClick }) => {
+export const FocusedElement = ({
+  title,
+  children,
+  onCloseClick,
+  className,
+}) => {
+  const cls = (className ?? "") + " focused-element";
   return (
     <div className="focused-element-container">
       <div className="focused-element-header">
@@ -10,7 +16,7 @@ export const FocusedElement = ({ title, children, onCloseClick }) => {
           X
         </button>
       </div>
-      <div className="focused-element">{children}</div>
+      <div className={cls}>{children}</div>
     </div>
   );
 };

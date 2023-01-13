@@ -58,7 +58,7 @@ export const Focus = ({ onSetFocus }) => {
           />
         </ErrorBoundary>
         <ErrorBoundary>
-          <Weather className="focus-weather" />
+          <Weather onSetFocus={onSetFocus} className="focus-weather" />
         </ErrorBoundary>
       </div>
     </div>

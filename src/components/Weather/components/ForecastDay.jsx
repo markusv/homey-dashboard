@@ -16,28 +16,31 @@ export const ForecastDay = ({ forecast, dayOfset }) => {
     return null;
   }
 
-  const forecastMorning = getForecastForHour(6, forecastForDay);
-  const forecastNoon = getForecastForHour(12, forecastForDay);
-  const forecastAfternoon = getForecastForHour(18, forecastForDay);
-  const forecastEvening = getForecastForHour(23, forecastForDay);
+  const forecastNight = getForecastForHour(1, forecastForDay);
+  const forecastMorning = getForecastForHour(7, forecastForDay);
+  const forecastNoon = getForecastForHour(13, forecastForDay);
+  const forecastEvening = getForecastForHour(19, forecastForDay);
+  const forecastLateEvening = getForecastForHour(23, forecastForDay);
   const { min, max } = getMinMaxTempForDay(forecastForDay);
   const day = dateForForecast.getDate().toString().padStart(2, "0");
   return (
     <div className="forecast-for-day">
-      <div>
+      <div className="forecast-day-name">
         {`${getNameOfDay(dateForForecast)} ${day} ${getNameOfMonth(
           dateForForecast
         )}`}{" "}
+      </div>
+      <div className="forecast-max-min-temp">
         <TemperatureRange
           temperatureOneAsInt={Math.round(max)}
           temperatureTwoAsInt={Math.round(min)}
         />
       </div>
       <div className="forecast">
+        <ForecastItem forecast={forecastNight} />
         <ForecastItem forecast={forecastMorning} />
         <ForecastItem forecast={forecastNoon} />
-        <ForecastItem forecast={forecastAfternoon} />
-        <ForecastItem forecast={forecastEvening} />
+        <ForecastItem forecast={forecastEvening || forecastLateEvening} />
       </div>
     </div>
   );

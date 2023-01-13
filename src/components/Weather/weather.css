@@ -16,3 +16,41 @@
     flex-direction: column;
     align-items: center;
 }
+
+.forecast-day-name {
+    display: inline;
+}
+
+.forecast-max-min-temp {
+    display: inline;
+}
+
+.focused-weather-container {
+    overflow: scroll;
+}
+
+.weather-focus .forecast-for-day {
+    display: flex;
+}
+
+.weather-focus .forecast-day-name,
+.weather-focus .forecast-max-min-temp,
+.weather-focus .forecast-item
+{
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.weather-focus .forecast-day-name {
+    order: 1;
+}
+
+.weather-focus .forecast {
+    order: 2;
+}
+
+.weather-focus .forecast-max-min-temp {
+    order: 3;
+}
+
