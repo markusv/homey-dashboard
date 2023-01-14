@@ -28,7 +28,7 @@ export const getImageUrlLarge = (allPrices) => {
         iStart = 0;
       }
       iEnd = iNow + TIMER_FREMOVER;
-      if (iEnd > allPrices.length) {
+      if (iEnd >= allPrices.length) {
         iEnd = allPrices.length - 1;
       }
       break;
