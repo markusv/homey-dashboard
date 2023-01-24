@@ -1,33 +1,22 @@
 import React from "react";
 import { useGetDevice } from "../helpers/useGetDevice";
 import { Icon } from "../components/Icon";
-import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
-import { DishwasherFocused } from "./DishwaserFocused";
 import { StatusIcon } from "../components/StatusIcon/StatusIcon";
 import { useGetLogicVariable } from "../../../helpers/useGetLogicVariable";
 import { DISHWASHER_DELAYED_START_VARIABLE_ID } from "./constants";
+import { triggerFlow } from "../../Flows/helpers/triggerFlow";
 
 const DISHWASHER_DEVICE_ID = "9c89613c-c969-4649-9f52-a95b5999017d";
+const DISHWASHER_DELAYED_START_FLOW_ID = "f6334071-ed8e-46c6-88c2-546fc348e97f";
 
-export const Dishwasher = ({ onClick }) => {
+export const Dishwasher = () => {
   const [delayedStart] = useGetLogicVariable(
     DISHWASHER_DELAYED_START_VARIABLE_ID
   );
   const [dishwasherDevice] = useGetDevice(DISHWASHER_DEVICE_ID);
 
   const onDeviceClick = async () => {
-    if (onClick) {
-      onClick({
-        id: "dishwasher",
-        render: (close) => {
-          return (
-            <FocusedElement title="Oppvaskmaskin" onCloseClick={close}>
-              <DishwasherFocused dishwasherDevice={dishwasherDevice} />
-            </FocusedElement>
-          );
-        },
-      });
-    }
+    await triggerFlow(DISHWASHER_DELAYED_START_FLOW_ID);
   };
 
   return (
