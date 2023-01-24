@@ -11,7 +11,6 @@ export const getImageUrlSmall = (allPrices) => {
     return null;
   }
 
-  console.log("getImageUrlSmall: allPrices: ", allPrices.slice(0));
   // Date-objekt for akkurat denne timen
   let d = new Date();
   d.setMinutes(0);
@@ -48,10 +47,7 @@ export const getImageUrlSmall = (allPrices) => {
   d.setHours(0);
   d.setDate(d.getDate() + 1);
 
-  console.log(`iStart: ${iStart} iEnd: ${iEnd}`);
   for (let i = iStart; i <= iEnd; i++) {
-    console.log(`for loop i: ${i}`);
-    console.log(`for loop allPrices[i]: ${allPrices[i]}`);
     avgPrice += allPrices[i].price;
     prices.push(Math.round(allPrices[i].price * 100));
 
