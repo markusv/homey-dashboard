@@ -3,6 +3,10 @@ export default {
     id: "c790b8fe-b408-4a7b-b71d-4f120c16ee84",
     title: "Lys på",
   },
+  DINNER: {
+    id: "d29c2ca8-8363-41fc-adf4-9662f180d2bb",
+    title: "Middag",
+  },
   RYDDETID: {
     id: "19f59fed-b897-4448-bd9d-71305b93384e",
   },
