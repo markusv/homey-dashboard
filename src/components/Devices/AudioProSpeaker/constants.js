@@ -9,3 +9,6 @@ export const AUDIO_PRO_PLAY_SLOW_MUSIC_FLOW_ID =
   "b8445404-0d65-4898-87a4-2c3582bacaf9";
 export const AUDIO_PRO_PLAY_DANCE_CLASSICS_FLOW_ID =
   "dd1f5303-3992-4b5d-aca2-73725bffab67";
+
+export const AUDIO_PRO_PLAY_CHILD_MUSIC =
+  "78f78afa-508d-42fc-bff6-3e941917ed17";

@@ -4,6 +4,7 @@ import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import { triggerFlow } from "../../Flows/helpers/triggerFlow";
 import {
   AUDIO_PRO_PAUSE_FLOW_ID,
+  AUDIO_PRO_PLAY_CHILD_MUSIC,
   AUDIO_PRO_PLAY_DANCE_CLASSICS_FLOW_ID,
   AUDIO_PRO_PLAY_MUSIC_FLOW_ID,
   AUDIO_PRO_PLAY_RYDDETID_FLOW_ID,
@@ -26,6 +27,9 @@ export const AudioProSpeakerFocus = ({ audioProDevice }) => {
   };
   const onPlayDanceClassics = async () => {
     await triggerFlow(AUDIO_PRO_PLAY_DANCE_CLASSICS_FLOW_ID);
+  };
+  const onPlayChildMusic = async () => {
+    await triggerFlow(AUDIO_PRO_PLAY_CHILD_MUSIC);
   };
 
   return (
@@ -50,6 +54,13 @@ export const AudioProSpeakerFocus = ({ audioProDevice }) => {
           onClick={onPLayMusic}
         >
           Sett på musikk
+        </SlButton>
+        <SlButton
+          size="large"
+          className="audiopro-focused-buttton"
+          onClick={onPlayChildMusic}
+        >
+          Spill barnemusikk
         </SlButton>
         <SlButton
           size="large"
