@@ -1,0 +1,16 @@
+.entre-dash {
+    display: flex;
+}
+
+.entre-dash-col-one {
+    width: 30%;
+}
+
+.entre-dash-col-two {
+    width: 70%;
+    padding: 1rem;
+}
+
+.entrance-garage-card h2 {
+    margin: 0;
+}

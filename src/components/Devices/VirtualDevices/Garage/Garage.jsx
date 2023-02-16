@@ -4,9 +4,10 @@ import { getHomey } from "../../../../helpers/getHomey";
 import { StatusIndicator } from "../../components/StatusIndicator/StatusIndicator";
 import { SvgIcon } from "../../components/SvgIcon";
 import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
-
-const GARAGE_SENSOR_DEVICE_ID = "2b70d623-c675-4672-b2b8-715b9dd0f2ce";
-const GARAGE_OPENER_ID = "5e80d371-9b3d-4117-8f96-c5068830a88d";
+import {
+  GARAGE_OPENER_ID,
+  GARAGE_SENSOR_DEVICE_ID,
+} from "../../../../constants";
 
 export const Garage = () => {
   const [garageSensorDevice, setGarageSensorDevice] = useGetDevice(

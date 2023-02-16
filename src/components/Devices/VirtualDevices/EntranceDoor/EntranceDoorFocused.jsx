@@ -3,14 +3,18 @@ import "./entranceDoor.css";
 import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import { triggerFlow } from "../../../Flows/helpers/triggerFlow";
 import { getHomey } from "../../../../helpers/getHomey";
+import {
+  ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID,
+  ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID,
+} from "../../../../constants";
 
 export const EntranceDoorFocused = ({ entranceDoorLockDevice }) => {
   const onAlwaysOpenClick = async () => {
-    await triggerFlow("54c1dff2-cfed-49ee-9c8a-7f4779eb55cb");
+    await triggerFlow(ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID);
   };
 
   const onAlwaysCloseClick = async () => {
-    await triggerFlow("7f55fedc-c839-4dbf-b9ae-4212ef4f6394");
+    await triggerFlow(ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID);
   };
 
   const onOpenClick = async () => {
@@ -36,10 +40,6 @@ export const EntranceDoorFocused = ({ entranceDoorLockDevice }) => {
         />
       </div>
       <div className="entrance-focused-content">
-        {/*<div className="entrance-focused-text">*/}
-        {/*isLockedAutomatically && <o>Døren låses automatisk</o>*/}
-        {/*!isLockedAutomatically && <o>Døren er alltid åpen nå</o>*/}
-        {/*</div>*/}
         <SlButton
           size="large"
           className="entrance-focused-buttton"

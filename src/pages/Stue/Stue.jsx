@@ -1,17 +1,18 @@
-import "./App.css";
+import "../../App.css";
 import React, { useEffect, useState } from "react";
 import "@shoelace-style/shoelace/dist/themes/dark.css";
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path";
-import { useGetDevices } from "./helpers/useGetDevices";
-import { useGetFlows } from "./helpers/useGetFlows";
-import { Moods } from "./components/Moods/Moods";
-import { Rullegardiner } from "./components/Devices/VirtualDevices/Rullegardiner";
-import { Garage } from "./components/Devices/VirtualDevices/Garage/Garage";
-import { EntranceDoor } from "./components/Devices/VirtualDevices/EntranceDoor/EntranceDoor";
-import { Dishwasher } from "./components/Devices/Dishwasher/Dishwasher";
-import { Focus } from "./components/Focus/Focus";
-import "./components/Devices/device.css";
-import { AudioProSpeaker } from "./components/Devices/AudioProSpeaker/AudioProSpeaker";
+import { useGetDevices } from "../../helpers/useGetDevices";
+import { useGetFlows } from "../../helpers/useGetFlows";
+import { Moods } from "../../components/Moods/Moods";
+import { Rullegardiner } from "../../components/Devices/VirtualDevices/Rullegardiner";
+import { Garage } from "../../components/Devices/VirtualDevices/Garage/Garage";
+import { EntranceDoor } from "../../components/Devices/VirtualDevices/EntranceDoor/EntranceDoor";
+import { Dishwasher } from "../../components/Devices/Dishwasher/Dishwasher";
+import { Focus } from "../../components/Focus/Focus";
+import "../../components/Devices/device.css";
+import { AudioProSpeaker } from "../../components/Devices/AudioProSpeaker/AudioProSpeaker";
+import { MOODS, STUE_MOODS } from "./constants";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
@@ -19,7 +20,7 @@ setBasePath(
 
 const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
-const App = () => {
+export const Stue = () => {
   const [devices] = useGetDevices();
   //console.log("d", (devices || {})["06d71bbf-5c0b-4aa6-a96a-cce4301fe916"]);
   const [flows] = useGetFlows();
@@ -55,7 +56,7 @@ const App = () => {
   return (
     <div className="sl-theme-dark homey-dashboard">
       <div className="first-column">
-        <Moods flows={flows} onMoodClick={onMoodClick} />
+        <Moods flows={flows} moods={STUE_MOODS} onMoodClick={onMoodClick} />
       </div>
       <div className="second-column">
         <div className="first-row">
@@ -75,5 +76,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
