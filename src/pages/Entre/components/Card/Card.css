@@ -1,0 +1,21 @@
+.entre-card {
+    position: relative;
+    padding: 1rem;
+    display: flex;
+    background-color: var(--sl-panel-background-color);
+    box-shadow: var(--sl-shadow-x-small);
+    border: solid var(--border-width) var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+}
+
+.entre-card-content {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.entre-card-title {
+    margin-top: 0;
+}

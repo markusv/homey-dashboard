@@ -5,9 +5,10 @@ import { StatusIndicator } from "../../components/StatusIndicator/StatusIndicato
 import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
 import { EntranceDoorFocused } from "./EntranceDoorFocused";
 import { FocusedElement } from "../../../Focus/FocusedElement/FocusedElement";
-
-const ENTRANCE_DOOR_SENSOR_ID = "6dffa047-b727-4b79-956b-1309f7492f66";
-export const ENTRANCE_DOOR_LOCK_DEVICE = "b65fe2ba-b0fc-4f85-8622-a1e27b814cac";
+import {
+  ENTRANCE_DOOR_LOCK_DEVICE,
+  ENTRANCE_DOOR_SENSOR_ID,
+} from "../../../../constants";
 
 export const EntranceDoor = ({ onClick }) => {
   const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(

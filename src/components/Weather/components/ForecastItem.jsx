@@ -12,7 +12,7 @@ export const ForecastItem = ({ forecast }) => {
       <img
         src={
           process.env.PUBLIC_URL +
-          `/assets/weatherIcons/${data.summary.symbol_code}.svg`
+          `/dashboardAssets/weatherIcons/${data.summary.symbol_code}.svg`
         }
       />
     </div>
