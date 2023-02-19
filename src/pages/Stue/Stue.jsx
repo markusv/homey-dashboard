@@ -12,7 +12,7 @@ import { Dishwasher } from "../../components/Devices/Dishwasher/Dishwasher";
 import { Focus } from "../../components/Focus/Focus";
 import "../../components/Devices/device.css";
 import { AudioProSpeaker } from "../../components/Devices/AudioProSpeaker/AudioProSpeaker";
-import { MOODS, STUE_MOODS } from "./constants";
+import { STUE_MOODS } from "./constants";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"

@@ -96,7 +96,6 @@ export const Dashboard = () => {
           svgIconUrl="https://my.homey.app/img/devices/door.svg"
           statusIndicator={entranceDoorIsOpen}
           actions={[
-            { id: "openDoor", title: "Åpne døra", onClick: onOpenDoorClick },
             {
               id: "alwaysOpen",
               title: "Sett alltid åpen",
