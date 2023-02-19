@@ -40,8 +40,13 @@
     border: none;
 }
 
-.weather-frame {
+.weather-container {
     width: 100%;
     height: 100%;
-    border: none;
+    padding: 1rem;
+    overflow: scroll;
+}
+
+.weather-container--current-temp {
+    margin-top: 0;
 }

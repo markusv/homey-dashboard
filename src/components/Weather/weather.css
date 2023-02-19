@@ -1,5 +1,6 @@
 .forecast {
     display: flex;
+    justify-content: space-between;
 }
 
 .forecast-for-day {
@@ -29,28 +30,31 @@
     overflow: scroll;
 }
 
-.weather-focus .forecast-for-day {
+.weather-large .forecast-for-day {
     display: flex;
+    justify-content: space-between;
 }
 
-.weather-focus .forecast-day-name,
-.weather-focus .forecast-max-min-temp,
-.weather-focus .forecast-item
+.weather-large .forecast-day-name,
+.weather-large .forecast-max-min-temp,
+.weather-large .forecast-item
 {
-    margin-right: 2rem;
+    margin-right: 1.5rem;
     display: flex;
     align-items: center;
 }
 
-.weather-focus .forecast-day-name {
+.weather-large .forecast-day-name {
     order: 1;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
-.weather-focus .forecast {
+.weather-large .forecast {
     order: 2;
 }
 
-.weather-focus .forecast-max-min-temp {
+.weather-large .forecast-max-min-temp {
     order: 3;
 }
 

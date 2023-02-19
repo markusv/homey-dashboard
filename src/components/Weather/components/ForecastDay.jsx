@@ -5,6 +5,7 @@ import { getNameOfMonth } from "../helpers/getNameOfMonth";
 import { TemperatureRange } from "../../Focus/components/Temperature/TemperatureRange";
 import React from "react";
 import { ForecastItem } from "./ForecastItem";
+import { getForecastItemsForDay } from "../helpers/getForecastItemsForDay";
 
 export const ForecastDay = ({ forecast, dayOfset }) => {
   const dateForForecast = new Date();
@@ -16,11 +17,7 @@ export const ForecastDay = ({ forecast, dayOfset }) => {
     return null;
   }
 
-  const forecastNight = getForecastForHour(1, forecastForDay);
-  const forecastMorning = getForecastForHour(7, forecastForDay);
-  const forecastNoon = getForecastForHour(13, forecastForDay);
-  const forecastEvening = getForecastForHour(19, forecastForDay);
-  const forecastLateEvening = getForecastForHour(23, forecastForDay);
+  const forecastItems = getForecastItemsForDay(forecastForDay);
   const { min, max } = getMinMaxTempForDay(forecastForDay);
   const day = dateForForecast.getDate().toString().padStart(2, "0");
   return (
@@ -37,10 +34,10 @@ export const ForecastDay = ({ forecast, dayOfset }) => {
         />
       </div>
       <div className="forecast">
-        <ForecastItem forecast={forecastNight} />
-        <ForecastItem forecast={forecastMorning} />
-        <ForecastItem forecast={forecastNoon} />
-        <ForecastItem forecast={forecastEvening || forecastLateEvening} />
+        <ForecastItem forecast={forecastItems[0]} />
+        <ForecastItem forecast={forecastItems[1]} />
+        <ForecastItem forecast={forecastItems[2]} />
+        <ForecastItem forecast={forecastItems[3]} />
       </div>
     </div>
   );

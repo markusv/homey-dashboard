@@ -1,9 +1,12 @@
 import React from "react";
 import { ForecastDay } from "./components/ForecastDay";
 
-export const WeatherFocus = ({ forecast }) => {
+export const WeatherLarge = ({ forecast }) => {
+  if (!forecast) {
+    return null;
+  }
   return (
-    <div className="weather-focus">
+    <div className="weather-large">
       <ForecastDay forecast={forecast} dayOfset={0} />
       <ForecastDay forecast={forecast} dayOfset={1} />
       <ForecastDay forecast={forecast} dayOfset={2} />

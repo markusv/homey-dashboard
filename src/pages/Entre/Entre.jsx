@@ -1,8 +1,26 @@
 import React from "react";
 import "./Entre.css";
 import { Dashboard } from "./components/Dashboard";
+import { useFetchForecast } from "../../components/Weather/helpers/useFetchForecast";
+import { WeatherLarge } from "../../components/Weather/WeatherLarge";
+import { useGetDevice } from "../../components/Devices/helpers/useGetDevice";
+import { ENTRANCE_DOOR_SENSOR_ID } from "../../constants";
+import { useMakeCapabilityInstance } from "../../components/Devices/helpers/useMakeCapabilityInstance";
+import { Temperature } from "../../components/Focus/components/Temperature/Temperature";
 
 export const Entre = () => {
+  const [forecast] = useFetchForecast();
+  const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
+    ENTRANCE_DOOR_SENSOR_ID
+  );
+  useMakeCapabilityInstance(
+    entranceDoorSensorDevice,
+    setEntranceDoorSensorDevice,
+    "measure_temperature"
+  );
+  const outsideTemp =
+    entranceDoorSensorDevice?.capabilitiesObj?.["measure_temperature"]?.value ??
+    "";
   return (
     <div className="entre-page sl-theme-dark homey-dashboard">
       <div className="entre-row-one">
@@ -12,10 +30,16 @@ export const Entre = () => {
           </div>
         </div>
         <div className="entre-right-col">
-          <iframe
-            className="weather-frame"
-            src="/nb/værvarsel/daglig-tabell/11-5918/Norge/Oslo/Oslo/Risløkkveien"
-          />
+          <div className="weather-container">
+            {outsideTemp && (
+              <h2 className="weather-container--current-temp">
+                Utetempperatur: &nbsp;
+                <Temperature ttemperatureAsInt={outsideTemp} />
+                &nbsp;°C
+              </h2>
+            )}
+            <WeatherLarge forecast={forecast} />
+          </div>
         </div>
       </div>
       <div className="entre-row-two">

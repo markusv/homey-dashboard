@@ -3,7 +3,7 @@ import "./weather.css";
 import { ForecastDay } from "./components/ForecastDay";
 import { useFetchForecast } from "./helpers/useFetchForecast";
 import { FocusedElement } from "../Focus/FocusedElement/FocusedElement";
-import { WeatherFocus } from "./WeatherFocus";
+import { WeatherLarge } from "./WeatherLarge";
 
 export const Weather = ({ onSetFocus, className }) => {
   const [forecast] = useFetchForecast();
@@ -18,7 +18,7 @@ export const Weather = ({ onSetFocus, className }) => {
             onCloseClick={close}
             className="focused-weather-container"
           >
-            <WeatherFocus forecast={forecast} />
+            <WeatherLarge forecast={forecast} />
           </FocusedElement>
         );
       },
