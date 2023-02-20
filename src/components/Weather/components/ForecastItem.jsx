@@ -12,6 +12,7 @@ export const ForecastItem = ({ forecast }) => {
   return (
     <div className="forecast-item">
       <img
+        className="forecast-item--icon"
         src={
           process.env.PUBLIC_URL +
           `/dashboardAssets/weatherIcons/${data.summary.symbol_code}.svg`
