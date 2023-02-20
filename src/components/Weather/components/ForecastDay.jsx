@@ -23,9 +23,7 @@ export const ForecastDay = ({ forecast, dayOfset }) => {
   return (
     <div className="forecast-for-day">
       <div className="forecast-day-name">
-        {`${getNameOfDay(dateForForecast)} ${day} ${getNameOfMonth(
-          dateForForecast
-        )}`}{" "}
+        {`${getNameOfDay(dateForForecast)} `}
       </div>
       <div className="forecast-max-min-temp">
         <TemperatureRange
