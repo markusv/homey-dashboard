@@ -7,9 +7,11 @@ import { useGetDevice } from "../../components/Devices/helpers/useGetDevice";
 import { ENTRANCE_DOOR_SENSOR_ID } from "../../constants";
 import { useMakeCapabilityInstance } from "../../components/Devices/helpers/useMakeCapabilityInstance";
 import { Temperature } from "../../components/Focus/components/Temperature/Temperature";
+import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
 
 export const Entre = () => {
   const [forecast] = useFetchForecast();
+  useSetDocumentTitle("Dahboard Risløkkveien 66c - Entre");
   const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
     ENTRANCE_DOOR_SENSOR_ID
   );

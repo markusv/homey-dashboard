@@ -13,6 +13,7 @@ import { Focus } from "../../components/Focus/Focus";
 import "../../components/Devices/device.css";
 import { AudioProSpeaker } from "../../components/Devices/AudioProSpeaker/AudioProSpeaker";
 import { STUE_MOODS } from "./constants";
+import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
@@ -22,7 +23,7 @@ const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
 export const Stue = () => {
   const [devices] = useGetDevices();
-  //console.log("d", (devices || {})["06d71bbf-5c0b-4aa6-a96a-cce4301fe916"]);
+  useSetDocumentTitle("Dahboard Risløkkveien 66c - Stue");
   const [flows] = useGetFlows();
   const [focusElement, setFocusElement] = useState();
   useEffect(() => {
