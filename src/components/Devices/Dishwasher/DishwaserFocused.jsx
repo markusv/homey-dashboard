@@ -3,9 +3,10 @@ import "./dishwasher.css";
 import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import { useGetLogicVariable } from "../../../helpers/useGetLogicVariable";
 import { triggerFlow } from "../../Flows/helpers/triggerFlow";
-import { DISHWASHER_DELAYED_START_VARIABLE_ID } from "./constants";
-
-const DISHWASHER_DELAYED_START_FLOW_ID = "f6334071-ed8e-46c6-88c2-546fc348e97f";
+import {
+  DISHWASHER_DELAYED_START_FLOW_ID,
+  DISHWASHER_DELAYED_START_VARIABLE_ID,
+} from "../../../constants";
 
 export const DishwasherFocused = ({ dishwasherDevice }) => {
   const [delayedStart] = useGetLogicVariable(
