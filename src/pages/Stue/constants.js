@@ -5,7 +5,7 @@ export const STUE_MOODS = {
     icon: "lightbulb-fill",
   },
   DINNER: {
-    id: "d29c2ca8-8363-41fc-adf4-9662f180d2bb",
+    id: "6dc4a14e-2191-4ff6-ab62-0265dc3be327",
     title: "Middag",
   },
   RYDDETID: {
