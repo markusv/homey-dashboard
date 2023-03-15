@@ -1,4 +1,4 @@
-const AthomCloudAPI = require('homey-api/lib/AthomCloudAPI');
+const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 let homeyApiPromise = null;
 
 export const getHomey = async () => {
@@ -6,16 +6,16 @@ export const getHomey = async () => {
     return homeyApiPromise;
   }
   const cloudApi = new AthomCloudAPI({
-    clientId: '5a8d4ca6eb9f7a2c9d6ccf6d',
-    clientSecret: 'e3ace394af9f615857ceaa61b053f966ddcfb12a',
-    redirectUrl: 'http://localhost',
+    clientId: "5a8d4ca6eb9f7a2c9d6ccf6d",
+    clientSecret: "e3ace394af9f615857ceaa61b053f966ddcfb12a",
+    redirectUrl: "http://localhost",
   });
   const loggedIn = await cloudApi.isLoggedIn();
   if (!loggedIn) {
     if (cloudApi.hasAuthorizationCode()) {
-      const token = await  cloudApi.authenticateWithAuthorizationCode();
+      await cloudApi.authenticateWithAuthorizationCode();
     } else {
-      window.location.href =  cloudApi.getLoginUrl();
+      window.location.href = cloudApi.getLoginUrl();
       return;
     }
   }
@@ -23,4 +23,4 @@ export const getHomey = async () => {
   const homey = await user.getFirstHomey();
   homeyApiPromise = homey.authenticate();
   return await homeyApiPromise;
-}
+};

@@ -7,7 +7,6 @@ import { Card } from "./Card/Card";
 import { getHomey } from "../../../helpers/getHomey";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import {
-  ENTRANCE_DOOR_LOCK_DEVICE,
   ENTRANCE_DOOR_SENSOR_ID,
   ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID,
   ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID,
@@ -32,7 +31,6 @@ export const Dashboard = () => {
   const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
     ENTRANCE_DOOR_SENSOR_ID
   );
-  const [entranceDoorLockDevice] = useGetDevice(ENTRANCE_DOOR_LOCK_DEVICE);
   useMakeCapabilityInstance(
     entranceDoorSensorDevice,
     setEntranceDoorSensorDevice,
@@ -54,16 +52,6 @@ export const Dashboard = () => {
       .catch(console.error);
   };
 
-  const onOpenDoorClick = async () => {
-    const homeyApi = await getHomey();
-    homeyApi.devices
-      .setCapabilityValue({
-        deviceId: entranceDoorLockDevice.id,
-        capabilityId: "locked",
-        value: false,
-      })
-      .catch(console.error);
-  };
   const onAlwaysOpenClick = async () => {
     await triggerFlow(ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID);
   };

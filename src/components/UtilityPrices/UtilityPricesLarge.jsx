@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { getImageUrlLarge } from "./helpers/getImageUrlLarge";
 
 export const UtilityPricesLarge = ({ utilityPrices }) => {
@@ -16,7 +16,11 @@ export const UtilityPricesLarge = ({ utilityPrices }) => {
             <span>{`min: ${imageData.minPrice / 100} kr`}</span>
             <span>{`max: ${imageData.maxPrice / 100} kr`}</span>
           </div>
-          <img className="utilityPriceChartLarge" src={imageData.url} />
+          <img
+            className="utilityPriceChartLarge"
+            src={imageData.url}
+            alt="utilityPriceChartLarge"
+          />
         </>
       )}
     </div>

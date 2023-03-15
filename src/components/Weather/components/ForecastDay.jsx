@@ -1,7 +1,5 @@
-import { getForecastForHour } from "../helpers/getForecastForHour";
 import { getMinMaxTempForDay } from "../helpers/getMinMaxTempForDay";
 import { getNameOfDay } from "../helpers/getNameOfDay";
-import { getNameOfMonth } from "../helpers/getNameOfMonth";
 import { TemperatureRange } from "../../Focus/components/Temperature/TemperatureRange";
 import React from "react";
 import { ForecastItem } from "./ForecastItem";
@@ -19,7 +17,6 @@ export const ForecastDay = ({ forecast, dayOfset }) => {
 
   const forecastItems = getForecastItemsForDay(forecastForDay);
   const { min, max } = getMinMaxTempForDay(forecastForDay);
-  const day = dateForForecast.getDate().toString().padStart(2, "0");
   return (
     <div className="forecast-for-day">
       <div className="forecast-day-name">

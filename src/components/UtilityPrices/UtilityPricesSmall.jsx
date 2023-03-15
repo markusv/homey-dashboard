@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useGetUtilityPrices } from "../../helpers/useGetUtilityPrices";
 import { getImageUrlSmall } from "./helpers/getImageUrlSmall";
 import "./utilityPricess.css";
@@ -32,7 +32,11 @@ export const UtilityPricesSmall = ({ onSetFocus, className }) => {
             {new Date(imageData.end).getHours()} nå:{" "}
             {imageData.priceNow.toFixed(2)} kr
           </div>
-          <img className="utilityPriceChart" src={imageData.url} />
+          <img
+            className="utilityPriceChart"
+            src={imageData.url}
+            alt="utilityPriceChart"
+          />
         </>
       )}
     </div>
