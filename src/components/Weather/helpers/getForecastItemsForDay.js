@@ -1,20 +1,21 @@
 import { getForecastForHour } from "./getForecastForHour";
+import { isDaylightSavingsTime } from "./isDaylightSavingsTime";
 
 export const getForecastItemsForDay = (forecastForDay) => {
   if (forecastForDay.length === 24) {
     return [
-      getForecastForHour(5, forecastForDay),
-      getForecastForHour(10, forecastForDay),
-      getForecastForHour(15, forecastForDay),
-      getForecastForHour(20, forecastForDay) ||
-        getForecastForHour(23, forecastForDay),
+      getForecastForHour(!isDaylightSavingsTime() ? 5 : 6, forecastForDay),
+      getForecastForHour(!isDaylightSavingsTime() ? 10 : 11, forecastForDay),
+      getForecastForHour(!isDaylightSavingsTime() ? 15 : 16, forecastForDay),
+      getForecastForHour(!isDaylightSavingsTime() ? 20 : 21, forecastForDay) ||
+        getForecastForHour(!isDaylightSavingsTime() ? 23 : 24, forecastForDay),
     ];
   }
   return [
-    getForecastForHour(1, forecastForDay),
-    getForecastForHour(7, forecastForDay),
-    getForecastForHour(13, forecastForDay),
-    getForecastForHour(19, forecastForDay) ||
-      getForecastForHour(23, forecastForDay),
+    getForecastForHour(!isDaylightSavingsTime() ? 1 : 2, forecastForDay),
+    getForecastForHour(!isDaylightSavingsTime() ? 7 : 8, forecastForDay),
+    getForecastForHour(!isDaylightSavingsTime() ? 13 : 14, forecastForDay),
+    getForecastForHour(!isDaylightSavingsTime() ? 19 : 20, forecastForDay) ||
+      getForecastForHour(!isDaylightSavingsTime() ? 23 : 24, forecastForDay),
   ];
 };
