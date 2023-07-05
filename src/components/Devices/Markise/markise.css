@@ -1,0 +1,24 @@
+.markise-focused-container {
+    display: flex;
+    height: 100%;
+}
+
+.markise-focused-icon-image {
+    width: 128px;
+    height: 128px;
+    filter: invert(100%);
+}
+
+.markise-focused-content {
+    margin-left: 1rem;
+    flex: 1 1;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.markise-focused-buttton {
+    width: 40%;
+}

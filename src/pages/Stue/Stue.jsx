@@ -70,7 +70,7 @@ export const Stue = () => {
         </div>
         <div className="second-row">
           <Rullegardiner />
-          <Markise />
+          <Markise onClick={onSetFocus} />
           <Roborock />
           <Garage />
           <Dishwasher onClick={onSetFocus} />
