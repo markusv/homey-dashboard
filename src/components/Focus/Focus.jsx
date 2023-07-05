@@ -41,13 +41,13 @@ export const Focus = ({ onSetFocus }) => {
         <FocusTemperature />
         <div>
           <div className="temperature">{`Ønsket temperatur: ${localTempValue}`}</div>
-          <SlRange
+          {/*<SlRange
             min={10}
             max={30}
             step={1}
             value={localTempValue}
             onSlChange={onChange}
-          />
+          />*/}
         </div>
       </div>
       <div className="focus-right">

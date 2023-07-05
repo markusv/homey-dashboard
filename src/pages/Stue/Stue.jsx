@@ -14,6 +14,8 @@ import "../../components/Devices/device.css";
 import { AudioProSpeaker } from "../../components/Devices/AudioProSpeaker/AudioProSpeaker";
 import { STUE_MOODS } from "./constants";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
+import { Markise } from "../../components/Devices/Markise/Markise";
+import { Roborock } from "../../components/Devices/Roborock/Roborock";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
@@ -68,10 +70,12 @@ export const Stue = () => {
         </div>
         <div className="second-row">
           <Rullegardiner />
+          <Markise />
+          <Roborock />
           <Garage />
-          <EntranceDoor onClick={onSetFocus} />
           <Dishwasher onClick={onSetFocus} />
           <AudioProSpeaker onClick={onSetFocus} />
+          <EntranceDoor onClick={onSetFocus} />
         </div>
       </div>
     </div>
