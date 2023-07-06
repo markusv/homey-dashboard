@@ -7,11 +7,11 @@ export const MarkiseFocus = ({ markiseDevice }) => {
   const set0 = () => {
     setOpenPercentage(markiseDevice, 0);
   };
-  const set25 = () => {
-    setOpenPercentage(markiseDevice, 0.25);
+  const set60 = () => {
+    setOpenPercentage(markiseDevice, 0.6);
   };
-  const set50 = () => {
-    setOpenPercentage(markiseDevice, 0.5);
+  const set75 = () => {
+    setOpenPercentage(markiseDevice, 0.75);
   };
   const set100 = () => {
     setOpenPercentage(markiseDevice, 1);
@@ -36,16 +36,16 @@ export const MarkiseFocus = ({ markiseDevice }) => {
         <SlButton
           size="large"
           className="markise-focused-buttton"
-          onClick={set25}
+          onClick={set60}
         >
-          25%
+          60%
         </SlButton>
         <SlButton
           size="large"
           className="markise-focused-buttton"
-          onClick={set50}
+          onClick={set75}
         >
-          50%
+          75%
         </SlButton>
         <SlButton
           size="large"
