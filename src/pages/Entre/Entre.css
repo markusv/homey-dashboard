@@ -1,22 +1,16 @@
 .entre-page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
 }
 
-.entre-row-one {
-    height: 55%;
+.entre-col-one {
+    width: 50%;
     display: flex;
 }
 
-.entre-row-two {
-    height: 45%;
-}
-
-.entre-left-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.entre-col-two {
+    width: 50%;
 }
 
 .smart-home-container {
@@ -26,12 +20,7 @@
 
 .public-transport-container {
     flex: 1;
-    height: 100%;
-}
-
-.entre-right-col {
-    widt: 50%;
-    flex: 1;
+    height: 50%;
 }
 
 .public-transport-frame {
@@ -42,7 +31,7 @@
 
 .weather-container {
     width: 100%;
-    height: 100%;
+    height: 50%;
     padding: 1rem;
     overflow: scroll;
 }

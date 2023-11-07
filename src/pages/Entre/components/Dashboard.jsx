@@ -12,9 +12,11 @@ import {
   ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID,
   GARAGE_OPENER_ID,
   GARAGE_SENSOR_DEVICE_ID,
+  ROBOROCK_STUE_DEVICE_ID,
 } from "../../../constants";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
+import { useToggleRoborockClean } from "../../../components/Devices/Roborock/useToggleRoborockClean";
 
 export const Dashboard = () => {
   const [flows] = useGetFlows();
@@ -35,6 +37,14 @@ export const Dashboard = () => {
     entranceDoorSensorDevice,
     setEntranceDoorSensorDevice,
     "alarm_contact"
+  );
+
+  const [roborockDevice, setRoborockDevice] = useGetDevice(
+    ROBOROCK_STUE_DEVICE_ID
+  );
+  const onToggleRoborockClean = useToggleRoborockClean(
+    roborockDevice,
+    setRoborockDevice
   );
 
   const onMoodClick = async (id) => {
@@ -95,6 +105,12 @@ export const Dashboard = () => {
               onClick: onAlwaysCloseClick,
             },
           ]}
+        />
+
+        <Card
+          title="Roborock"
+          svgIconUrl="https://icons-cdn.athom.com/7d451ec645be45bbbf5a98915e140fe1-128.png"
+          onClick={onToggleRoborockClean}
         />
       </div>
     </div>
