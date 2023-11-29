@@ -20,7 +20,7 @@
 
 .public-transport-container {
     flex: 1;
-    height: 50%;
+    height: 60%;
 }
 
 .public-transport-frame {
@@ -31,7 +31,7 @@
 
 .weather-container {
     width: 100%;
-    height: 50%;
+    height: 40%;
     padding: 1rem;
     overflow: scroll;
 }
