@@ -8,7 +8,7 @@ export const getHomey = async () => {
   const cloudApi = new AthomCloudAPI({
     clientId: "5a8d4ca6eb9f7a2c9d6ccf6d",
     clientSecret: "e3ace394af9f615857ceaa61b053f966ddcfb12a",
-    redirectUrl: "http://localhost",
+    redirectUrl: "https://homey-dashboard.vercel.app",
   });
   const loggedIn = await cloudApi.isLoggedIn();
   if (!loggedIn) {
