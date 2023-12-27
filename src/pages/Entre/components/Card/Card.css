@@ -19,3 +19,11 @@
 .entre-card-title {
     margin-top: 0;
 }
+
+.entre-card-button {
+    margin-bottom: 0.5rem;
+}
+
+sl-button.entre-card-button::part(base) {
+    --sl-input-height-large: 4rem;
+}

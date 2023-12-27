@@ -7,16 +7,13 @@ import { Card } from "./Card/Card";
 import { getHomey } from "../../../helpers/getHomey";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import {
-  ENTRANCE_DOOR_SENSOR_ID,
-  ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID,
-  ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID,
   GARAGE_OPENER_ID,
   GARAGE_SENSOR_DEVICE_ID,
   ROBOROCK_STUE_DEVICE_ID,
 } from "../../../constants";
-import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
 import { useToggleRoborockClean } from "../../../components/Devices/Roborock/useToggleRoborockClean";
+import { EntranceDoorCard } from "./EntranceDoorCard";
 
 export const Dashboard = () => {
   const [flows] = useGetFlows();
@@ -27,15 +24,6 @@ export const Dashboard = () => {
   useMakeCapabilityInstance(
     garageSensorDevice,
     setGarageSensorDevice,
-    "alarm_contact"
-  );
-
-  const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
-    ENTRANCE_DOOR_SENSOR_ID
-  );
-  useMakeCapabilityInstance(
-    entranceDoorSensorDevice,
-    setEntranceDoorSensorDevice,
     "alarm_contact"
   );
 
@@ -62,17 +50,6 @@ export const Dashboard = () => {
       .catch(console.error);
   };
 
-  const onAlwaysOpenClick = async () => {
-    await triggerFlow(ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID);
-  };
-
-  const onAlwaysCloseClick = async () => {
-    await triggerFlow(ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID);
-  };
-
-  const entranceDoorIsOpen =
-    entranceDoorSensorDevice?.capabilitiesObj?.["alarm_contact"]?.value ??
-    false;
   const isGarageDoorOpen =
     garageSensorDevice?.capabilitiesObj?.["alarm_contact"]?.value ?? false;
 
@@ -89,23 +66,7 @@ export const Dashboard = () => {
           className="entrance-garage-card"
           statusIndicator={isGarageDoorOpen}
         />
-        <Card
-          title="Inngangsdør"
-          svgIconUrl="https://my.homey.app/img/devices/door.svg"
-          statusIndicator={entranceDoorIsOpen}
-          actions={[
-            {
-              id: "alwaysOpen",
-              title: "Sett alltid åpen",
-              onClick: onAlwaysOpenClick,
-            },
-            {
-              id: "alwaysClosed",
-              title: "Sett alltid lukket",
-              onClick: onAlwaysCloseClick,
-            },
-          ]}
-        />
+        <EntranceDoorCard />
 
         <Card
           title="Roborock"

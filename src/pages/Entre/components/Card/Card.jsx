@@ -23,7 +23,7 @@ export const Card = ({
             <SlButton
               key={`card-${action.id}`}
               size="large"
-              className="entrance-focused-buttton"
+              className="entre-card-button"
               onClick={action.onClick}
             >
               {action.title}
