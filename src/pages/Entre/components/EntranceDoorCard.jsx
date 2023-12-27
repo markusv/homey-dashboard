@@ -1,4 +1,4 @@
-gimport { Card } from "./Card/Card";
+import { Card } from "./Card/Card";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import {
   ENTRANCE_DOOR_SENSOR_ID,
