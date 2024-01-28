@@ -14,9 +14,9 @@ const getPrices = async () => {
   if (!homeyApi) {
     return;
   }
+
   const result = await homeyApi.flow.runFlowCardAction({
-    uri: "homey:device:4a169eb8-df56-4657-8c1c-5d147803806d",
-    id: "fetch_prices",
+    id: "homey:device:4a169eb8-df56-4657-8c1c-5d147803806d:fetch_prices",
     args: [],
   });
   const prices = JSON.parse(result?.returnTokens?.prices ?? "[]");
