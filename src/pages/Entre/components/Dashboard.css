@@ -11,6 +11,6 @@
     padding: 1rem;
 }
 
-.entrance-garage-card h2 {
+.entrance-garage-card h2, .entrance-roborock-card h2 {
     margin: 0;
 }

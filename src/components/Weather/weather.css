@@ -23,6 +23,17 @@
     height: 50px;
 }
 
+@media screen and (min-width: 1900px) {
+    .forecast-item {
+        width: 100%;
+    }
+    .forecast-item--icon {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+
 .forecast-day-name {
     display: inline;
 }

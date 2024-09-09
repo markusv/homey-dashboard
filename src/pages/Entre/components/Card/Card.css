@@ -9,6 +9,12 @@
     margin-bottom: 2rem;
 }
 
+@media screen and (min-width: 1900px) {
+    .entre-card {
+        padding: 2rem;
+    }
+}
+
 .entre-card-content {
     margin-left: 1rem;
     display: flex;

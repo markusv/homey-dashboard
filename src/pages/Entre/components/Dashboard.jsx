@@ -70,6 +70,7 @@ export const Dashboard = () => {
 
         <Card
           title="Roborock"
+          className="entrance-roborock-card"
           svgIconUrl="https://icons-cdn.athom.com/7d451ec645be45bbbf5a98915e140fe1-128.png"
           onClick={onToggleRoborockClean}
         />
