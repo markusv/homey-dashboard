@@ -20,6 +20,9 @@ export const useVolume = (sonosKitchen) => {
   const debouncedVolume = useDebounce(volume, 750);
   useEffect(() => {
     const setV = async () => {
+      if (!sonosKitchen) {
+        return;
+      }
       const homeyApi = await getHomey();
       homeyApi.devices.setCapabilityValue({
         deviceId: sonosKitchen.id,
