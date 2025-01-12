@@ -1,0 +1,115 @@
+.sonos-playing-container {
+    height: 100%;
+    display: flex;
+    align-items: strech;
+}
+
+.sonos-playing-image-container {
+    flex-shrink: 0;
+    width: 197px;
+}
+
+.sonos-image {
+    max-height: 100%;
+    width: 197px;
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.sonos-playing-content {
+    margin-left: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.sonos-playing-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.sonos-track-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    width: 100%;
+}
+
+.sonos-artist-name {
+    font-size: 1.0rem;
+    font-weight: bold;
+    color: var(--sl-color-neutral-700);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.sonos-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.sonos-pause, .sonos-play {
+    background: url("https://my.homey.app/assets/speaker_pause-6c319831.svg");
+    width: 56px;
+    height: 56px;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.sonos-play {
+    background: url(./assets/play.svg);
+}
+
+.sonos-next, .sonos-prev {
+    width: 24px;
+    height: 56px;
+    border: none;
+    background: url(./assets/next.svg) no-repeat center;
+}
+
+.sonos-prev {
+    background: url(./assets/prev.svg) no-repeat center;
+}
+
+.sonos-playing-volume {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sonos-playing-volume-slider {
+    width: 90%;
+    color: white;
+    background: linear-gradient(to right, #fff 0%, #fff 50%, #fff 50%, #fff 100%);
+    border-radius: 8px;
+    height: 7px;
+    outline: none;
+    -webkit-appearance: none;
+    touch-action: none;
+}
+
+.sonos-volume-down, .sonos-volume-up {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    color: white;
+    background: white;
+    background: url(./assets/volumeDown.svg) no-repeat center;
+}
+
+.sonos-volume-up {
+    background: url(./assets/volumeUp.svg) no-repeat center;
+}

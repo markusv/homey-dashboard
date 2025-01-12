@@ -1,9 +1,32 @@
 
 .focused-element-container {
-    padding: 1rem;
+    position: relative;
     height: 100%;
+}
+
+.focused-element-container-background {
+    background: linear-gradient(225deg, rgb(22, 23, 29), rgb(41, 42, 47));
+}
+
+.focused-element-background {
+    min-height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    will-change: filter;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    filter: blur(160px);
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.focused-element-content {
+    position: absolute;
+    inset: 0px;
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 }
 
 .focused-element-header {
@@ -28,4 +51,5 @@
     margin-top: 1rem;
     flex-grow: 0;
     overflow: hidden;
+    height: 100%;
 }
