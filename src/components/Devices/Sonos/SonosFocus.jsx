@@ -80,6 +80,7 @@ export const SonosFocus = ({ close }) => {
       id: `homey:device:${SONOS_KITCHEN_ID}:cloud_play_sonos_favorite`,
       args: { favorite },
     });
+    setShowFavorites(false);
   };
 
   const onShowFavoriteToggle = () => {
