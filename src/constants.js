@@ -2,6 +2,7 @@ export const GARAGE_SENSOR_DEVICE_ID = "d4f8de5a-309c-4812-8ae5-084a96a863b2";
 export const GARAGE_OPENER_ID = "5e80d371-9b3d-4117-8f96-c5068830a88d";
 export const ENTRANCE_DOOR_LOCK_DEVICE = "00fbdf02-7da7-4eeb-8a6f-919f04380948";
 export const ENTRANCE_DOOR_SENSOR_ID = "6dffa047-b727-4b79-956b-1309f7492f66";
+export const ETG_2_HEATPUMP_ID = "e7549d91-f42a-41f9-a018-0cfc959ea219";
 
 export const ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID =
   "54c1dff2-cfed-49ee-9c8a-7f4779eb55cb";

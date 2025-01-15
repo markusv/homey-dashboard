@@ -4,7 +4,7 @@ import { Dashboard } from "./components/Dashboard";
 import { useFetchForecast } from "../../components/Weather/helpers/useFetchForecast";
 import { WeatherLarge } from "../../components/Weather/WeatherLarge";
 import { useGetDevice } from "../../components/Devices/helpers/useGetDevice";
-import { ENTRANCE_DOOR_SENSOR_ID } from "../../constants";
+import { ETG_2_HEATPUMP_ID } from "../../constants";
 import { useMakeCapabilityInstance } from "../../components/Devices/helpers/useMakeCapabilityInstance";
 import { Temperature } from "../../components/Focus/components/Temperature/Temperature";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
@@ -18,13 +18,11 @@ export const Entre = () => {
   const [forecast] = useFetchForecast();
   useSetDocumentTitle("Dahboard Risløkkveien 66c - Entre");
 
-  const [entranceDoorSensorDevice, setEntranceDoorSensorDevice] = useGetDevice(
-    ENTRANCE_DOOR_SENSOR_ID
-  );
+  const [heatPump, setHeatPump] = useGetDevice(ETG_2_HEATPUMP_ID);
   useMakeCapabilityInstance(
-    entranceDoorSensorDevice,
-    setEntranceDoorSensorDevice,
-    "measure_temperature"
+    heatPump,
+    setHeatPump,
+    "measure_temperature.outdoorTemperature"
   );
 
   if (!flows || !devices) {
@@ -32,8 +30,8 @@ export const Entre = () => {
   }
 
   const outsideTemp =
-    entranceDoorSensorDevice?.capabilitiesObj?.["measure_temperature"]?.value ??
-    "";
+    heatPump?.capabilitiesObj?.["measure_temperature.outdoorTemperature"]
+      ?.value ?? "";
   return (
     <div className="entre-page sl-theme-dark homey-dashboard">
       <div className="entre-col-one">
