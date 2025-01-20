@@ -52,9 +52,11 @@ export const Stue = () => {
     }
 
     setFocusElement(obj);
-    if (typeof clearFocusAutomaitcally === "boolean") {
-      setAutoClearFocus(clearFocusAutomaitcally);
-    }
+    setAutoClearFocus(
+      typeof clearFocusAutomaitcally === "boolean"
+        ? clearFocusAutomaitcally
+        : true
+    );
   };
 
   const clearFocus = () => {
