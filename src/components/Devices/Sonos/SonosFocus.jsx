@@ -9,6 +9,7 @@ import { useVolume } from "./hooks/useVolume";
 import { useUpdateImageUrls } from "./hooks/useUpdateImageUrls";
 import { SonosFavorites } from "./SonosFavorites";
 import DefaultAlbumArt from "./assets/default_album_art.png";
+import { ShuffleIcon } from "./assets/ShuffleIcon";
 
 export const SonosFocus = ({ close }) => {
   const [sonosKitchen, setSonosKitchen] = useGetDevice(SONOS_KITCHEN_ID);
@@ -16,6 +17,7 @@ export const SonosFocus = ({ close }) => {
   const artist = sonosKitchen?.capabilitiesObj?.["speaker_artist"]?.value;
   const track = sonosKitchen?.capabilitiesObj?.["speaker_track"]?.value ?? "";
   const isPlaying = sonosKitchen?.capabilitiesObj?.["speaker_playing"]?.value;
+  const isShuffle = sonosKitchen?.capabilitiesObj?.["speaker_shuffle"]?.value;
   const imageRef = useRef();
   const containerRef = useRef();
   const imageUrl = useUpdateImageUrls(
@@ -38,12 +40,22 @@ export const SonosFocus = ({ close }) => {
   useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_playing");
   useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_playing");
   useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_track");
+  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_shuffle");
 
   const onPauseClick = () => {
     setPlayback(false);
   };
   const onPlayClick = () => {
     setPlayback(true);
+  };
+
+  const onShuffleClick = async () => {
+    const homeyApi = await getHomey();
+    homeyApi.devices.setCapabilityValue({
+      deviceId: sonosKitchen.id,
+      capabilityId: "speaker_shuffle",
+      value: !isShuffle,
+    });
   };
 
   const onPrevClick = async () => {
@@ -114,19 +126,21 @@ export const SonosFocus = ({ close }) => {
           />
         </div>
         <div className="sonos-playing-content">
-          <div className="sonos-control-buttons">
-            <button
-              className="sonos-favorite-button"
-              onClick={onShowFavoriteToggle}
-            >
-              Favoritter
-            </button>
-          </div>
           <div className="sonos-playing-info">
             <div className="sonos-track-name">{track}</div>
             <div className="sonos-artist-name">{artist}</div>
           </div>
           <div className="sonos-buttons">
+            <button
+              tpye="button"
+              className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
+              onClick={onShuffleClick}
+            >
+              <ShuffleIcon
+                className="sonos-shuffle-icon"
+                fill={isShuffle ? "black" : "white"}
+              />
+            </button>
             <button
               tpye="button"
               className="sonos-prev"
@@ -150,6 +164,10 @@ export const SonosFocus = ({ close }) => {
               tpye="button"
               className="sonos-next"
               onClick={onNextClick}
+            />
+            <button
+              className="sonos-favorite-button"
+              onClick={onShowFavoriteToggle}
             />
           </div>
           <div className="sonos-playing-volume">
