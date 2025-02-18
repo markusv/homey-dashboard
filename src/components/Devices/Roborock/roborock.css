@@ -1,0 +1,25 @@
+.roborock-focused-container {
+    display: flex;
+    height: 100%;
+}
+
+.roborock-focused-icon-image {
+    width: 128px;
+    height: 128px;
+    filter: invert(100%);
+}
+
+.roborock-focused-content {
+    margin-left: 1rem;
+    flex: 1 1;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.roborock-focused-buttton {
+    width: 40%;
+}

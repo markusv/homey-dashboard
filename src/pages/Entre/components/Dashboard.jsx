@@ -9,11 +9,12 @@ import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import {
   GARAGE_OPENER_ID,
   GARAGE_SENSOR_DEVICE_ID,
+  ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID,
   ROBOROCK_STUE_DEVICE_ID,
 } from "../../../constants";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
-import { useToggleRoborockClean } from "../../../components/Devices/Roborock/useToggleRoborockClean";
 import { EntranceDoorCard } from "./EntranceDoorCard";
+import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 
 export const Dashboard = () => {
   const [flows] = useGetFlows();
@@ -27,13 +28,9 @@ export const Dashboard = () => {
     "alarm_contact"
   );
 
-  const [roborockDevice, setRoborockDevice] = useGetDevice(
-    ROBOROCK_STUE_DEVICE_ID
-  );
-  const onToggleRoborockClean = useToggleRoborockClean(
-    roborockDevice,
-    setRoborockDevice
-  );
+  const roborockCleanAllRooms = () => {
+    triggerFlow(ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID);
+  };
 
   const onMoodClick = async (id) => {
     console.log("mood clicked", id);
@@ -71,8 +68,8 @@ export const Dashboard = () => {
         <Card
           title="Roborock"
           className="entrance-roborock-card"
-          svgIconUrl="https://icons-cdn.athom.com/7d451ec645be45bbbf5a98915e140fe1-128.png"
-          onClick={onToggleRoborockClean}
+          svgIconUrl="https://icons-cdn.athom.com/118bd02ed9ac707e812cb10e830139cd-128.png"
+          onClick={roborockCleanAllRooms}
         />
       </div>
     </div>
