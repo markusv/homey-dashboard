@@ -26,3 +26,7 @@ export const ROBOROCK_STUE_CLEAN_ENTRE_FLOW_ID =
   "14309ab2-cf75-4df6-9abc-497455fde1e8";
 export const ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID =
   "dd647ea0-0832-41ce-a9c0-c170be247535";
+
+export const RING_DEVICE_ID = "002b2db5-cafc-4c66-a5e1-27faed42bf98";
+export const RINGEKLOKKE_BILDE_URL_VARIABLE =
+  "0fdc378c-698e-42e4-8b20-c72197c0bbc5";

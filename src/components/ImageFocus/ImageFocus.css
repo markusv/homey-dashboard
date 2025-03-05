@@ -1,0 +1,12 @@
+.imageFocusContainer {
+    display: flex;
+    height: 100%;
+    border: 1px solid red;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageFocusContainer img {
+    height: 100%;
+    max-width: 100%;
+}

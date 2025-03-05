@@ -11,12 +11,14 @@ import { EntranceDoor } from "../../components/Devices/VirtualDevices/EntranceDo
 import { Dishwasher } from "../../components/Devices/Dishwasher/Dishwasher";
 import { Focus } from "../../components/Focus/Focus";
 import "../../components/Devices/device.css";
-import { AudioProSpeaker } from "../../components/Devices/AudioProSpeaker/AudioProSpeaker";
 import { STUE_MOODS } from "./constants";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
 import { Markise } from "../../components/Devices/Markise/Markise";
 import { Roborock } from "../../components/Devices/Roborock/Roborock";
 import { Sonos } from "../../components/Devices/Sonos/Sonos";
+import { RINGEKLOKKE_BILDE_URL_VARIABLE } from "../../constants";
+import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
+import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
@@ -38,14 +40,6 @@ export const Stue = () => {
     return () => clearTimeout(timer);
   }, [focusElement]);
 
-  if (!flows || !devices) {
-    return null;
-  }
-
-  const onMoodClick = async (id) => {
-    console.log("mood clicked", id);
-  };
-
   const onSetFocus = (obj, clearFocusAutomaitcally) => {
     if (!obj) {
       return;
@@ -63,6 +57,35 @@ export const Stue = () => {
     if (focusElement) {
       setFocusElement(null);
     }
+  };
+
+  const [initialized, setInitialized] = useState(false);
+  const [imageUrlVariable] = useGetLogicVariable(
+    RINGEKLOKKE_BILDE_URL_VARIABLE
+  );
+  const imageUrl = imageUrlVariable?.value ?? "";
+  useEffect(() => {
+    if (imageUrl && initialized) {
+      onSetFocus(
+        {
+          id: "sonos",
+          timer: 20000,
+          render: (close) => {
+            return <ImageFocus close={close} imageSrc={imageUrl} />;
+          },
+        },
+        true
+      );
+    }
+    if (imageUrl && !initialized) setInitialized(true);
+  }, [imageUrl]);
+
+  if (!flows || !devices) {
+    return null;
+  }
+
+  const onMoodClick = async (id) => {
+    console.log("mood clicked", id);
   };
 
   return (
