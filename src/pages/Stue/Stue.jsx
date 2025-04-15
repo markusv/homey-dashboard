@@ -102,10 +102,10 @@ export const Stue = () => {
         </div>
         <div className="second-row">
           <Dishwasher onClick={onSetFocus} />
-          <Roborock onClick={onSetFocus} />
           <Sonos onClick={onSetFocus} />
           <Rullegardiner />
           <Markise onClick={onSetFocus} />
+          <Roborock onClick={onSetFocus} />
           <Garage />
           <EntranceDoor onClick={onSetFocus} />
         </div>
