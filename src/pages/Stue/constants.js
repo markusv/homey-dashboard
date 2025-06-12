@@ -12,7 +12,7 @@ export const STUE_MOODS = {
     id: "19f59fed-b897-4448-bd9d-71305b93384e",
   },
   WATCH_TV_LOFT: {
-    id: "cd408903-c7bb-41ea-a888-bb3608e834c8",
+    id: "e04d7305-af38-4081-bcee-8a5fd75d5c04",
   },
   KVELDSKOS: {
     id: "dbaed074-24f1-4fe1-8f02-eb123cba155e",
