@@ -8,9 +8,9 @@ export const STUE_MOODS = {
     id: "6dc4a14e-2191-4ff6-ab62-0265dc3be327",
     title: "Middag",
   },
-  RYDDETID: {
+  /*RYDDETID: {
     id: "19f59fed-b897-4448-bd9d-71305b93384e",
-  },
+  },*/
   WATCH_TV_LOFT: {
     id: "e04d7305-af38-4081-bcee-8a5fd75d5c04",
   },
