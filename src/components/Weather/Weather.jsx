@@ -31,7 +31,9 @@ export const Weather = ({ onSetFocus, className }) => {
         <>
           <ForecastDay forecast={forecast} dayOfset={0} />
           <ForecastDay forecast={forecast} dayOfset={1} />
-          <ForecastDay forecast={forecast} dayOfset={2} />
+          <ForecastDay forecast={forecast} dayOfset={1} />
+          <ForecastDay forecast={forecast} dayOfset={1} />
+          <ForecastDay forecast={forecast} dayOfset={4} />
         </>
       )}
     </div>
