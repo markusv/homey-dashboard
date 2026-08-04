@@ -1,9 +1,14 @@
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "../../.env"),
+});
+
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const path = require("path");
+const { registerTemperatureRoutes } = require("./routes/temperature");
 
 const app = express();
-const port = 80;
+const port = Number(process.env.PORT) || 80;
 
 app.use(
   "/nb",
@@ -20,11 +25,13 @@ app.use(
   })
 );
 
+registerTemperatureRoutes(app);
+
 app.use(express.static("build"));
-app.get("*", function (request, response) {
+app.get("*", (request, response) => {
   response.sendFile(path.resolve("build", "index.html"));
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Homey dashboard listening on port ${port}`);
 });

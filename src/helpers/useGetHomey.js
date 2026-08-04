@@ -30,7 +30,7 @@ const getHomey = async () => {
 export const useGetHomey = () => {
  const [homey, setHomey] = useState(null);
  useEffect(() => {
-   async function fetchHomey() {
+   const fetchHomey = async () => {
      setHomey(await getHomey())
    }
    fetchHomey()

@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "classnames": "^2.3.2",
+    "dotenv": "^17.4.2",
     "express": "^4.18.2",
     "homey-api": "^3.6.8",
     "http-proxy-middleware": "^2.0.6",
@@ -23,13 +24,33 @@
     "start:production-ng": "sudo serve -s build -l 80",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx",
+    "lint:fix": "eslint src --ext .js,.jsx --fix"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": [
+      "prefer-arrow"
+    ],
+    "rules": {
+      "prefer-arrow-callback": "error",
+      "func-style": [
+        "error",
+        "expression"
+      ],
+      "prefer-arrow/prefer-arrow-functions": [
+        "error",
+        {
+          "disallowPrototype": true,
+          "singleReturnOnly": false,
+          "classPropertiesAllowed": false
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -44,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-prefer-arrow": "^1.2.3",
     "prettier": "^2.7.1"
   }
 }

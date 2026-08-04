@@ -14,7 +14,7 @@ export const useGetFavoriteIds = () => {
   const [favoriteDevices, setFavoriteDevies] = useState();
   const [favoriteFlows, setFavoriteFlows] = useState();
   useEffect(() => {
-    async function getF() {
+    const getF = async () => {
       const favorites = await getFavorites();
       setFavoriteDevies(favorites.favoriteDevices)
       setFavoriteFlows(favorites.favoriteFlows)

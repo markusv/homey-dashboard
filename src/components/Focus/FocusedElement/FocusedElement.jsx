@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import "./focusedElement.css";
 
-export const FocusedElement = forwardRef(function MyInput(props, ref) {
+export const FocusedElement = forwardRef((props, ref) => {
   const { title, children, onCloseClick, className, backgroundImageUrl } =
     props;
   const cls = (className ?? "") + " focused-element";
