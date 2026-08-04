@@ -1,0 +1,26 @@
+---
+description: Prefer arrow functions in JS/JSX (matches ESLint)
+globs: "**/*.{js,jsx}"
+alwaysApply: false
+---
+
+# Arrow functions
+
+Prefer arrow functions wherever possible. This matches project ESLint (`prefer-arrow-callback`, `func-style`, `prefer-arrow/prefer-arrow-functions`).
+
+```js
+// ❌ BAD
+function getRoomTemperature(req, res) { /* ... */ }
+async function fetchHomey() { /* ... */ }
+module.exports = function (app) { /* ... */ };
+
+// ✅ GOOD
+const getRoomTemperature = async (req, res) => { /* ... */ };
+const fetchHomey = async () => { /* ... */ };
+module.exports = (app) => { /* ... */ };
+```
+
+Exceptions (do not force arrows):
+- `class` methods and constructors
+- Generator functions (`function*`)
+- Cases where you need a non-lexical `this` or `arguments`

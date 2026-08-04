@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+This is a create-react based app serving smarthome dashboards. The smart home is homey based. It uses the homey npm package and uses an auth token for authorization to homey. The app has two pages for two dashbooards. One in the 1st floor living room, and one in the 1st floor entre. Both dashboards are run on raspberry pi's. The rpi for the living room dashboard also runs this app.
+
+The smart home also posts data to a mqtt server.
