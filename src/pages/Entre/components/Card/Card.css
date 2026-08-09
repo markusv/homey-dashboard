@@ -1,35 +1,35 @@
 .entre-card {
-    position: relative;
-    padding: 1rem;
-    display: flex;
-    background-color: var(--sl-panel-background-color);
-    box-shadow: var(--sl-shadow-x-small);
-    border: solid var(--border-width) var(--border-color);
-    border-radius: var(--border-radius);
-    margin-bottom: 2rem;
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  background-color: var(--sl-panel-background-color);
+  box-shadow: var(--sl-shadow-x-small);
+  border: solid var(--border-width) var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
 }
 
 @media screen and (min-width: 1900px) {
-    .entre-card {
-        padding: 2rem;
-    }
+  .entre-card {
+    padding: 2rem;
+  }
 }
 
 .entre-card-content {
-    margin-left: 1rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .entre-card-title {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .entre-card-button {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 sl-button.entre-card-button::part(base) {
-    --sl-input-height-large: 4rem;
+  --sl-input-height-large: 4rem;
 }

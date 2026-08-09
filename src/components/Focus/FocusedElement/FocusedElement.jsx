@@ -30,3 +30,5 @@ export const FocusedElement = forwardRef((props, ref) => {
     </div>
   );
 });
+
+FocusedElement.displayName = "FocusedElement";

@@ -1,17 +1,23 @@
-const { HomeyAPI } = require("homey-api");
+import { HomeyAPI } from "homey-api";
 
-const HOMEY_ADDRESS = process.env.HOMEY_ADDRESS || "http://192.168.68.80";
+export const HOMEY_ADDRESS =
+  process.env.HOMEY_ADDRESS || "http://192.168.68.80";
 
 let homeyApiPromise = null;
 
-const getHomey = async () => {
+export const getHomey = async () => {
   if (homeyApiPromise) return homeyApiPromise;
 
   const token =
-    process.env.HOMEY_TOKEN || process.env.REACT_APP_HOMEY_TOKEN || "";
+    process.env.HOMEY_TOKEN ||
+    process.env.VITE_HOMEY_TOKEN ||
+    process.env.REACT_APP_HOMEY_TOKEN ||
+    "";
 
   if (!token) {
-    throw new Error("Missing HOMEY_TOKEN / REACT_APP_HOMEY_TOKEN");
+    throw new Error(
+      "Missing HOMEY_TOKEN / VITE_HOMEY_TOKEN / REACT_APP_HOMEY_TOKEN"
+    );
   }
 
   homeyApiPromise = HomeyAPI.createLocalAPI({
@@ -21,5 +27,3 @@ const getHomey = async () => {
 
   return homeyApiPromise;
 };
-
-module.exports = { getHomey, HOMEY_ADDRESS };

@@ -12,7 +12,10 @@ export const getHomey = async () => {
 export const getHomeyAsync = async () => {
   const homeyApi = await HomeyAPI.createLocalAPI({
     address: "http://192.168.68.80",
-    token: process.env.REACT_APP_HOMEY_TOKEN ?? "",
+    token:
+      import.meta.env.VITE_HOMEY_TOKEN ??
+      import.meta.env.REACT_APP_HOMEY_TOKEN ??
+      "",
   });
   return homeyApi;
 };

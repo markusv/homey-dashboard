@@ -1,0 +1,20 @@
+---
+description: Verify app health with HTTP 200 checks after changes
+alwaysApply: true
+---
+
+# Verify the app still works
+
+After build/dependency/config changes (and when finishing substantial app work), verify the app responds with HTTP 200:
+
+1. Build: `npm run build`
+2. Start production server on a non-privileged port, e.g. `PORT=3080 npm run start:production`
+3. Run: `VERIFY_BASE_URL=http://localhost:3080 npm run verify`
+
+The verify script must get **200 OK** for:
+
+- `/` (Stue dashboard)
+- `/entre` (Entre dashboard)
+- `/api/read/temperature/loft` (temperature API)
+
+Do not consider the task done if any of these fail. Stop the temporary server when finished.

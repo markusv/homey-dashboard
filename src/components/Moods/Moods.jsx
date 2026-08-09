@@ -6,7 +6,7 @@ export const Moods = ({ flows, moods, onMoodClick }) => {
   return (
     <div className="moods-container">
       <h2 className="moods-header">Stemninger</h2>
-      {Object.entries(moods).map(([key, value]) => {
+      {Object.entries(moods).map(([_key, value]) => {
         const flow = flows[value.id];
         return flow ? (
           <Mood

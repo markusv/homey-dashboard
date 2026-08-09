@@ -14,10 +14,7 @@ export const ForecastItem = ({ forecast }) => {
       <img
         className="forecast-item--icon"
         alt={data.summary.symbol_code}
-        src={
-          process.env.PUBLIC_URL +
-          `/dashboardAssets/weatherIcons/${data.summary.symbol_code}.svg`
-        }
+        src={`${import.meta.env.BASE_URL}dashboardAssets/weatherIcons/${data.summary.symbol_code}.svg`}
       />
       {temp && <Temperature ttemperatureAsInt={Math.round(temp)} />}
     </div>

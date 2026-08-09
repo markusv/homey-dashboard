@@ -1,0 +1,17 @@
+---
+description: Always run ESLint and Prettier after code changes
+alwaysApply: true
+---
+
+# Lint and format
+
+After making code changes in this project, always run:
+
+```bash
+npm run lint
+npm run format
+```
+
+Fix any ESLint errors before considering the task done. Prefer `npm run lint:fix` when auto-fixable issues exist (runs ESLint `--fix` and `prettier:fix`), then re-run `npm run lint`.
+
+Do not skip these scripts because the change seemed small.

@@ -12,12 +12,12 @@ Prefer arrow functions wherever possible. This matches project ESLint (`prefer-a
 // ❌ BAD
 function getRoomTemperature(req, res) { /* ... */ }
 async function fetchHomey() { /* ... */ }
-module.exports = function (app) { /* ... */ };
+export default function registerRoutes(app) { /* ... */ }
 
 // ✅ GOOD
 const getRoomTemperature = async (req, res) => { /* ... */ };
 const fetchHomey = async () => { /* ... */ };
-module.exports = (app) => { /* ... */ };
+export const registerRoutes = (app) => { /* ... */ };
 ```
 
 Exceptions (do not force arrows):

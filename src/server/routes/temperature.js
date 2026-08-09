@@ -1,8 +1,8 @@
-const { getHomey } = require("../homeyClient");
-const { getRoomTemperatureConfig } = require("../rooms");
-const { bucketHourlyPoints } = require("../insights");
+import { getHomey } from "../homeyClient.js";
+import { getRoomTemperatureConfig } from "../rooms.js";
+import { bucketHourlyPoints } from "../insights.js";
 
-const getRoomTemperature = async (req, res) => {
+export const getRoomTemperature = async (req, res) => {
   const room = String(req.params.room || "").toLowerCase();
   const config = getRoomTemperatureConfig(room);
 
@@ -53,8 +53,6 @@ const getRoomTemperature = async (req, res) => {
   }
 };
 
-const registerTemperatureRoutes = (app) => {
+export const registerTemperatureRoutes = (app) => {
   app.get("/api/read/temperature/:room", getRoomTemperature);
 };
-
-module.exports = { registerTemperatureRoutes, getRoomTemperature };

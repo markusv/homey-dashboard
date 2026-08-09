@@ -2,14 +2,11 @@ import React from "react";
 import { useGetDevice } from "../helpers/useGetDevice";
 import { ROBOROCK_STUE_DEVICE_ID } from "../../../constants";
 import { Icon } from "../components/Icon";
-import { useToggleRoborockClean } from "./useToggleRoborockClean";
 import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
 import { RoborockFocus } from "./RoborockFocus";
 
 export const Roborock = ({ onClick }) => {
-  const [roborockDevice, setRoborockDevice] = useGetDevice(
-    ROBOROCK_STUE_DEVICE_ID
-  );
+  const [roborockDevice] = useGetDevice(ROBOROCK_STUE_DEVICE_ID);
 
   const onDeviceClick = async () => {
     if (onClick) {

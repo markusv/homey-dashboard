@@ -2,7 +2,7 @@
  * Bucket Homey Insights samples (typically 5‑minute steps) into N hourly points.
  * Uses the mean of samples that fall inside each hour bucket.
  */
-const bucketHourlyPoints = (values, hours = 24) => {
+export const bucketHourlyPoints = (values, hours = 24) => {
   if (!Array.isArray(values) || values.length === 0) return [];
 
   const sorted = values
@@ -48,5 +48,3 @@ const bucketHourlyPoints = (values, hours = 24) => {
 
   return points.slice(-hours);
 };
-
-module.exports = { bucketHourlyPoints };

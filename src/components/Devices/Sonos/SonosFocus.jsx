@@ -132,7 +132,7 @@ export const SonosFocus = ({ close }) => {
           </div>
           <div className="sonos-buttons">
             <button
-              tpye="button"
+              type="button"
               className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
               onClick={onShuffleClick}
             >
@@ -142,26 +142,26 @@ export const SonosFocus = ({ close }) => {
               />
             </button>
             <button
-              tpye="button"
+              type="button"
               className="sonos-prev"
               onClick={onPrevClick}
             />
             {isPlaying && (
               <button
-                tpye="button"
+                type="button"
                 className="sonos-pause"
                 onClick={onPauseClick}
               />
             )}
             {!isPlaying && (
               <button
-                tpye="button"
+                type="button"
                 className="sonos-play"
                 onClick={onPlayClick}
               />
             )}
             <button
-              tpye="button"
+              type="button"
               className="sonos-next"
               onClick={onNextClick}
             />

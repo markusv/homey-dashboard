@@ -1,16 +1,17 @@
 .entre-dash {
-    display: flex;
+  display: flex;
 }
 
 .entre-dash-col-one {
-    width: 30%;
+  width: 30%;
 }
 
 .entre-dash-col-two {
-    width: 70%;
-    padding: 1rem;
+  width: 70%;
+  padding: 1rem;
 }
 
-.entrance-garage-card h2, .entrance-roborock-card h2 {
-    margin: 0;
+.entrance-garage-card h2,
+.entrance-roborock-card h2 {
+  margin: 0;
 }

@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Homey Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Vite + React dashboards for Homey (Stue `/` and Entre `/entre`). Express serves the production build and API routes.
 
-## Available Scripts
+Requires **Node.js LTS** via nvm (`.nvmrc` → `lts/*`, currently **^24.19.0** in `package.json` `engines`).
 
-In the project directory, you can run:
+## Scripts
 
-### `npm start`
+| Script                      | Purpose                                                                          |
+| --------------------------- | -------------------------------------------------------------------------------- |
+| `npm start` / `npm run dev` | Vite dev server (port 3000)                                                      |
+| `npm run start:api`         | Express API only (port 3080; used by Vite `/api` proxy)                          |
+| `npm run build`             | Production build → `build/`                                                      |
+| `npm run start:production`  | Express static + API (`PORT`, default 80; use `sudo` on the Pi if binding to 80) |
+| `npm test`                  | Vitest                                                                           |
+| `npm run lint`              | ESLint                                                                           |
+| `npm run format`            | Prettier                                                                         |
+| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, and temperature API                           |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Environment
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Browser (Vite) only exposes prefixed vars:
 
-### `npm test`
+```
+REACT_APP_HOMEY_TOKEN=...
+# or
+VITE_HOMEY_TOKEN=...
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Server/API also accepts `HOMEY_TOKEN` (and the same `VITE_` / `REACT_APP_` names).
 
-### `npm run build`
+Optional: `HOMEY_ADDRESS` (default `http://192.168.68.80`), `PORT`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Verify after changes
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm run build
+PORT=3080 npm run start:production &
+VERIFY_BASE_URL=http://localhost:3080 npm run verify
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Kiosk on the Pi (server + fullscreen Chromium):
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+./scripts/start.sh
+```

@@ -21,10 +21,8 @@ import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
 import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
 
 setBasePath(
-  "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/"
+  "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/"
 );
-
-const AthomCloudAPI = require("homey-api/lib/AthomCloudAPI");
 
 export const Stue = () => {
   const [devices] = useGetDevices();

@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as ThermometerIcon } from "../../img/thermometer-svgrepo-com.svg";
+import { ThermometerIcon } from "./ThermometerIcon";
 import { TemperatureRange } from "./components/Temperature/TemperatureRange";
 import { useGetDevice } from "../Devices/helpers/useGetDevice";
 import { HEATPUMP_DEVICE_ID } from "./constants";

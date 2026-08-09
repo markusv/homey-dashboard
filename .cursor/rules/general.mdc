@@ -2,6 +2,14 @@
 alwaysApply: true
 ---
 
-This is a create-react based app serving smarthome dashboards. The smart home is homey based. It uses the homey npm package and uses an auth token for authorization to homey. The app has two pages for two dashbooards. One in the 1st floor living room, and one in the 1st floor entre. Both dashboards are run on raspberry pi's. The rpi for the living room dashboard also runs this app.
+This is a Vite + React app serving smarthome dashboards. The smart home is Homey-based. It uses the `homey-api` npm package and an auth token for authorization to Homey. The app has two pages for two dashboards: one in the 1st floor living room (`/`), and one in the 1st floor entre (`/entre`). Both dashboards run on Raspberry Pis. The living-room Pi also runs this app (Express serves the Vite `build/` output plus `/api` routes).
 
-The smart home also posts data to a mqtt server.
+Requires Node.js LTS via nvm (`.nvmrc` = `lts/*`, `package.json` engines `^24.19.0`). The smart home also posts data to an MQTT server.
+
+## Tooling
+
+- Build/dev: Vite (`npm start` / `npm run build`)
+- Production server: `npm run start:production` (Express on `PORT`, default 80)
+- API during Vite dev: `npm run start:api` (port 3080; Vite proxies `/api`)
+- Lint/format/test: `npm run lint`, `npm run format`, `npm run test`
+- Health check: `npm run verify` (expects HTTP 200 on `/`, `/entre`, `/api/read/temperature/loft`)

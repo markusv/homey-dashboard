@@ -10,7 +10,6 @@ import {
   GARAGE_OPENER_ID,
   GARAGE_SENSOR_DEVICE_ID,
   ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID,
-  ROBOROCK_STUE_DEVICE_ID,
 } from "../../../constants";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
 import { EntranceDoorCard } from "./EntranceDoorCard";
