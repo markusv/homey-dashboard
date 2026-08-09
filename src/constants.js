@@ -5,9 +5,9 @@ export const ENTRANCE_DOOR_SENSOR_ID = "6dffa047-b727-4b79-956b-1309f7492f66";
 export const ETG_2_HEATPUMP_ID = "8de700de-8393-466f-8df5-a0926eb7800b";
 
 export const ENTRANCE_DOOW_ALWAYS_OPEN_FLOW_ID =
-  "54c1dff2-cfed-49ee-9c8a-7f4779eb55cb";
+  "c6360c23-9b2e-44bc-9a58-9e4c6259a41b";
 export const ENTRANCE_DOOW_ALWAYS_CLOSED_FLOW_ID =
-  "7f55fedc-c839-4dbf-b9ae-4212ef4f6394";
+  "a7450212-8928-4d3e-9fc7-81b97c9ba9fb";
 
 export const DISHWASHER_DEVICE_ID = "3382c06d-6e53-48f3-8241-44c29b1ee390";
 export const DISHWASHER_DELAYED_START_FLOW_ID =
