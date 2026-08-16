@@ -14,6 +14,8 @@ import {
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
 import { EntranceDoorCard } from "./EntranceDoorCard";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
+import "../../../components/Devices/device.css";
 
 export const Dashboard = () => {
   const [flows] = useGetFlows();
@@ -67,7 +69,11 @@ export const Dashboard = () => {
         <Card
           title="Roborock"
           className="entrance-roborock-card"
-          svgIconUrl="https://icons-cdn.athom.com/118bd02ed9ac707e812cb10e830139cd-128.png"
+          icon={
+            <div className="device-icon device-icon--glyph">
+              <VacuumIcon className="device-vacuum-icon" />
+            </div>
+          }
           onClick={roborockCleanAllRooms}
         />
       </div>

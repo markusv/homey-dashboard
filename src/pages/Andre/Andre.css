@@ -250,16 +250,96 @@
 }
 
 /* Room grid */
-.andre-room-grid {
+.andre-overview-main {
   flex: 1;
   min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+}
+
+.andre-room-grid {
+  flex: 0 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: auto;
   align-content: start;
   gap: 12px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+}
+
+.andre-overview-actions {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+  padding-bottom: 4px;
+}
+
+.andre-overview-action {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--andre-glass-border);
+  background: var(--andre-glass-bg);
+  backdrop-filter: blur(var(--andre-glass-blur));
+  -webkit-backdrop-filter: blur(var(--andre-glass-blur));
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.andre-overview-action-icon,
+.andre-overview-action sl-icon {
+  font-size: 1.85rem;
+  width: 1.85rem;
+  height: 1.85rem;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.andre-overview-action-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.andre-overview-action--mood .andre-overview-action-icon,
+.andre-overview-action--mood sl-icon {
+  color: #fb923c;
+  filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.65));
+}
+
+.andre-overview-action--vacuum .andre-overview-action-icon {
+  color: #60a5fa;
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.7));
+}
+
+.andre-overview-action--pending {
+  opacity: 0.55;
+}
+
+.andre-overview-action:active {
+  transform: scale(0.98);
+}
+
+.andre-overview-action:focus {
+  outline: none;
+}
+
+.andre-overview-action:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.55);
+  outline-offset: 2px;
 }
 
 .andre-room-card {
@@ -337,6 +417,17 @@
 .andre-blind-icon {
   font-size: 1.55rem;
   display: block;
+}
+
+.andre-vacuum-icon {
+  font-size: 1.55rem;
+  display: block;
+}
+
+.andre-scene-button .andre-vacuum-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 1.75rem;
 }
 
 .andre-icon-button--xl {
@@ -470,7 +561,8 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.andre-scene-button--vacuum.andre-scene-button--active sl-icon {
+.andre-scene-button--vacuum.andre-scene-button--active sl-icon,
+.andre-scene-button--vacuum.andre-scene-button--active .andre-vacuum-icon {
   color: #60a5fa;
   filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.75));
 }

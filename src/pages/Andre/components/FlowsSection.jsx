@@ -6,6 +6,7 @@ import { getHomey } from "../../../helpers/getHomey";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
 import { BlindIcon } from "./BlindIcon";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
 
 export const FlowsSection = ({
   flows = [],
@@ -143,7 +144,7 @@ const VacuumStartButton = ({ deviceId }) => {
 
   return (
     <SceneButton
-      icon="robot"
+      iconNode={<VacuumIcon className="andre-vacuum-icon" />}
       label={isCleaning ? "Støvsuger kjører" : "Start støvsuger"}
       pending={pending}
       active={isCleaning}

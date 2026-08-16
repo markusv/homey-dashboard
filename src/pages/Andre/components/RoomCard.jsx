@@ -6,6 +6,7 @@ import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { AUDIO_PRO_PLAY_MUSIC_FLOW_ID } from "../../../components/Devices/AudioProSpeaker/constants";
 import { IconButton } from "./IconButton";
 import { BlindIcon } from "./BlindIcon";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
 import { useActionLock } from "../helpers/useActionLock";
 import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
 import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
@@ -63,12 +64,13 @@ const VacuumAction = ({ deviceId }) => {
 
   return (
     <IconButton
-      icon="robot"
       label="Start støvsuger"
       active={isCleaning}
       pending={pending}
       onClick={onStart}
-    />
+    >
+      <VacuumIcon className="andre-vacuum-icon" />
+    </IconButton>
   );
 };
 

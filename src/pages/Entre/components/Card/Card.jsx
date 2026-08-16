@@ -1,12 +1,13 @@
 import React from "react";
 import "./Card.css";
 import { SvgIcon } from "../../../../components/Devices/components/SvgIcon";
-import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import { StatusIndicator } from "../../../../components/Devices/components/StatusIndicator/StatusIndicator";
+import { SlButton } from "@shoelace-style/shoelace/dist/react";
 
 export const Card = ({
   title,
   svgIconUrl,
+  icon,
   actions = [],
   onClick,
   className,
@@ -14,7 +15,8 @@ export const Card = ({
 }) => {
   return (
     <div className={`${className} entre-card`} onClick={onClick}>
-      {svgIconUrl && <SvgIcon url={svgIconUrl} />}
+      {icon}
+      {!icon && svgIconUrl && <SvgIcon url={svgIconUrl} />}
       {statusIndicator && <StatusIndicator />}
       <div className="entre-card-content">
         <h2 className="entre-card-title">{title}</h2>

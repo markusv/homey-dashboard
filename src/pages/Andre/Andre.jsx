@@ -4,11 +4,12 @@ import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path";
 import { useGetDevices } from "../../helpers/useGetDevices";
 import { useGetZones } from "../../helpers/useGetZones";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
-import { rooms } from "./rooms";
+import { rooms, overviewActions } from "./rooms";
 import { Clock } from "./components/Clock";
 import { WeatherStrip } from "./components/WeatherStrip";
 import { RoomCard } from "./components/RoomCard";
 import { RoomDetail } from "./components/RoomDetail";
+import { OverviewActions } from "./components/OverviewActions";
 import "./Andre.css";
 
 setBasePath(
@@ -41,17 +42,20 @@ export const Andre = () => {
       >
         <Clock />
         <WeatherStrip />
-        <section className="andre-room-grid" aria-label="Rom">
-          {rooms.map((room) => (
-            <RoomCard
-              key={room.id}
-              room={room}
-              devices={devices}
-              zones={zones}
-              onOpen={openRoom}
-            />
-          ))}
-        </section>
+        <div className="andre-overview-main">
+          <section className="andre-room-grid" aria-label="Rom">
+            {rooms.map((room) => (
+              <RoomCard
+                key={room.id}
+                room={room}
+                devices={devices}
+                zones={zones}
+                onOpen={openRoom}
+              />
+            ))}
+          </section>
+          <OverviewActions actions={overviewActions} />
+        </div>
       </div>
 
       {selectedRoom && (

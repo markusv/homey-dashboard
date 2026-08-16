@@ -16,6 +16,21 @@
  * - Speaker / vacuum: when speakerDeviceId / vacuumDeviceId is set
  * - Flows: only entries with showOnRoomCard: true
  */
+
+/** Global shortcuts under the room grid on the /andre overview. */
+export const overviewActions = [
+  {
+    id: "594fb90c-8b01-4389-904b-7a1d73cc26d6",
+    label: "Kveldskos",
+    icon: "moon",
+  },
+  {
+    id: "033f2c8d-2de2-4ee6-b602-2d21b798ef8d",
+    label: "Støvsug",
+    icon: "vacuum",
+  },
+];
+
 export const rooms = [
   {
     id: "adrian",
@@ -98,6 +113,7 @@ export const rooms = [
     homeyZoneId: "cc94f68d-30fb-482a-956b-2c551ccaf42c",
     temperatureDeviceId: "e5a8fd24-97f7-461b-bc4d-1014a1f85c89",
     primaryLightDeviceId: "1068b237-3368-4052-b544-9f8a5d189592", // Hovedsoverom taklys (Hue)
+    vacuumDeviceId: "36b2f0df-c217-4f45-92a5-c15d3d5dd34b",
     includeChildZoneLights: true,
     excludedLightDeviceIds: [
       "1a1c7e48-f46a-4dfe-bb2e-ee9ba7d5c6e5", // Dimmer Taklys Hovedsoverom (Hue styrer)
@@ -130,6 +146,5 @@ export const rooms = [
     homeyZoneId: "c36ba209-ab6b-4b2f-b9f3-a0dceb73ac89",
     temperatureDeviceId: "8de700de-8393-466f-8df5-a0926eb7800b",
     primaryLightDeviceId: "dea615e5-4a22-48a4-b454-c2083a89f788", // 2etg Trappegang Taklys (group)
-    vacuumDeviceId: "6fbc8eb5-b864-4a13-9f79-e108398e4284",
   },
 ];
