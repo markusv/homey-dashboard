@@ -4,6 +4,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Stue } from "./pages/Stue/Stue";
 import { Entre } from "./pages/Entre/Entre";
+import { Andre } from "./pages/Andre/Andre";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/entre",
     element: <Entre />,
+  },
+  {
+    path: "/andre",
+    element: <Andre />,
   },
 ]);
 

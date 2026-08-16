@@ -5,6 +5,7 @@ const BASE_URL = process.env.VERIFY_BASE_URL || "http://localhost:3080";
 const endpoints = [
   { path: "/", name: "Stue dashboard" },
   { path: "/entre", name: "Entre dashboard" },
+  { path: "/andre", name: "2. etasje dashboard" },
   { path: "/api/read/temperature/loft", name: "Temperature API (loft)" },
   { path: "/api/read/weather", name: "Weather API" },
 ];

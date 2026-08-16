@@ -1,0 +1,567 @@
+/* 2nd-floor hallway dashboard — designed for 720 × 1280 portrait touch */
+
+.andre-page {
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-font-size-medium);
+  background-color: var(--sl-color-neutral-0);
+  color: var(--sl-color-neutral-900);
+  width: 100%;
+  height: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 12px 14px 16px;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.andre-page--loading {
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* Clock */
+.andre-clock {
+  text-align: center;
+  flex-shrink: 0;
+  padding: 4px 0 8px;
+}
+
+.andre-clock-time {
+  font-size: 5.2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-clock-date {
+  margin-top: 0.35rem;
+  font-size: 1.35rem;
+  color: var(--sl-color-neutral-700);
+  text-transform: capitalize;
+}
+
+/* Weather strip */
+.andre-weather {
+  flex-shrink: 0;
+  margin: 40px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  scrollbar-width: none;
+}
+
+.andre-weather::-webkit-scrollbar {
+  display: none;
+}
+
+.andre-weather--empty {
+  padding: 1rem;
+  color: var(--sl-color-neutral-600);
+}
+
+.andre-weather-track {
+  display: flex;
+  gap: 36px;
+  padding-bottom: 4px;
+  width: max-content;
+}
+
+.andre-weather-day {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.andre-weather-day-label {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: 0 8px 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--sl-color-neutral-700);
+  white-space: nowrap;
+  background: var(--sl-color-neutral-0);
+  line-height: 1.2;
+}
+
+.andre-weather-day-points {
+  display: flex;
+  gap: 6px;
+}
+
+.andre-weather-item {
+  width: 72px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.andre-weather-item-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.andre-weather-item-temp {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Room grid */
+.andre-room-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: auto;
+  align-content: start;
+  gap: 12px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.andre-room-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px 10px;
+  background: var(--sl-panel-background-color);
+  border: 1px solid var(--sl-color-neutral-200);
+  border-radius: var(--sl-border-radius-large);
+  box-shadow: var(--sl-shadow-x-small);
+  cursor: pointer;
+  min-height: 0;
+  height: auto;
+}
+
+.andre-room-card:active {
+  transform: scale(0.98);
+  background: var(--sl-color-neutral-100);
+}
+
+.andre-room-card-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.andre-room-card-temp {
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin: 6px 0;
+}
+
+.andre-room-card-temp--empty {
+  color: var(--sl-color-neutral-500);
+}
+
+.andre-room-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Icon buttons */
+.andre-icon-button {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--sl-color-neutral-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-icon-button sl-icon {
+  font-size: 1.55rem;
+}
+
+.andre-icon-button--xl {
+  width: 72px;
+  height: 72px;
+}
+
+.andre-icon-button--xl sl-icon {
+  font-size: 2.1rem;
+}
+
+.andre-icon-button--active,
+.andre-icon-button--lit {
+  color: var(--sl-color-warning-500);
+  background: transparent;
+}
+
+.andre-icon-button--pending {
+  opacity: 0.55;
+}
+
+.andre-icon-button:active {
+  transform: scale(0.94);
+}
+
+/* Room detail */
+.andre-room-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.andre-room-detail-header {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+}
+
+.andre-back-button {
+  align-self: flex-start;
+}
+
+sl-button.andre-back-button::part(base) {
+  --sl-input-height-large: 3.25rem;
+  min-width: 9rem;
+  font-size: 1.15rem;
+}
+
+.andre-room-detail-title {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.andre-room-detail-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.andre-section {
+  background: var(--sl-panel-background-color);
+  border: 1px solid var(--sl-color-neutral-200);
+  border-radius: var(--sl-border-radius-large);
+  padding: 14px;
+}
+
+.andre-section-title {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.andre-flows {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+sl-button.andre-flow-button {
+  width: auto;
+  max-width: 100%;
+  flex: 0 1 auto;
+}
+
+sl-button.andre-flow-button::part(base) {
+  --sl-input-height-large: 3.5rem;
+  font-size: 1.15rem;
+  justify-content: flex-start;
+  width: auto;
+  min-width: 0;
+}
+
+/* Temperature */
+.andre-temp-current {
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.andre-temp-chart-wrap {
+  position: relative;
+  min-height: 200px;
+}
+
+.andre-temp-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--sl-color-neutral-0) 70%, transparent);
+  color: var(--sl-color-neutral-700);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.andre-temp-chart {
+  width: 100%;
+  height: 200px;
+  display: block;
+  overflow: visible;
+}
+
+.andre-temp-chart--empty {
+  height: 200px;
+  background: var(--sl-color-neutral-100);
+  border-radius: var(--sl-border-radius-medium);
+}
+
+.andre-temp-chart-line {
+  fill: none;
+  stroke: var(--sl-color-primary-600);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-axis {
+  stroke: var(--sl-color-neutral-500);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-grid {
+  stroke: var(--sl-color-neutral-300);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-label {
+  fill: var(--sl-color-neutral-700);
+  font-size: 14px;
+  font-family: var(--sl-font-sans);
+}
+
+.andre-temp-status {
+  text-align: center;
+  color: var(--sl-color-neutral-600);
+  padding: 1.5rem 0;
+}
+
+.andre-temp-status--error {
+  color: var(--sl-color-danger-600);
+}
+
+.andre-temp-ranges {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.andre-temp-range {
+  height: 48px;
+  border-radius: var(--sl-border-radius-medium);
+  border: 1px solid var(--sl-color-neutral-400);
+  background: var(--sl-color-neutral-100);
+  color: var(--sl-color-neutral-900);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-temp-range--active {
+  background: var(--sl-color-primary-600);
+  border-color: var(--sl-color-primary-600);
+  color: var(--sl-color-neutral-0);
+}
+
+.andre-temp-range:active {
+  transform: scale(0.97);
+}
+
+/* Lights */
+.andre-lights-onoff {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.andre-lights-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.andre-dimmer {
+  margin: 8px 0 14px;
+}
+
+.andre-dimmer-slider {
+  width: 100%;
+  height: 36px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 999px;
+  touch-action: none;
+}
+
+.andre-dimmer-slider::-webkit-slider-runnable-track {
+  height: 14px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.andre-dimmer-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 36px;
+  height: 36px;
+  margin-top: -11px;
+  border-radius: 50%;
+  background: var(--andre-dim-fill, var(--sl-color-neutral-0));
+  border: 3px solid var(--sl-color-neutral-700);
+  box-shadow: var(--sl-shadow-medium);
+}
+
+.andre-dimmer-slider::-moz-range-track {
+  height: 14px;
+  border-radius: 999px;
+  background: var(--sl-color-neutral-300);
+}
+
+.andre-dimmer-slider::-moz-range-progress {
+  height: 14px;
+  border-radius: 999px;
+  background: var(--andre-dim-fill, var(--sl-color-primary-600));
+}
+
+.andre-dimmer-slider::-moz-range-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--andre-dim-fill, var(--sl-color-neutral-0));
+  border: 3px solid var(--sl-color-neutral-700);
+}
+
+.andre-color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.andre-color-swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--sl-color-neutral-500);
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-color-swatch:active {
+  transform: scale(0.94);
+}
+
+.andre-color-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--sl-color-neutral-700);
+}
+
+.andre-color-custom input[type="color"] {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* Speaker */
+.andre-speaker-section .sonos-playing-container {
+  flex-direction: column;
+  height: auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.andre-speaker-section .sonos-playing-image-container,
+.andre-speaker-section .sonos-image {
+  width: 180px;
+  margin: 0 auto;
+}
+
+.andre-speaker-section .sonos-playing-content {
+  margin: 0;
+  width: 100%;
+}
+
+.andre-audiopro .entrance-focused-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.andre-audiopro .audiopro-focused-content {
+  margin-left: 0;
+  width: 100%;
+  max-width: 280px;
+}
+
+sl-button.audiopro-focused-buttton::part(base) {
+  --sl-input-height-large: 3.25rem;
+}
+
+.sonos-embedded {
+  width: 100%;
+}
+
+/* Exact kiosk viewport helper when opened in a fixed frame */
+@media (width: 720px) and (height: 1280px) {
+  .andre-clock-time {
+    font-size: 5rem;
+  }
+
+  .andre-room-card-temp {
+    font-size: 2.5rem;
+  }
+}

@@ -1,6 +1,8 @@
 # Homey Dashboard
 
-Vite + React dashboards for Homey (Stue `/` and Entre `/entre`). Express serves the production build and API routes.
+Vite + React dashboards for Homey (Stue `/`, Entre `/entre`, 2. etasje `/andre`). Express serves the production build and API routes.
+
+For a structured map of routes, Homey helpers, weather, speakers, Insights, and reuse patterns, see [`docs/codebase-map.md`](docs/codebase-map.md).
 
 Requires **Node.js LTS** via nvm (`.nvmrc` → `lts/*`, currently **^24.19.0** in `package.json` `engines`).
 
@@ -15,7 +17,7 @@ Requires **Node.js LTS** via nvm (`.nvmrc` → `lts/*`, currently **^24.19.0** i
 | `npm test`                  | Vitest                                                                           |
 | `npm run lint`              | ESLint                                                                           |
 | `npm run format`            | Prettier                                                                         |
-| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, temperature API, and weather API              |
+| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, `/andre`, temperature API, and weather API    |
 
 ## Environment
 

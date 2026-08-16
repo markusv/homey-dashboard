@@ -2,7 +2,7 @@
 alwaysApply: true
 ---
 
-This is a Vite + React app serving smarthome dashboards. The smart home is Homey-based. It uses the `homey-api` npm package and an auth token for authorization to Homey. The app has two pages for two dashboards: one in the 1st floor living room (`/`), and one in the 1st floor entre (`/entre`). Both dashboards run on Raspberry Pis. The living-room Pi also runs this app (Express serves the Vite `build/` output plus `/api` routes).
+This is a Vite + React app serving smarthome dashboards. The smart home is Homey-based. It uses the `homey-api` npm package and an auth token for authorization to Homey. The app has pages for dashboards: 1st floor living room (`/`), 1st floor entre (`/entre`), and 2nd floor hallway (`/andre`, 720×1280 portrait). Dashboards run on Raspberry Pis. The living-room Pi also runs this app (Express serves the Vite `build/` output plus `/api` routes).
 
 Requires Node.js LTS via nvm (`.nvmrc` = `lts/*`, `package.json` engines `^24.19.0`). The smart home also posts data to an MQTT server.
 
@@ -12,4 +12,4 @@ Requires Node.js LTS via nvm (`.nvmrc` = `lts/*`, `package.json` engines `^24.19
 - Production server: `npm run start:production` (Express on `PORT`, default 80)
 - API only: `npm run start:api` (port 3080)
 - Lint/format/test: `npm run lint`, `npm run format`, `npm run test`
-- Health check: `npm run verify` (expects HTTP 200 on `/`, `/entre`, `/api/read/temperature/loft`, `/api/read/weather`)
+- Health check: `npm run verify` (expects HTTP 200 on `/`, `/entre`, `/andre`, `/api/read/temperature/loft`, `/api/read/weather`)

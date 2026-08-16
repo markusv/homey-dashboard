@@ -1,0 +1,25 @@
+---
+description: Codebase map — read before exploring dashboards/Homey structure
+alwaysApply: true
+---
+
+# Codebase map (do not re-explore blindly)
+
+Before launching explore/subagents to map this repo’s dashboards, Homey, weather, or device patterns, **read `docs/codebase-map.md` first**.
+
+Only explore further when that doc is missing the area you need, then **update `docs/codebase-map.md`** with what you learned.
+
+## Quick pointers
+
+| Need | Start here |
+| ---- | ---------- |
+| Routes / pages | `src/index.js` → `src/pages/{Stue,Entre,Andre}/` |
+| 2nd-floor rooms config | `src/pages/Andre/rooms.js` |
+| Homey client | `src/helpers/getHomey.js`, `useGetDevices`, `useGetDevice`, `useMakeCapabilityInstance` |
+| Flows | `src/components/Flows/helpers/triggerFlow.js` |
+| Weather | `src/server/routes/weather.js`, `useFetchForecast`, `getForecastItemsForDay` |
+| Insights / temp API | `src/server/routes/temperature.js`, `src/server/insights.js` |
+| Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`) |
+| AudioPro | `src/components/Devices/AudioProSpeaker/` |
+| Roborock | `src/components/Devices/Roborock/`, `/andre` vacuum via `clean_full` |
+| Verify | `scripts/verify.js` — `/`, `/entre`, `/andre`, temp loft, weather |
