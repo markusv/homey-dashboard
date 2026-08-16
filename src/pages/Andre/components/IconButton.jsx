@@ -3,6 +3,7 @@ import classNames from "classnames";
 
 export const IconButton = ({
   icon,
+  children,
   label,
   active = false,
   pending = false,
@@ -15,13 +16,19 @@ export const IconButton = ({
     event.preventDefault();
     if (pending) return;
     onClick?.(event);
+    event.currentTarget.blur();
   };
+
+  const usesCustomActiveStyle =
+    typeof className === "string" &&
+    (className.includes("andre-icon-button--blinds") ||
+      className.includes("andre-icon-button--lit"));
 
   return (
     <button
       type="button"
       className={classNames("andre-icon-button", className, {
-        "andre-icon-button--active": active,
+        "andre-icon-button--active": active && !usesCustomActiveStyle,
         "andre-icon-button--pending": pending,
       })}
       aria-label={label}
@@ -30,7 +37,7 @@ export const IconButton = ({
       onPointerDown={(event) => event.stopPropagation()}
       style={style}
     >
-      <sl-icon name={icon} library="default" />
+      {children ?? <sl-icon name={icon} library="default" />}
     </button>
   );
 };

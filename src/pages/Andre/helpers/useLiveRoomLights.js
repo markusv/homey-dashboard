@@ -1,16 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
 import {
   areLightsOn,
   getAverageDim,
+  getPrimaryLight,
   getRoomLights,
   lightsSupportCapability,
   lightsWithCapability,
 } from "../helpers/getRoomLights";
 import { getLightGroupColor } from "../helpers/lightColor";
 import { setCapabilityOnDevices } from "../helpers/setCapabilityOnDevices";
+import { subscribeDeviceCapability } from "../helpers/subscribeDeviceCapability";
 import { useActionLock } from "../helpers/useActionLock";
-import { useDebounce } from "../../../helpers/useDebounce";
 import { cssHexToHomey } from "../helpers/lightColor";
 
 const TRACKED_CAPS = [
@@ -21,67 +22,90 @@ const TRACKED_CAPS = [
   "light_mode",
 ];
 
-export const useLiveRoomLights = (devices, room) => {
-  const [lights, setLights] = useState(() => getRoomLights(devices, room));
+export const useLiveRoomLights = (devices, room, zones) => {
+  const [lights, setLights] = useState(() =>
+    getRoomLights(devices, room, zones)
+  );
   const [run, pending] = useActionLock();
 
   useEffect(() => {
-    setLights(getRoomLights(devices, room));
-  }, [devices, room]);
+    setLights(getRoomLights(devices, room, zones));
+  }, [devices, room, zones]);
+
+  const lightIdsKey = lights.map((light) => light.id).join("|");
 
   useEffect(() => {
-    if (!lights.length) return undefined;
+    if (!devices || !lightIdsKey) return undefined;
 
-    lights.forEach((light) => {
-      TRACKED_CAPS.forEach((capability) => {
-        if (!light.capabilities?.includes(capability)) return;
-        try {
-          light.makeCapabilityInstance(capability, (newValue) => {
-            setLights((prev) =>
-              prev.map((entry) =>
-                entry.id === light.id
-                  ? updateCapabilityOnDevice(entry, capability, newValue)
-                  : entry
-              )
-            );
-          });
-        } catch {
-          // Capability may already have an instance
-        }
-      });
+    const deviceList = Array.isArray(devices)
+      ? devices
+      : Object.values(devices);
+    const devicesById = new Map(
+      deviceList.map((device) => [device.id, device])
+    );
+    const lightIds = lightIdsKey.split("|").filter(Boolean);
+
+    const unsubscribers = lightIds.flatMap((lightId) => {
+      // Must use Homey Device instances — lights state may hold plain copies.
+      const device = devicesById.get(lightId);
+      if (!device) return [];
+
+      const caps = TRACKED_CAPS.filter((capability) =>
+        device.capabilities?.includes(capability)
+      );
+
+      return caps.map((capability) =>
+        subscribeDeviceCapability(device, capability, (newValue) => {
+          setLights((prev) =>
+            prev.map((entry) =>
+              entry.id === lightId
+                ? updateCapabilityOnDevice(entry, capability, newValue)
+                : entry
+            )
+          );
+        })
+      );
     });
-    return undefined;
-    // Re-subscribe when the set of light IDs changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lights.map((light) => light.id).join("|")]);
 
-  const on = areLightsOn(lights);
-  const supportsDim = lightsSupportCapability(lights, "dim");
-  const supportsColor = lightsSupportCapability(lights, "light_hue");
-  const color = getLightGroupColor(lights);
-  const dim = getAverageDim(lights);
+    return () => {
+      unsubscribers.forEach((unsubscribe) => unsubscribe());
+    };
+  }, [lightIdsKey, devices]);
+
+  const primary = getPrimaryLight(lights, room);
+  const statusLights = primary ? [primary] : lights;
+  const on = areLightsOn(lights, room);
+  const supportsDim = lightsSupportCapability(statusLights, "dim");
+  const supportsColor = lightsSupportCapability(statusLights, "light_hue");
+  const color = getLightGroupColor(statusLights);
+  const dim = getAverageDim(lights, room);
 
   const toggleLights = useCallback(async () => {
-    const targets = lightsWithCapability(lights, "onoff");
-    if (!targets.length) return;
     const next = !on;
+    const commandTargets = lightsWithCapability(lights, "onoff");
+    if (!commandTargets.length) return;
+
+    const commandIds = new Set(commandTargets.map((light) => light.id));
+
     setLights((prev) =>
-      prev.map((light) =>
-        light.capabilities?.includes("onoff")
-          ? updateCapabilityOnDevice(light, "onoff", next)
-          : light
-      )
+      prev.map((light) => {
+        if (!light.capabilities?.includes("onoff")) return light;
+        if (!commandIds.has(light.id)) return light;
+        return updateCapabilityOnDevice(light, "onoff", next);
+      })
     );
-    await run(() => setCapabilityOnDevices(targets, "onoff", next));
+
+    await run(() => setCapabilityOnDevices(commandTargets, "onoff", next));
   }, [lights, on, run]);
 
   const setDim = useCallback(
     async (value) => {
       const targets = lightsWithCapability(lights, "dim");
       if (!targets.length) return;
+      const commandIds = new Set(targets.map((light) => light.id));
       setLights((prev) =>
         prev.map((light) =>
-          light.capabilities?.includes("dim")
+          light.capabilities?.includes("dim") && commandIds.has(light.id)
             ? updateCapabilityOnDevice(light, "dim", value)
             : light
         )
@@ -95,31 +119,50 @@ export const useLiveRoomLights = (devices, room) => {
     async (hex) => {
       const homeyColor = cssHexToHomey(hex);
       if (!homeyColor) return;
-      const hueTargets = lightsWithCapability(lights, "light_hue");
-      const satTargets = lightsWithCapability(lights, "light_saturation");
-      const modeTargets = lightsWithCapability(lights, "light_mode");
+
+      const primaryLight = getPrimaryLight(lights, room);
+      const hueTargets = primaryLight?.capabilities?.includes("light_hue")
+        ? [primaryLight]
+        : lightsWithCapability(lights, "light_hue");
+      const satTargets = primaryLight?.capabilities?.includes(
+        "light_saturation"
+      )
+        ? [primaryLight]
+        : lightsWithCapability(lights, "light_saturation");
+      const modeTargets = primaryLight?.capabilities?.includes("light_mode")
+        ? [primaryLight]
+        : lightsWithCapability(lights, "light_mode");
+
+      const commandIds = new Set(
+        [...hueTargets, ...satTargets, ...modeTargets].map((light) => light.id)
+      );
 
       setLights((prev) =>
         prev.map((light) => {
-          let next = light;
+          if (!commandIds.has(light.id)) return light;
+          let nextLight = light;
           if (light.capabilities?.includes("light_hue")) {
-            next = updateCapabilityOnDevice(
-              next,
+            nextLight = updateCapabilityOnDevice(
+              nextLight,
               "light_hue",
               homeyColor.light_hue
             );
           }
           if (light.capabilities?.includes("light_saturation")) {
-            next = updateCapabilityOnDevice(
-              next,
+            nextLight = updateCapabilityOnDevice(
+              nextLight,
               "light_saturation",
               homeyColor.light_saturation
             );
           }
           if (light.capabilities?.includes("light_mode")) {
-            next = updateCapabilityOnDevice(next, "light_mode", "color");
+            nextLight = updateCapabilityOnDevice(
+              nextLight,
+              "light_mode",
+              "color"
+            );
           }
-          return next;
+          return nextLight;
         })
       );
 
@@ -137,7 +180,7 @@ export const useLiveRoomLights = (devices, room) => {
         );
       });
     },
-    [lights, run]
+    [lights, room, run]
   );
 
   return {
@@ -156,28 +199,27 @@ export const useLiveRoomLights = (devices, room) => {
 
 export const useDebouncedDim = (dim, setDim) => {
   const [localDim, setLocalDim] = useState(dim);
-  const [isDragging, setIsDragging] = useState(false);
-  const debounced = useDebounce(localDim, 350);
+  const localDimRef = useRef(dim);
+  const draggingRef = useRef(false);
 
   useEffect(() => {
-    if (!isDragging) {
-      setLocalDim(dim);
-    }
-  }, [dim, isDragging]);
-
-  useEffect(() => {
-    if (Math.abs(debounced - dim) < 0.005) return;
-    setDim(debounced);
-  }, [debounced, dim, setDim]);
+    // Follow Homey while the user is not dragging — never write back from this.
+    if (draggingRef.current) return;
+    localDimRef.current = dim;
+    setLocalDim(dim);
+  }, [dim]);
 
   return [
     localDim,
     (value) => {
-      setIsDragging(true);
+      draggingRef.current = true;
+      localDimRef.current = value;
       setLocalDim(value);
     },
     () => {
-      setIsDragging(false);
+      draggingRef.current = false;
+      // Only push to Homey when the user releases the slider.
+      setDim(localDimRef.current);
     },
   ];
 };

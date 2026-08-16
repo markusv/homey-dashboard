@@ -91,7 +91,15 @@ Response shape: `{ current, points, unit, range, … }`.
 ## Lights
 
 - Stue/Entre: mostly mood **flows**, not direct light UI
-- `/andre`: auto-discover lights by zone (`isLightDevice`, `getRoomLights`, `excludedLightDeviceIds`); group on/off, dim (debounced), color (`light_hue` / `light_saturation` / `light_mode`)
+- `/andre`: auto-discover lights by zone (`primaryLightDeviceId` for status/dim display/color; dim slider commands all dimmable lights; `excludedLightDeviceIds`; `includeChildZoneLights` for nested Homey zones)
+- `/andre` room cards: lights/blinds auto; speaker/vacuum via device ids; flows only when `flows[].showOnRoomCard: true` (all flows still in Handlinger)
+
+## Blinds / rullegardiner
+
+- Homey capability: `windowcoverings_set` (0 = ned, 1 = opp)
+- `/andre`: auto-discover by zone (`isBlindDevice`, `getRoomBlinds`, optional `excludedBlindDeviceIds`); Opp/Ned in Handlinger + room cards (`useLiveRoomBlinds`)
+- Flow icons `sun-shades` / `blinds` / `rullegardin` / `gardin` / `solskjerming` render custom `BlindIcon` (not a Shoelace name)
+- Existing Stue markise UI: `components/Devices/Markise/` (hard-coded device id)
 
 ## Temperature UI
 

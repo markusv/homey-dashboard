@@ -1,23 +1,30 @@
 import React from "react";
-import { SlButton } from "@shoelace-style/shoelace/dist/react";
+import classNames from "classnames";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { useActionLock } from "../helpers/useActionLock";
 import { getHomey } from "../../../helpers/getHomey";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
-import { IconButton } from "./IconButton";
+import { BlindIcon } from "./BlindIcon";
 
-export const FlowsSection = ({ flows = [], vacuumDeviceId, lightState }) => {
+export const FlowsSection = ({
+  flows = [],
+  vacuumDeviceId,
+  lightState,
+  blindState,
+}) => {
   const hasFlows = flows.length > 0;
   const hasVacuum = Boolean(vacuumDeviceId);
   const hasLights = Boolean(lightState?.lights?.length);
-  if (!hasFlows && !hasVacuum && !hasLights) return null;
+  const hasBlinds = Boolean(blindState?.blinds?.length);
+  if (!hasFlows && !hasVacuum && !hasLights && !hasBlinds) return null;
 
   return (
     <section className="andre-section">
       <h2 className="andre-section-title">Handlinger</h2>
       <div className="andre-flows">
         {hasLights && <LightToggleButton lightState={lightState} />}
+        {hasBlinds && <BlindButtons blindState={blindState} />}
         {flows.map((flow) => (
           <FlowButton key={flow.id} flow={flow} />
         ))}
@@ -27,39 +34,104 @@ export const FlowsSection = ({ flows = [], vacuumDeviceId, lightState }) => {
   );
 };
 
+const SceneButton = ({
+  icon,
+  iconNode,
+  label,
+  onClick,
+  pending = false,
+  active = false,
+  accent = null,
+  ariaPressed,
+}) => (
+  <button
+    type="button"
+    className={classNames("andre-scene-button", {
+      "andre-scene-button--pending": pending,
+      "andre-scene-button--active": active,
+      [`andre-scene-button--${accent}`]: Boolean(accent),
+    })}
+    aria-label={label}
+    aria-pressed={ariaPressed}
+    disabled={pending}
+    onClick={(event) => {
+      onClick?.(event);
+      event.currentTarget.blur();
+    }}
+  >
+    {iconNode ?? <sl-icon name={icon} />}
+    <span className="andre-scene-button-label">{label}</span>
+  </button>
+);
+
 const LightToggleButton = ({ lightState }) => {
-  const { on, color, pending, toggleLights } = lightState;
-  const activeStyle = on && color ? { color } : undefined;
+  const { on, pending, toggleLights } = lightState;
 
   return (
-    <IconButton
-      icon="lightbulb"
-      label={on ? "Slå av lys" : "Slå på lys"}
-      active={on}
-      pending={pending}
+    <button
+      type="button"
+      className={classNames("andre-scene-button", {
+        "andre-scene-button--on": on,
+        "andre-scene-button--off": !on,
+        "andre-scene-button--pending": pending,
+      })}
+      aria-label={on ? "Slå av lys" : "Slå på lys"}
+      aria-pressed={on}
+      disabled={pending}
       onClick={toggleLights}
-      style={activeStyle}
-      className={
-        on
-          ? "andre-icon-button--lit andre-icon-button--xl"
-          : "andre-icon-button--xl"
-      }
-    />
+    >
+      <sl-icon name="lightbulb" />
+      <span className="andre-scene-button-label">
+        {on ? "Lys på" : "Lys av"}
+      </span>
+    </button>
   );
 };
 
+const BlindButtons = ({ blindState }) => {
+  const { pending, raiseBlinds, lowerBlinds } = blindState;
+
+  return (
+    <>
+      <SceneButton
+        iconNode={<BlindIcon direction="up" className="andre-blind-icon" />}
+        label="Gardin opp"
+        pending={pending}
+        onClick={raiseBlinds}
+      />
+      <SceneButton
+        iconNode={<BlindIcon direction="down" className="andre-blind-icon" />}
+        label="Gardin ned"
+        pending={pending}
+        onClick={lowerBlinds}
+      />
+    </>
+  );
+};
+
+const BLIND_FLOW_ICONS = new Set([
+  "sun-shades",
+  "blinds",
+  "rullegardin",
+  "gardin",
+  "solskjerming",
+]);
+
 const FlowButton = ({ flow }) => {
   const [run, pending] = useActionLock();
+  const iconName = flow.icon || "stars";
+  const useBlindIcon = BLIND_FLOW_ICONS.has(iconName);
+
   return (
-    <SlButton
-      size="large"
-      className="andre-flow-button"
-      loading={pending}
+    <SceneButton
+      icon={useBlindIcon ? undefined : iconName}
+      iconNode={
+        useBlindIcon ? <BlindIcon className="andre-blind-icon" /> : undefined
+      }
+      label={flow.label || "Handling"}
+      pending={pending}
       onClick={() => run(() => triggerFlow(flow.id))}
-    >
-      <sl-icon slot="prefix" name={flow.icon || "stars"} />
-      {flow.label}
-    </SlButton>
+    />
   );
 };
 
@@ -70,11 +142,13 @@ const VacuumStartButton = ({ deviceId }) => {
   const isCleaning = device?.capabilitiesObj?.is_cleaning?.value === true;
 
   return (
-    <SlButton
-      size="large"
-      className="andre-flow-button"
-      loading={pending}
-      variant={isCleaning ? "primary" : "default"}
+    <SceneButton
+      icon="robot"
+      label={isCleaning ? "Støvsuger kjører" : "Start støvsuger"}
+      pending={pending}
+      active={isCleaning}
+      accent="vacuum"
+      ariaPressed={isCleaning}
       onClick={() =>
         run(async () => {
           if (!device?.id) return;
@@ -96,9 +170,6 @@ const VacuumStartButton = ({ deviceId }) => {
           }
         })
       }
-    >
-      <sl-icon slot="prefix" name="robot" />
-      {isCleaning ? "Støvsuger kjører" : "Start støvsuger"}
-    </SlButton>
+    />
   );
 };

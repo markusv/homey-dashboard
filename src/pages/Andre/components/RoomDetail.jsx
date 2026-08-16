@@ -1,13 +1,15 @@
 import React from "react";
 import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
+import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
 import { FlowsSection } from "./FlowsSection";
 import { TemperatureSection } from "./TemperatureSection";
 import { LightsSection } from "./LightsSection";
 import { SpeakerSection } from "./SpeakerSection";
 
-export const RoomDetail = ({ room, devices, onBack }) => {
-  const lightState = useLiveRoomLights(devices, room);
+export const RoomDetail = ({ room, devices, zones, onBack }) => {
+  const lightState = useLiveRoomLights(devices, room, zones);
+  const blindState = useLiveRoomBlinds(devices, room);
 
   return (
     <div className="andre-room-detail">
@@ -29,6 +31,7 @@ export const RoomDetail = ({ room, devices, onBack }) => {
           flows={room.flows}
           vacuumDeviceId={room.vacuumDeviceId}
           lightState={lightState}
+          blindState={blindState}
         />
 
         {room.temperatureDeviceId && (

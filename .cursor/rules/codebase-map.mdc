@@ -15,8 +15,9 @@ Only explore further when that doc is missing the area you need, then **update `
 | ---- | ---------- |
 | Routes / pages | `src/index.js` → `src/pages/{Stue,Entre,Andre}/` |
 | 2nd-floor rooms config | `src/pages/Andre/rooms.js` |
-| Homey client | `src/helpers/getHomey.js`, `useGetDevices`, `useGetDevice`, `useMakeCapabilityInstance` |
+| Homey client | `src/helpers/getHomey.js`, `useGetDevices`, `useGetZones`, `useGetDevice`, `useMakeCapabilityInstance` |
 | Flows | `src/components/Flows/helpers/triggerFlow.js` |
+| Blinds | `/andre` via zone auto-discover (`getRoomBlinds`); Stue Markise hard-coded |
 | Weather | `src/server/routes/weather.js`, `useFetchForecast`, `getForecastItemsForDay` |
 | Insights / temp API | `src/server/routes/temperature.js`, `src/server/insights.js` |
 | Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`) |

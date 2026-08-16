@@ -5,8 +5,18 @@ import { getHomey } from "../../../helpers/getHomey";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { AUDIO_PRO_PLAY_MUSIC_FLOW_ID } from "../../../components/Devices/AudioProSpeaker/constants";
 import { IconButton } from "./IconButton";
+import { BlindIcon } from "./BlindIcon";
 import { useActionLock } from "../helpers/useActionLock";
 import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
+import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
+
+const BLIND_FLOW_ICONS = new Set([
+  "sun-shades",
+  "blinds",
+  "rullegardin",
+  "gardin",
+  "solskjerming",
+]);
 
 const formatTemperature = (value) => {
   if (typeof value !== "number") return "–";
@@ -97,15 +107,8 @@ const SpeakerAction = ({ deviceId }) => {
 };
 
 const LightAction = ({ lightState }) => {
-  const { lights, on, color, pending, toggleLights } = lightState;
+  const { lights, on, pending, toggleLights } = lightState;
   if (!lights.length) return null;
-
-  const activeStyle =
-    on && color
-      ? {
-          color,
-        }
-      : undefined;
 
   return (
     <IconButton
@@ -114,14 +117,56 @@ const LightAction = ({ lightState }) => {
       active={on}
       pending={pending}
       onClick={toggleLights}
-      style={activeStyle}
       className={on ? "andre-icon-button--lit" : undefined}
     />
   );
 };
 
-export const RoomCard = ({ room, devices, onOpen }) => {
-  const lightState = useLiveRoomLights(devices, room);
+const BlindActions = ({ blindState }) => {
+  const { blinds, pending, raiseBlinds, lowerBlinds } = blindState;
+  if (!blinds.length) return null;
+
+  return (
+    <>
+      <IconButton
+        label="Rullegardin opp"
+        pending={pending}
+        onClick={raiseBlinds}
+      >
+        <BlindIcon direction="up" className="andre-blind-icon" />
+      </IconButton>
+      <IconButton
+        label="Rullegardin ned"
+        pending={pending}
+        onClick={lowerBlinds}
+      >
+        <BlindIcon direction="down" className="andre-blind-icon" />
+      </IconButton>
+    </>
+  );
+};
+
+const FlowAction = ({ flow }) => {
+  const [run, pending] = useActionLock();
+  const iconName = flow.icon || "stars";
+  const useBlindIcon = BLIND_FLOW_ICONS.has(iconName);
+
+  return (
+    <IconButton
+      icon={useBlindIcon ? undefined : iconName}
+      label={flow.label || "Handling"}
+      pending={pending}
+      onClick={() => run(() => triggerFlow(flow.id))}
+    >
+      {useBlindIcon ? <BlindIcon className="andre-blind-icon" /> : undefined}
+    </IconButton>
+  );
+};
+
+export const RoomCard = ({ room, devices, zones, onOpen }) => {
+  const lightState = useLiveRoomLights(devices, room, zones);
+  const blindState = useLiveRoomBlinds(devices, room);
+  const cardFlows = (room.flows || []).filter((flow) => flow.showOnRoomCard);
 
   return (
     <article
@@ -146,6 +191,10 @@ export const RoomCard = ({ room, devices, onOpen }) => {
       )}
       <div className="andre-room-card-actions">
         <LightAction lightState={lightState} />
+        <BlindActions blindState={blindState} />
+        {cardFlows.map((flow) => (
+          <FlowAction key={flow.id} flow={flow} />
+        ))}
         {room.speakerDeviceId && (
           <SpeakerAction deviceId={room.speakerDeviceId} />
         )}
