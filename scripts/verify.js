@@ -6,6 +6,7 @@ const endpoints = [
   { path: "/", name: "Stue dashboard" },
   { path: "/entre", name: "Entre dashboard" },
   { path: "/api/read/temperature/loft", name: "Temperature API (loft)" },
+  { path: "/api/read/weather", name: "Weather API" },
 ];
 
 const verify = async () => {

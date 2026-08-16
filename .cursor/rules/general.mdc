@@ -8,8 +8,8 @@ Requires Node.js LTS via nvm (`.nvmrc` = `lts/*`, `package.json` engines `^24.19
 
 ## Tooling
 
-- Build/dev: Vite (`npm start` / `npm run build`)
+- Build/dev: Vite + API (`npm start` / `npm run dev`; Vite on 3000, API on 3080, `/api` proxied)
 - Production server: `npm run start:production` (Express on `PORT`, default 80)
-- API during Vite dev: `npm run start:api` (port 3080; Vite proxies `/api`)
+- API only: `npm run start:api` (port 3080)
 - Lint/format/test: `npm run lint`, `npm run format`, `npm run test`
-- Health check: `npm run verify` (expects HTTP 200 on `/`, `/entre`, `/api/read/temperature/loft`)
+- Health check: `npm run verify` (expects HTTP 200 on `/`, `/entre`, `/api/read/temperature/loft`, `/api/read/weather`)

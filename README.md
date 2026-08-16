@@ -8,14 +8,14 @@ Requires **Node.js LTS** via nvm (`.nvmrc` → `lts/*`, currently **^24.19.0** i
 
 | Script                      | Purpose                                                                          |
 | --------------------------- | -------------------------------------------------------------------------------- |
-| `npm start` / `npm run dev` | Vite dev server (port 3000)                                                      |
-| `npm run start:api`         | Express API only (port 3080; used by Vite `/api` proxy)                          |
+| `npm start` / `npm run dev` | Vite (port 3000) + Express API (port 3080; `/api` proxied)                       |
+| `npm run start:api`         | Express API only (port 3080)                                                     |
 | `npm run build`             | Production build → `build/`                                                      |
 | `npm run start:production`  | Express static + API (`PORT`, default 80; use `sudo` on the Pi if binding to 80) |
 | `npm test`                  | Vitest                                                                           |
 | `npm run lint`              | ESLint                                                                           |
 | `npm run format`            | Prettier                                                                         |
-| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, and temperature API                           |
+| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, temperature API, and weather API              |
 
 ## Environment
 

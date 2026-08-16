@@ -19,8 +19,8 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "dev": "vite",
-    "start": "vite --port 3000",
+    "dev": "node scripts/dev.js",
+    "start": "node scripts/dev.js --port 3000",
     "start:api": "PORT=3080 node src/server/server.js",
     "start:production": "node src/server/server.js",
     "start:production-ng": "serve -s build -l 80",

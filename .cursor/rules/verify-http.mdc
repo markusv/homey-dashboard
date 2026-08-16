@@ -16,5 +16,6 @@ The verify script must get **200 OK** for:
 - `/` (Stue dashboard)
 - `/entre` (Entre dashboard)
 - `/api/read/temperature/loft` (temperature API)
+- `/api/read/weather` (weather API)
 
 Do not consider the task done if any of these fail. Stop the temporary server when finished.
