@@ -9,6 +9,7 @@
  *   Homey flows already mirror from another device)
  * - includeChildZoneLights — also discover lights in Homey child zones
  * - flows[].showOnRoomCard — also show this handling as an icon on the room overview card
+ * - speakerFlows — flow buttons shown under the speaker player in room detail
  *
  * Room card actions (overview):
  * - Lights / blinds: auto when Homey finds devices in the zone
@@ -45,13 +46,35 @@ export const rooms = [
       "1f130830-581d-43e4-ba67-5b1a4d2ec2bc",
       "8d468312-7022-4ee1-8359-6d175d6c6543",
     ],
-    speakerDeviceId: "06d71bbf-5c0b-4aa6-a96a-cce4301fe916",
+    speakerDeviceId: "8fd650ed-38d4-469f-b084-cdab2aac75e1", // Spotify Connect (AudioPro)
+    speakerFlows: [
+      {
+        id: "47faf8f7-7b06-4344-95aa-614d7dddc4e3",
+        label: "Spill lydbok",
+        icon: "book",
+      },
+      {
+        id: "78f78afa-508d-42fc-bff6-3e941917ed17",
+        label: "Spill musikk",
+        icon: "music-note-beamed",
+      },
+    ],
     flows: [
       {
         id: "4c0a1930-cdf3-489e-87d7-d14f3b62d419",
         label: "Sovemodus",
         icon: "moon",
         showOnRoomCard: true,
+      },
+      {
+        id: "47faf8f7-7b06-4344-95aa-614d7dddc4e3",
+        label: "Spill lydbok",
+        icon: "book",
+      },
+      {
+        id: "78f78afa-508d-42fc-bff6-3e941917ed17",
+        label: "Spill musikk",
+        icon: "music-note-beamed",
       },
     ],
   },
@@ -65,7 +88,7 @@ export const rooms = [
       {
         id: "165e4efa-39db-45aa-b69f-8f0c7b3009a1",
         label: "Solskjerming",
-        icon: "sun-shades"
+        icon: "sun-shades",
       },
     ],
   },

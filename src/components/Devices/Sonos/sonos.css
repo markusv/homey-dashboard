@@ -1,25 +1,32 @@
 .sonos-playing-container {
   height: 100%;
   display: flex;
-  align-items: strech;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
 .sonos-playing-image-container {
   flex-shrink: 0;
-  width: 197px;
+  width: 220px;
+  height: 220px;
 }
 
 .sonos-image {
-  max-height: 100%;
-  width: 197px;
+  display: block;
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
   opacity: 1;
   transition: opacity 0.25s ease-in-out;
 }
 
 .sonos-playing-content {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  flex: 1;
+  margin: 0;
+  width: 100%;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,44 +66,87 @@
 .sonos-buttons {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+}
+
+.sonos-pause,
+.sonos-play,
+.sonos-next,
+.sonos-prev {
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease,
+    box-shadow 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .sonos-pause,
 .sonos-play {
-  background: url("https://my.homey.app/assets/speaker_pause-6c319831.svg");
   width: 56px;
   height: 56px;
-  border: 1px solid white;
-  border-radius: 50px;
+  border-radius: 50%;
+  background-size: contain;
+}
+
+.sonos-pause {
+  background-image: url(./assets/pause.svg);
 }
 
 .sonos-play {
-  background: url(./assets/play.svg);
+  background-image: url(./assets/play.svg);
+}
+
+/* Play/pause already has a ring in the SVG — fill + scale on press (Spotify-style). */
+.sonos-pause:active,
+.sonos-play:active {
+  transform: scale(0.92);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .sonos-next,
 .sonos-prev,
 .sonos-favorite-button,
 .sonos-shuffle {
-  width: 24px;
-  height: 56px;
-  border: none;
-  background: url(./assets/next.svg) no-repeat center;
-  padding: 1px 6px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 0;
+  background-size: 22px 22px;
+}
+
+.sonos-next {
+  background-image: url(./assets/next.svg);
 }
 
 .sonos-prev {
-  background: url(./assets/prev.svg) no-repeat center;
+  background-image: url(./assets/prev.svg);
+}
+
+/* Prev/next: ring on press so they match the play button language. */
+.sonos-next:active,
+.sonos-prev:active {
+  transform: scale(0.92);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .sonos-shuffle {
-  background: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
+  background-image: none;
+  background-size: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.sonos-shuffle:active {
+  transform: scale(0.92);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .sonos-shuffle-icon {
@@ -105,11 +155,18 @@
 }
 
 .sonos-shuffle-on {
-  background: white;
+  background-color: white;
 }
 
 .sonos-favorite-button {
-  background: url(./assets/favorite.svg) no-repeat center center;
+  background-image: url(./assets/favorite.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.sonos-favorite-button:active {
+  transform: scale(0.92);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .sonos-playing-volume {
@@ -171,4 +228,46 @@
 
 .sonos-favorites-image {
   width: 100px;
+}
+
+.sonos-embedded {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  min-height: 280px;
+}
+
+.sonos-embedded-background {
+  position: absolute;
+  inset: -48px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  filter: blur(48px);
+  opacity: 0.9;
+  transform: scale(1.15);
+  pointer-events: none;
+}
+
+.sonos-embedded-content {
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+}
+
+.sonos-embedded-title {
+  margin: 0 0 12px;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.sonos-embedded .sonos-track-name,
+.sonos-embedded .sonos-artist-name {
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.sonos-embedded .sonos-artist-name {
+  color: rgba(255, 255, 255, 0.85);
 }

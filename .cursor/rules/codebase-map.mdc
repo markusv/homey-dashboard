@@ -20,7 +20,7 @@ Only explore further when that doc is missing the area you need, then **update `
 | Blinds | `/andre` via zone auto-discover (`getRoomBlinds`); Stue Markise hard-coded |
 | Weather | `src/server/routes/weather.js`, `useFetchForecast`, `getForecastItemsForDay` |
 | Insights / temp API | `src/server/routes/temperature.js`, `src/server/insights.js` |
-| Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`) |
-| AudioPro | `src/components/Devices/AudioProSpeaker/` |
+| Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`; also Spotify Connect) |
+| AudioPro | `src/components/Devices/AudioProSpeaker/` (flow fallback) |
 | Roborock | `src/components/Devices/Roborock/`, `/andre` vacuum via `clean_full` |
 | Verify | `scripts/verify.js` — `/`, `/entre`, `/andre`, temp loft, weather |

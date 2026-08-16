@@ -77,10 +77,11 @@ Response shape: `{ current, points, unit, range, … }`.
 
 ## Speakers
 
-| Implementation   | Path                                       | Notes                                                                                                                             |
-| ---------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Sonos** (Stue) | `src/components/Devices/Sonos/*`           | Capabilities: play/pause, volume (`useVolume` debounce 750ms), favorites, album art. `SonosFocus` accepts `deviceId` + `embedded` |
-| **AudioPro**     | `src/components/Devices/AudioProSpeaker/*` | Flow-driven (no capabilities). Used on Fabian’s room on `/andre`                                                                  |
+| Implementation      | Path                                       | Notes                                                                                                                             |
+| ------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Sonos** (Stue)    | `src/components/Devices/Sonos/*`           | Capabilities: play/pause, volume (`useVolume` debounce 750ms), favorites, album art. `SonosFocus` accepts `deviceId` + `embedded` |
+| **Spotify Connect** | same `SonosFocus` UI                       | `/andre` Fabian via `speakerDeviceId` → Homey app `nl.pendo.spotify` (speaker caps; no Sonos favorites)                           |
+| **AudioPro**        | `src/components/Devices/AudioProSpeaker/*` | Flow-driven fallback when device lacks `speaker_playing`                                                                          |
 
 ## Vacuum / Roborock
 
@@ -93,6 +94,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - Stue/Entre: mostly mood **flows**, not direct light UI
 - `/andre`: auto-discover lights by zone (`primaryLightDeviceId` for status/dim display/color; dim slider commands all dimmable lights; `excludedLightDeviceIds`; `includeChildZoneLights` for nested Homey zones)
 - `/andre` room cards: lights/blinds auto; speaker/vacuum via device ids; flows only when `flows[].showOnRoomCard: true` (all flows still in Handlinger)
+- `/andre` speaker detail: optional `speakerFlows` under the player (e.g. Spill lydbok / Spill musikk)
 
 ## Blinds / rullegardiner
 

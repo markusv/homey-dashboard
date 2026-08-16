@@ -11,18 +11,34 @@ import { SonosFavorites } from "./SonosFavorites";
 import DefaultAlbumArt from "./assets/default_album_art.png";
 import { ShuffleIcon } from "./assets/ShuffleIcon";
 
+const isSonosDevice = (device, deviceId) =>
+  deviceId === SONOS_KITCHEN_ID ||
+  Boolean(
+    String(device?.driverId || "")
+      .toLowerCase()
+      .includes("sonos")
+  );
+
 export const SonosFocus = ({
   close,
   deviceId = SONOS_KITCHEN_ID,
   title = "Sonos",
+  sectionTitle,
   embedded = false,
 }) => {
   const [sonosDevice, setSonosDevice] = useGetDevice(deviceId);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [coverFailed, setCoverFailed] = useState(false);
   const artist = sonosDevice?.capabilitiesObj?.["speaker_artist"]?.value;
   const track = sonosDevice?.capabilitiesObj?.["speaker_track"]?.value ?? "";
+  const trackName = typeof track === "string" ? track.trim() : "";
   const isPlaying = sonosDevice?.capabilitiesObj?.["speaker_playing"]?.value;
   const isShuffle = sonosDevice?.capabilitiesObj?.["speaker_shuffle"]?.value;
+  const caps = sonosDevice?.capabilities || [];
+  const supportsShuffle = caps.includes("speaker_shuffle");
+  const supportsPrev = caps.includes("speaker_prev");
+  const supportsNext = caps.includes("speaker_next");
+  const supportsFavorites = isSonosDevice(sonosDevice, deviceId);
   const imageRef = useRef();
   const containerRef = useRef();
   const imageUrl = useUpdateImageUrls(
@@ -40,9 +56,28 @@ export const SonosFocus = ({
     setVolume(getVolumeFromDevice(sonosDevice));
   }, [actualId]);
 
+  // Album art lives on device.images; refresh when the track changes (Spotify Connect).
+  useEffect(() => {
+    if (!deviceId || track === undefined) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const homeyApi = await getHomey();
+        const fresh = await homeyApi.devices.getDevice({ id: deviceId });
+        if (cancelled || !fresh) return;
+        // Keep a real Homey Device instance (capability listeners need it).
+        setSonosDevice(fresh);
+      } catch {
+        // Ignore transient Homey/API errors while artwork refreshes.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [deviceId, track, setSonosDevice]);
+
   useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_album");
   useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_artist");
-  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_playing");
   useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_playing");
   useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_track");
   useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_shuffle");
@@ -104,6 +139,16 @@ export const SonosFocus = ({
     setShowFavorites(!showFavorites);
   };
 
+  const hasNowPlaying = Boolean(trackName) || isPlaying === true;
+  const coverUrl =
+    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : DefaultAlbumArt;
+  const backgroundUrl =
+    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : undefined;
+
+  useEffect(() => {
+    setCoverFailed(false);
+  }, [imageUrl, trackName, isPlaying]);
+
   if (showFavorites) {
     return (
       <SonosFavorites
@@ -120,28 +165,40 @@ export const SonosFocus = ({
     <div className="sonos-playing-container">
       <div className="sonos-playing-image-container">
         <img
-          src={imageUrl ?? DefaultAlbumArt}
+          src={coverUrl}
           className="sonos-image"
+          alt=""
           ref={imageRef}
+          onError={() => {
+            if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
+          }}
         />
       </div>
       <div className="sonos-playing-content">
         <div className="sonos-playing-info">
-          <div className="sonos-track-name">{track}</div>
+          <div className="sonos-track-name">{trackName}</div>
           <div className="sonos-artist-name">{artist}</div>
         </div>
         <div className="sonos-buttons">
-          <button
-            type="button"
-            className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
-            onClick={onShuffleClick}
-          >
-            <ShuffleIcon
-              className="sonos-shuffle-icon"
-              fill={isShuffle ? "black" : "white"}
+          {supportsShuffle && (
+            <button
+              type="button"
+              className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
+              onClick={onShuffleClick}
+            >
+              <ShuffleIcon
+                className="sonos-shuffle-icon"
+                fill={isShuffle ? "black" : "white"}
+              />
+            </button>
+          )}
+          {supportsPrev && (
+            <button
+              type="button"
+              className="sonos-prev"
+              onClick={onPrevClick}
             />
-          </button>
-          <button type="button" className="sonos-prev" onClick={onPrevClick} />
+          )}
           {isPlaying && (
             <button
               type="button"
@@ -156,11 +213,20 @@ export const SonosFocus = ({
               onClick={onPlayClick}
             />
           )}
-          <button type="button" className="sonos-next" onClick={onNextClick} />
-          <button
-            className="sonos-favorite-button"
-            onClick={onShowFavoriteToggle}
-          />
+          {supportsNext && (
+            <button
+              type="button"
+              className="sonos-next"
+              onClick={onNextClick}
+            />
+          )}
+          {supportsFavorites && (
+            <button
+              type="button"
+              className="sonos-favorite-button"
+              onClick={onShowFavoriteToggle}
+            />
+          )}
         </div>
         <div className="sonos-playing-volume">
           <span className="sonos-volume-down" />
@@ -170,7 +236,7 @@ export const SonosFocus = ({
             id="volume"
             name="volume"
             min="0"
-            max="50"
+            max="100"
             value={volume}
             onChange={onSliderChange}
           />
@@ -182,8 +248,25 @@ export const SonosFocus = ({
 
   if (embedded) {
     return (
-      <div className="sonos-embedded" ref={containerRef}>
-        {content}
+      <div className="sonos-embedded">
+        <div
+          className="sonos-embedded-background"
+          ref={containerRef}
+          style={
+            backgroundUrl
+              ? { backgroundImage: `url(${backgroundUrl})` }
+              : undefined
+          }
+          aria-hidden
+        />
+        <div className="sonos-embedded-content">
+          {sectionTitle ? (
+            <h2 className="andre-section-title sonos-embedded-title">
+              {sectionTitle}
+            </h2>
+          ) : null}
+          {content}
+        </div>
       </div>
     );
   }
@@ -192,7 +275,7 @@ export const SonosFocus = ({
     <FocusedElement
       title={title}
       onCloseClick={close}
-      backgroundImageUrl={imageUrl}
+      backgroundImageUrl={backgroundUrl}
       ref={containerRef}
     >
       {content}

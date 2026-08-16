@@ -23,13 +23,21 @@ export const Andre = () => {
 
   const selectedRoom = rooms.find((room) => room.id === selectedRoomId);
 
+  const openRoom = (nextRoom) => {
+    // Avoid aria-hidden warning: room card must not keep focus under a hidden ancestor.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    setSelectedRoomId(nextRoom.id);
+  };
+
   return (
     <div className="sl-theme-dark andre-shell">
       {/* Keep overview mounted so temperatures/lights stay warm when returning */}
       <div
         className="andre-page"
         hidden={Boolean(selectedRoom)}
-        aria-hidden={Boolean(selectedRoom)}
+        inert={selectedRoom ? true : undefined}
       >
         <Clock />
         <WeatherStrip />
@@ -40,14 +48,14 @@ export const Andre = () => {
               room={room}
               devices={devices}
               zones={zones}
-              onOpen={(nextRoom) => setSelectedRoomId(nextRoom.id)}
+              onOpen={openRoom}
             />
           ))}
         </section>
       </div>
 
       {selectedRoom && (
-        <div className="andre-page">
+        <div className="andre-page andre-page--detail">
           <RoomDetail
             room={selectedRoom}
             devices={devices}

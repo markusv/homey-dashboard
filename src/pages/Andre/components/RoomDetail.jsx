@@ -41,7 +41,10 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
         <LightsSection lightState={lightState} />
 
         {room.speakerDeviceId && (
-          <SpeakerSection deviceId={room.speakerDeviceId} />
+          <SpeakerSection
+            deviceId={room.speakerDeviceId}
+            flows={room.speakerFlows}
+          />
         )}
       </div>
     </div>
