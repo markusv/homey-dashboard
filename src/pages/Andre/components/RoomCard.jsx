@@ -10,6 +10,9 @@ import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
 import { useActionLock } from "../helpers/useActionLock";
 import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
 import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
+import { useLiveAirQuality } from "../helpers/useLiveAirQuality";
+import { AirQualitySummary } from "./AirQualitySummary";
+import { AIR_QUALITY_STATUS_LABELS } from "../helpers/airQualityMetrics";
 
 const BLIND_FLOW_ICONS = new Set([
   "sun-shades",
@@ -168,6 +171,10 @@ const FlowAction = ({ flow }) => {
 export const RoomCard = ({ room, devices, zones, onOpen }) => {
   const lightState = useLiveRoomLights(devices, room, zones);
   const blindState = useLiveRoomBlinds(devices, room);
+  const { hasAirQuality, cardReadings, overallStatus } = useLiveAirQuality(
+    devices,
+    room
+  );
   const cardFlows = (room.flows || []).filter((flow) => flow.showOnRoomCard);
 
   return (
@@ -176,6 +183,11 @@ export const RoomCard = ({ room, devices, zones, onOpen }) => {
       onClick={() => onOpen(room)}
       role="button"
       tabIndex={0}
+      aria-label={
+        hasAirQuality && overallStatus
+          ? `${room.name}, luftkvalitet ${AIR_QUALITY_STATUS_LABELS[overallStatus].toLowerCase()}`
+          : room.name
+      }
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -191,6 +203,7 @@ export const RoomCard = ({ room, devices, zones, onOpen }) => {
           –
         </div>
       )}
+      {hasAirQuality && <AirQualitySummary readings={cardReadings} />}
       <div className="andre-room-card-actions">
         <LightAction lightState={lightState} />
         <BlindActions blindState={blindState} />

@@ -63,6 +63,7 @@ Zones: used on `/andre` via `room.homeyZoneId` + device `zone`. Stue/Entre use h
 
 - `GET /api/read/temperature/:room` — mapped rooms in `src/server/rooms.js` (e.g. `loft`)
 - `GET /api/read/temperature/device/:deviceId?range=day|week|month` — Insights by device (`last24Hours` / `last7Days` / `last31Days`)
+- `GET /api/read/insights/device/:deviceId?capability=measure_co2&range=day|week|month` — generic Insights by capability
 
 Response shape: `{ current, points, unit, range, … }`.
 
@@ -109,6 +110,8 @@ Response shape: `{ current, points, unit, range, … }`.
 - Stue focus: heat pump indoor/outdoor (`FocusTemperature`)
 - Entre: outdoor from 2nd-floor heat pump id in `src/constants.js`
 - `/andre`: live `measure_temperature` + Insights chart in room detail
+- `/andre` air quality: Airthings Wave thresholds; auto device pick; AirGlimpse-style overall score (God/Middels/Dårlig); compact chips on room card, tile grid in detail
+- Insights: `GET /api/read/insights/device/:deviceId?capability=…&range=day|week|month`; room detail combines temp + CO₂ in one dual-axis chart
 
 ## UI patterns
 

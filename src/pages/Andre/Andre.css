@@ -346,8 +346,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 10px 12px;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 16px 12px 16px;
   background: var(--andre-glass-bg);
   border: 1px solid var(--andre-glass-border);
   border-radius: 18px;
@@ -379,19 +380,199 @@
   line-height: 1;
   text-align: center;
   letter-spacing: -0.02em;
-  margin: 6px 0;
+  margin: 0;
 }
 
 .andre-room-card-temp--empty {
   color: var(--andre-text-muted);
 }
 
+/* Air quality — compact on room cards */
+.andre-air-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.andre-air-section-header .andre-section-title {
+  margin-bottom: 0;
+}
+
+.andre-air-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.andre-air-score--compact {
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+
+.andre-air-score-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.andre-air-score--good .andre-air-score-dot {
+  background: #6ee7b7;
+  box-shadow: 0 0 10px rgba(110, 231, 183, 0.65);
+}
+
+.andre-air-score--moderate .andre-air-score-dot {
+  background: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.65);
+}
+
+.andre-air-score--poor .andre-air-score-dot {
+  background: #f87171;
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.65);
+}
+
+.andre-air-score--good .andre-air-score-label {
+  color: #6ee7b7;
+}
+
+.andre-air-score--moderate .andre-air-score-label {
+  color: #fbbf24;
+}
+
+.andre-air-score--poor .andre-air-score-label {
+  color: #f87171;
+}
+
+.andre-air-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+  width: 100%;
+  margin: 0;
+}
+
+.andre-air-summary-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.andre-air-summary-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.82;
+}
+
+.andre-air-summary-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.andre-air-summary-unit {
+  margin-left: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.andre-air-summary-item--good .andre-air-summary-value {
+  color: #6ee7b7;
+}
+
+.andre-air-summary-item--moderate .andre-air-summary-value {
+  color: #fbbf24;
+}
+
+.andre-air-summary-item--poor .andre-air-summary-value {
+  color: #f87171;
+}
+
+/* Air quality — detail tiles */
+.andre-air-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.andre-air-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left-width: 4px;
+}
+
+.andre-air-tile-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.andre-air-tile-value {
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-air-tile-unit {
+  margin-left: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.andre-air-tile--good {
+  border-left-color: #34d399;
+}
+
+.andre-air-tile--good .andre-air-tile-value {
+  color: #6ee7b7;
+}
+
+.andre-air-tile--moderate {
+  border-left-color: #fbbf24;
+}
+
+.andre-air-tile--moderate .andre-air-tile-value {
+  color: #fbbf24;
+}
+
+.andre-air-tile--poor {
+  border-left-color: #f87171;
+}
+
+.andre-air-tile--poor .andre-air-tile-value {
+  color: #f87171;
+}
+
 .andre-room-card-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
+  margin-top: 2px;
 }
 
 /* Icon buttons — flat on room cards (no frame) */
@@ -686,6 +867,103 @@ sl-button.andre-back-button::part(base) {
   margin-bottom: 10px;
 }
 
+.andre-temp-current-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px 32px;
+  margin-bottom: 10px;
+}
+
+.andre-temp-current-row .andre-temp-current {
+  margin-bottom: 0;
+  font-size: 2rem;
+}
+
+.andre-temp-current--co2.andre-temp-current--good {
+  color: #6ee7b7;
+}
+
+.andre-temp-current--co2.andre-temp-current--moderate {
+  color: #fbbf24;
+}
+
+.andre-temp-current--co2.andre-temp-current--poor {
+  color: #f87171;
+}
+
+.andre-temp-current-unit {
+  margin-left: 6px;
+  font-size: 0.42em;
+  font-weight: 500;
+  opacity: 0.82;
+  letter-spacing: 0.01em;
+}
+
+.andre-temp-legend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.andre-temp-legend-item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-temp-legend-item::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.andre-temp-legend-item--temp::before {
+  background: var(--sl-color-primary-600);
+}
+
+.andre-temp-legend-item--co2::before {
+  background: #6ee7b7;
+}
+
+.andre-temp-legend-item--off {
+  opacity: 0.45;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.andre-temp-legend-item--off::before {
+  opacity: 0.35;
+}
+
+.andre-temp-legend-item:active {
+  transform: scale(0.98);
+}
+
+.andre-temp-legend-item:focus {
+  outline: none;
+}
+
+.andre-temp-legend-item:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.55);
+  outline-offset: 2px;
+}
+
 .andre-temp-chart-wrap {
   position: relative;
   min-height: 200px;
@@ -723,6 +1001,22 @@ sl-button.andre-back-button::part(base) {
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-line--co2-segment {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-label--right {
+  fill: rgba(255, 255, 255, 0.72);
+}
+
+.andre-temp-chart-axis--right {
+  stroke: rgba(110, 231, 183, 0.45);
 }
 
 .andre-temp-chart-axis {

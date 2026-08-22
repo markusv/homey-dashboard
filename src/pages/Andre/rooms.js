@@ -2,7 +2,9 @@
  * Data-driven room config for the 2nd-floor hallway dashboard.
  * Homey is source of truth for lights and blinds (via homeyZoneId) and capabilities.
  *
- * Optional:
+ * - temperatureDeviceId — live temp on card + Insights chart in detail
+ * - airQualityDeviceId — optional override; otherwise temp sensor first, then first
+ *   air-quality device in homeyZoneId (by name)
  * - primaryLightDeviceId — on/off status, dim level display, and color UI (+ color commands).
  *   Dim slider still commands every discovered light with `dim`.
  * - excludedLightDeviceIds — never discovered (e.g. Zigbee dimmer behind Hue, or lights
@@ -107,11 +109,6 @@ export const rooms = [
       "3e1ad162-c567-4a1b-a4b1-8b00654a06f3", // Servantskap — Homey-flow speiler fra Taklys hovedbad
     ],
     flows: [
-      {
-        id: "4d989f8b-8983-48dd-be72-4aba6d59b3d9",
-        label: "God morgen",
-        icon: "sun",
-      },
       {
         id: "7f8fc5da-5229-489b-99db-9825aba998bc",
         label: "Litt lys",
