@@ -13,6 +13,7 @@
  * - flows[].showOnRoomCard — also show this handling as an icon on the room overview card
  * - speakerFlows — flow buttons shown under the speaker player in room detail
  * - fanDeviceId — toggle fan (onoff) in Handlinger, with spinning icon when on
+ * - heatPumpDeviceId — Daikin/AC controls in room detail (on/off, mode, setpoint, fan, powerful)
  *
  * Room card actions (overview):
  * - Lights / blinds: auto when Homey finds devices in the zone
@@ -145,6 +146,7 @@ export const rooms = [
     name: "Gang",
     homeyZoneId: "c36ba209-ab6b-4b2f-b9f3-a0dceb73ac89",
     temperatureDeviceId: "8de700de-8393-466f-8df5-a0926eb7800b",
+    heatPumpDeviceId: "8de700de-8393-466f-8df5-a0926eb7800b", // Gang 2-3 etasje Varmepumpe (Daikin)
     primaryLightDeviceId: "dea615e5-4a22-48a4-b454-c2083a89f788", // 2etg Trappegang Taklys (group)
   },
 ];

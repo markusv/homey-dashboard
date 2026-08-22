@@ -6,6 +6,7 @@ import { useLiveAirQuality } from "../helpers/useLiveAirQuality";
 import { FlowsSection } from "./FlowsSection";
 import { TemperatureSection } from "./TemperatureSection";
 import { AirQualitySection } from "./AirQualitySection";
+import { HeatPumpSection } from "./HeatPumpSection";
 import { LightsSection } from "./LightsSection";
 import { SpeakerSection } from "./SpeakerSection";
 
@@ -41,6 +42,10 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
           lightState={lightState}
           blindState={blindState}
         />
+
+        {room.heatPumpDeviceId && (
+          <HeatPumpSection deviceId={room.heatPumpDeviceId} />
+        )}
 
         {room.temperatureDeviceId && (
           <TemperatureSection

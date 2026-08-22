@@ -96,6 +96,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - `/andre`: auto-discover lights by zone (`primaryLightDeviceId` for status/dim display/color; dim slider commands all dimmable lights; `excludedLightDeviceIds`; `includeChildZoneLights` for nested Homey zones)
 - `/andre` room cards: lights/blinds auto; speaker/vacuum/fan via device ids; flows only when `flows[].showOnRoomCard: true` (all flows still in Handlinger)
 - `/andre` Handlinger: light toggle, optional `fanDeviceId` toggle (spinning icon when on), blinds, flows, vacuum
+- `/andre` heat pump: optional `heatPumpDeviceId` in room detail — on/off, heating/cooling, setpoint slider, fan speed, powerful (Daikin OneCTA)
 - `/andre` overview: `overviewActions` under room grid (e.g. Kveldskos, Støvsug)
 - `/andre` speaker detail: optional `speakerFlows` under the player (e.g. Spill lydbok / Spill musikk)
 
