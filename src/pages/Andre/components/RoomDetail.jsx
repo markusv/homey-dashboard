@@ -14,7 +14,7 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
   const blindState = useLiveRoomBlinds(devices, room);
   const {
     deviceId: airQualityDeviceId,
-    detailReadings,
+    readings,
     overallStatus,
   } = useLiveAirQuality(devices, room);
 
@@ -48,10 +48,7 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
           />
         )}
 
-        <AirQualitySection
-          readings={detailReadings}
-          overallStatus={overallStatus}
-        />
+        <AirQualitySection readings={readings} overallStatus={overallStatus} />
 
         <LightsSection lightState={lightState} />
 

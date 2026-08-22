@@ -5,7 +5,6 @@ import { subscribeDeviceCapability } from "./subscribeDeviceCapability";
 import { getRoomAirQualityDeviceId } from "./getRoomAirQualityDevice";
 import {
   getAirthingsOverallStatus,
-  getCardMetrics,
   getDetailMetrics,
   getMetricReading,
   getMetricsForDevice,
@@ -56,15 +55,7 @@ export const useLiveAirQuality = (devices, room) => {
     };
   }, [device?.id, metricsKey, setDevice]);
 
-  const cardReadings = useMemo(
-    () =>
-      getCardMetrics(device)
-        .map((metric) => getMetricReading(metric, device, liveValues))
-        .filter(Boolean),
-    [device, liveValues]
-  );
-
-  const detailReadings = useMemo(
+  const readings = useMemo(
     () =>
       getDetailMetrics(device)
         .map((metric) => getMetricReading(metric, device, liveValues))
@@ -73,15 +64,14 @@ export const useLiveAirQuality = (devices, room) => {
   );
 
   const overallStatus = useMemo(
-    () => getAirthingsOverallStatus(detailReadings),
-    [detailReadings]
+    () => getAirthingsOverallStatus(readings),
+    [readings]
   );
 
   return {
     deviceId,
     hasAirQuality: metrics.length > 0,
-    cardReadings,
-    detailReadings,
+    readings,
     overallStatus,
   };
 };

@@ -110,7 +110,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - Stue focus: heat pump indoor/outdoor (`FocusTemperature`)
 - Entre: outdoor from 2nd-floor heat pump id in `src/constants.js`
 - `/andre`: live `measure_temperature` + Insights chart in room detail
-- `/andre` air quality: Airthings Wave thresholds; auto device pick; AirGlimpse-style overall score (God/Middels/Dårlig); compact chips on room card, tile grid in detail
+- `/andre` air quality: Airthings Wave thresholds; same sensor + metrics on room card and detail; AirGlimpse-style overall score in detail
 - Insights: `GET /api/read/insights/device/:deviceId?capability=…&range=day|week|month`; room detail combines temp + CO₂ in one dual-axis chart
 
 ## UI patterns

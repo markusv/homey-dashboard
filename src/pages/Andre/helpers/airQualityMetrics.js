@@ -36,7 +36,6 @@ export const AIR_QUALITY_METRICS = [
     label: "CO₂",
     format: (value) => Math.round(value),
     unit: "ppm",
-    cardPriority: 1,
     detailPriority: 1,
     /** Airthings: <800 good, 800–1000 fair, >1000 poor */
     status: (value) => {
@@ -51,7 +50,6 @@ export const AIR_QUALITY_METRICS = [
     label: "PM2.5",
     format: (value) => Math.round(value),
     unit: "µg/m³",
-    cardPriority: 2,
     detailPriority: 2,
     /** Airthings: <10 good, 10–<25 fair, ≥25 poor */
     status: (value) => {
@@ -65,7 +63,6 @@ export const AIR_QUALITY_METRICS = [
     label: "VOC",
     format: (value) => Math.round(value),
     unit: "ppb",
-    cardPriority: 3,
     detailPriority: 3,
     /** Airthings: <250 good, 250–2000 fair, >2000 poor */
     status: (value) => {
@@ -79,7 +76,6 @@ export const AIR_QUALITY_METRICS = [
     label: "Luftfuktighet",
     format: (value) => Math.round(value),
     unit: "%",
-    cardPriority: 99,
     detailPriority: 4,
     /** Airthings: 30–60% good; 25–30 / 60–70 fair; else poor */
     status: (value) => {
@@ -95,7 +91,6 @@ export const AIR_QUALITY_METRICS = [
     label: "Radon",
     format: (value) => Math.round(value),
     unit: "Bq/m³",
-    cardPriority: 98,
     detailPriority: 5,
     /** Airthings Wave Plus: <100 good, 100–150 fair, >150 poor */
     status: (value) => {
@@ -123,24 +118,6 @@ export const getMetricsForDevice = (device) => {
   return AIR_QUALITY_METRICS.filter((metric) =>
     device.capabilities.includes(metric.capability)
   );
-};
-
-export const getCardMetrics = (device) => {
-  const available = getMetricsForDevice(device);
-  if (!available.length) return [];
-
-  const co2 = available.find((m) => m.capability === "measure_co2");
-  const secondary =
-    available.find((m) => m.capability === "measure_pm25") ??
-    available.find((m) => m.capability === "measure_voc");
-
-  const card = [co2, secondary].filter(Boolean);
-  if (card.length) return card;
-
-  return available
-    .slice()
-    .sort((a, b) => a.cardPriority - b.cardPriority)
-    .slice(0, 2);
 };
 
 export const getDetailMetrics = (device) =>

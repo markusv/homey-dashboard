@@ -171,7 +171,7 @@ const FlowAction = ({ flow }) => {
 export const RoomCard = ({ room, devices, zones, onOpen }) => {
   const lightState = useLiveRoomLights(devices, room, zones);
   const blindState = useLiveRoomBlinds(devices, room);
-  const { hasAirQuality, cardReadings, overallStatus } = useLiveAirQuality(
+  const { hasAirQuality, readings, overallStatus } = useLiveAirQuality(
     devices,
     room
   );
@@ -203,7 +203,7 @@ export const RoomCard = ({ room, devices, zones, onOpen }) => {
           –
         </div>
       )}
-      {hasAirQuality && <AirQualitySummary readings={cardReadings} />}
+      {hasAirQuality && <AirQualitySummary readings={readings} />}
       <div className="andre-room-card-actions">
         <LightAction lightState={lightState} />
         <BlindActions blindState={blindState} />
