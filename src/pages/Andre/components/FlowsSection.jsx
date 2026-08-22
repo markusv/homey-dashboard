@@ -5,26 +5,33 @@ import { useActionLock } from "../helpers/useActionLock";
 import { getHomey } from "../../../helpers/getHomey";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
+import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
 import { BlindIcon } from "./BlindIcon";
+import { FanIcon } from "./FanIcon";
 import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
 
 export const FlowsSection = ({
   flows = [],
   vacuumDeviceId,
+  fanDeviceId,
   lightState,
   blindState,
 }) => {
   const hasFlows = flows.length > 0;
   const hasVacuum = Boolean(vacuumDeviceId);
+  const hasFan = Boolean(fanDeviceId);
   const hasLights = Boolean(lightState?.lights?.length);
   const hasBlinds = Boolean(blindState?.blinds?.length);
-  if (!hasFlows && !hasVacuum && !hasLights && !hasBlinds) return null;
+  if (!hasFlows && !hasVacuum && !hasFan && !hasLights && !hasBlinds) {
+    return null;
+  }
 
   return (
     <section className="andre-section">
       <h2 className="andre-section-title">Handlinger</h2>
       <div className="andre-flows">
         {hasLights && <LightToggleButton lightState={lightState} />}
+        {hasFan && <FanToggleButton deviceId={fanDeviceId} />}
         {hasBlinds && <BlindButtons blindState={blindState} />}
         {flows.map((flow) => (
           <FlowButton key={flow.id} flow={flow} />
@@ -84,6 +91,51 @@ const LightToggleButton = ({ lightState }) => {
       <sl-icon name="lightbulb" />
       <span className="andre-scene-button-label">
         {on ? "Lys på" : "Lys av"}
+      </span>
+    </button>
+  );
+};
+
+const FanToggleButton = ({ deviceId }) => {
+  const [device, setDevice] = useGetDevice(deviceId);
+  useMakeCapabilityInstance(device, setDevice, "onoff");
+  const [run, pending] = useActionLock();
+  const on = device?.capabilitiesObj?.onoff?.value === true;
+
+  const toggleFan = () =>
+    run(async () => {
+      if (!device?.id) return;
+      const next = !on;
+      setDevice((current) =>
+        current ? updateCapabilityOnDevice(current, "onoff", next) : current
+      );
+      const homeyApi = await getHomey();
+      await homeyApi.devices.setCapabilityValue({
+        deviceId: device.id,
+        capabilityId: "onoff",
+        value: next,
+      });
+    });
+
+  return (
+    <button
+      type="button"
+      className={classNames("andre-scene-button", "andre-scene-button--fan", {
+        "andre-scene-button--fan-on": on,
+        "andre-scene-button--off": !on,
+        "andre-scene-button--pending": pending,
+      })}
+      aria-label={on ? "Slå av vifte" : "Slå på vifte"}
+      aria-pressed={on}
+      disabled={pending}
+      onClick={(event) => {
+        toggleFan();
+        event.currentTarget.blur();
+      }}
+    >
+      <FanIcon spinning={on} className="andre-fan-icon" />
+      <span className="andre-scene-button-label">
+        {on ? "Vifte på" : "Vifte av"}
       </span>
     </button>
   );

@@ -37,6 +37,7 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
         <FlowsSection
           flows={room.flows}
           vacuumDeviceId={room.vacuumDeviceId}
+          fanDeviceId={room.fanDeviceId}
           lightState={lightState}
           blindState={blindState}
         />

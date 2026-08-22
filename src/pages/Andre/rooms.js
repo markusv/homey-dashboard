@@ -12,6 +12,7 @@
  * - includeChildZoneLights — also discover lights in Homey child zones
  * - flows[].showOnRoomCard — also show this handling as an icon on the room overview card
  * - speakerFlows — flow buttons shown under the speaker player in room detail
+ * - fanDeviceId — toggle fan (onoff) in Handlinger, with spinning icon when on
  *
  * Room card actions (overview):
  * - Lights / blinds: auto when Homey finds devices in the zone
@@ -101,6 +102,7 @@ export const rooms = [
     homeyZoneId: "cc94f68d-30fb-482a-956b-2c551ccaf42c",
     temperatureDeviceId: "e5a8fd24-97f7-461b-bc4d-1014a1f85c89",
     primaryLightDeviceId: "1068b237-3368-4052-b544-9f8a5d189592", // Hovedsoverom taklys (Hue)
+    fanDeviceId: "09c1dc9e-baea-4416-801f-728533e015bc", // Hovedsoverom vifte
     vacuumDeviceId: "36b2f0df-c217-4f45-92a5-c15d3d5dd34b",
     includeChildZoneLights: true,
     excludedLightDeviceIds: [

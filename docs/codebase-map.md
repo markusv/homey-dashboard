@@ -94,7 +94,8 @@ Response shape: `{ current, points, unit, range, … }`.
 
 - Stue/Entre: mostly mood **flows**, not direct light UI
 - `/andre`: auto-discover lights by zone (`primaryLightDeviceId` for status/dim display/color; dim slider commands all dimmable lights; `excludedLightDeviceIds`; `includeChildZoneLights` for nested Homey zones)
-- `/andre` room cards: lights/blinds auto; speaker/vacuum via device ids; flows only when `flows[].showOnRoomCard: true` (all flows still in Handlinger)
+- `/andre` room cards: lights/blinds auto; speaker/vacuum/fan via device ids; flows only when `flows[].showOnRoomCard: true` (all flows still in Handlinger)
+- `/andre` Handlinger: light toggle, optional `fanDeviceId` toggle (spinning icon when on), blinds, flows, vacuum
 - `/andre` overview: `overviewActions` under room grid (e.g. Kveldskos, Støvsug)
 - `/andre` speaker detail: optional `speakerFlows` under the player (e.g. Spill lydbok / Spill musikk)
 
