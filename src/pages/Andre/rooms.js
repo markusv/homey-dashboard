@@ -94,20 +94,6 @@ export const rooms = [
     ],
   },
   {
-    id: "kontor",
-    name: "Kontor",
-    homeyZoneId: "5f67de23-2c24-4e71-8b75-da23ad4a8800",
-    temperatureDeviceId: "f217627f-0d54-43a7-9d20-f88c99b25417",
-    primaryLightDeviceId: "d5e8ff9f-5071-4777-8b16-691ecda398f4", // Dimmer Taklys
-    flows: [
-      {
-        id: "165e4efa-39db-45aa-b69f-8f0c7b3009a1",
-        label: "Solskjerming",
-        icon: "sun-shades",
-      },
-    ],
-  },
-  {
     id: "hovedsoverom",
     name: "Hovedsoverom",
     homeyZoneId: "cc94f68d-30fb-482a-956b-2c551ccaf42c",
@@ -130,6 +116,21 @@ export const rooms = [
         id: "7f8fc5da-5229-489b-99db-9825aba998bc",
         label: "Litt lys",
         icon: "lightbulb",
+      },
+    ],
+  },
+  {
+    id: "kontor",
+    name: "Kontor",
+    homeyZoneId: "5f67de23-2c24-4e71-8b75-da23ad4a8800",
+    temperatureDeviceId: "f217627f-0d54-43a7-9d20-f88c99b25417",
+    primaryLightDeviceId: "d5e8ff9f-5071-4777-8b16-691ecda398f4", // Dimmer Taklys
+    excludedLightDeviceIds: ["39f8e9c0-0562-4ad4-a57e-3bc82a0facc5"],
+    flows: [
+      {
+        id: "165e4efa-39db-45aa-b69f-8f0c7b3009a1",
+        label: "Solskjerming",
+        icon: "sun-shades",
       },
     ],
   },
