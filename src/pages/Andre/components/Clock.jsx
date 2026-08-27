@@ -23,7 +23,10 @@ export const Clock = () => {
 
   return (
     <header className="andre-clock">
-      <div className="andre-clock-time">{formatTime(now)}</div>
+      <div className="andre-clock-hero">
+        <div className="andre-clock-glow" aria-hidden="true" />
+        <div className="andre-clock-time">{formatTime(now)}</div>
+      </div>
       <div className="andre-clock-date">{formatDate(now)}</div>
     </header>
   );

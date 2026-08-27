@@ -9,8 +9,10 @@ import { AirQualitySection } from "./AirQualitySection";
 import { HeatPumpSection } from "./HeatPumpSection";
 import { LightsSection } from "./LightsSection";
 import { SpeakerSection } from "./SpeakerSection";
+import { roomThemes } from "../rooms";
 
 export const RoomDetail = ({ room, devices, zones, onBack }) => {
+  const accent = roomThemes[room.id]?.accent || "#a78bfa";
   const lightState = useLiveRoomLights(devices, room, zones);
   const blindState = useLiveRoomBlinds(devices, room);
   const {
@@ -20,7 +22,10 @@ export const RoomDetail = ({ room, devices, zones, onBack }) => {
   } = useLiveAirQuality(devices, room);
 
   return (
-    <div className="andre-room-detail">
+    <div
+      className="andre-room-detail"
+      style={{ "--andre-room-accent": accent }}
+    >
       <header className="andre-room-detail-header">
         <SlButton
           size="large"

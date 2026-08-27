@@ -6,7 +6,8 @@ import { useActionLock } from "../helpers/useActionLock";
 
 const OverviewActionButton = ({ action }) => {
   const [run, pending] = useActionLock();
-  const isVacuum = action.icon === "vacuum";
+  const isVacuum = action.variant === "vacuum";
+  const isDisabled = !action.id;
 
   return (
     <button
@@ -14,11 +15,16 @@ const OverviewActionButton = ({ action }) => {
       className={classNames("andre-overview-action", {
         "andre-overview-action--pending": pending,
         "andre-overview-action--vacuum": isVacuum,
-        "andre-overview-action--mood": !isVacuum,
+        "andre-overview-action--mood": action.variant === "mood",
+        "andre-overview-action--lights-on": action.variant === "lights-on",
+        "andre-overview-action--lights-off": action.variant === "lights-off",
+        "andre-overview-action--disabled": isDisabled,
       })}
       aria-label={action.label}
-      disabled={pending}
+      disabled={pending || isDisabled}
+      title={isDisabled ? "Legg til Homey flow-id i rooms.js" : undefined}
       onClick={(event) => {
+        if (!action.id) return;
         run(() => triggerFlow(action.id));
         event.currentTarget.blur();
       }}
@@ -40,10 +46,19 @@ export const OverviewActions = ({ actions = [] }) => {
   if (!actions.length) return null;
 
   return (
-    <section className="andre-overview-actions" aria-label="Snarveier">
-      {actions.map((action) => (
-        <OverviewActionButton key={action.id} action={action} />
-      ))}
+    <section
+      className="andre-overview-moods"
+      aria-label="Moods for hele etasjen"
+    >
+      <h2 className="andre-overview-moods-title">Moods for hele etasjen</h2>
+      <div className="andre-overview-actions">
+        {actions.map((action) => (
+          <OverviewActionButton
+            key={`${action.label}-${action.id ?? "placeholder"}`}
+            action={action}
+          />
+        ))}
+      </div>
     </section>
   );
 };

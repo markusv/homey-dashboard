@@ -1,11 +1,16 @@
 import React from "react";
 import classNames from "classnames";
 
-export const AirQualitySummary = ({ readings }) => {
+export const AirQualitySummary = ({ readings, compact = false }) => {
   if (!readings?.length) return null;
 
   return (
-    <div className="andre-air-summary" aria-label="Luftkvalitet">
+    <div
+      className={classNames("andre-air-summary", {
+        "andre-air-summary--compact": compact,
+      })}
+      aria-label="Luftkvalitet"
+    >
       {readings.map((reading) => (
         <div
           key={reading.capability}

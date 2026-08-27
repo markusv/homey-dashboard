@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useId, useMemo, useState } from "react";
 import classNames from "classnames";
 import { useTemperatureInsights } from "../helpers/useTemperatureInsights";
 import { useCapabilityInsights } from "../helpers/useCapabilityInsights";
@@ -104,6 +104,38 @@ const buildPath = (points, toX, toY) => {
   return d;
 };
 
+const buildAreaPaths = (points, toX, toY, baselineY) => {
+  const paths = [];
+  let runStart = null;
+  let runEnd = null;
+
+  const flush = () => {
+    if (runStart === null || runEnd === null) return;
+    let d = "";
+    for (let index = runStart; index <= runEnd; index += 1) {
+      const value = points[index];
+      if (typeof value !== "number" || Number.isNaN(value)) continue;
+      const segment = `${toX(index)},${toY(value)}`;
+      d = d ? `${d} L ${segment}` : `M ${segment}`;
+    }
+    d += ` L ${toX(runEnd)},${baselineY} L ${toX(runStart)},${baselineY} Z`;
+    paths.push(d);
+    runStart = null;
+    runEnd = null;
+  };
+
+  points.forEach((value, index) => {
+    if (typeof value === "number" && !Number.isNaN(value)) {
+      if (runStart === null) runStart = index;
+      runEnd = index;
+      return;
+    }
+    flush();
+  });
+  flush();
+  return paths;
+};
+
 const buildCo2ColoredSegments = (
   points,
   pointCount,
@@ -155,7 +187,11 @@ const buildCo2ColoredSegments = (
   return segments;
 };
 
+const CO2_GLOW_COLOR = "#6ee7b7";
+const TEMP_GLOW_COLOR = "var(--andre-room-accent, #a78bfa)";
+
 const ClimateChart = ({ tempPoints, co2Points, range, showTemp, showCo2 }) => {
+  const gradientId = useId().replace(/:/g, "");
   const chart = useMemo(() => {
     const visibleTemp = showTemp ? tempPoints : [];
     const visibleCo2 = showCo2 ? co2Points : [];
@@ -229,6 +265,8 @@ const ClimateChart = ({ tempPoints, co2Points, range, showTemp, showCo2 }) => {
 
     const xLabels = getXLabels(pointCount, range);
 
+    const baselineY = padTop + plotHeight;
+
     return {
       width,
       height,
@@ -236,8 +274,17 @@ const ClimateChart = ({ tempPoints, co2Points, range, showTemp, showCo2 }) => {
       padRight,
       plotWidth,
       plotHeight,
+      baselineY,
       tempPath:
         showTemp && tempDomain ? buildPath(alignedTemp, toX, toTempY) : "",
+      tempAreaPaths:
+        showTemp && tempDomain
+          ? buildAreaPaths(alignedTemp, toX, toTempY, baselineY)
+          : [],
+      co2AreaPaths:
+        showCo2 && co2Domain
+          ? buildAreaPaths(alignedCo2, toX, toCo2Y, baselineY)
+          : [],
       co2Segments:
         showCo2 && co2Domain
           ? buildCo2ColoredSegments(
@@ -289,6 +336,30 @@ const ClimateChart = ({ tempPoints, co2Points, range, showTemp, showCo2 }) => {
       role="img"
       aria-label="Temperatur- og CO₂-graf"
     >
+      <defs>
+        <linearGradient
+          id={`${gradientId}-temp-glow`}
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1={chart.axis.y1}
+          x2="0"
+          y2={chart.axis.y2}
+        >
+          <stop offset="0%" stopColor={TEMP_GLOW_COLOR} stopOpacity="0.38" />
+          <stop offset="100%" stopColor={TEMP_GLOW_COLOR} stopOpacity="0" />
+        </linearGradient>
+        <linearGradient
+          id={`${gradientId}-co2-glow`}
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1={chart.axis.y1}
+          x2="0"
+          y2={chart.axis.y2}
+        >
+          <stop offset="0%" stopColor={CO2_GLOW_COLOR} stopOpacity="0.28" />
+          <stop offset="100%" stopColor={CO2_GLOW_COLOR} stopOpacity="0" />
+        </linearGradient>
+      </defs>
       {chart.leftTicks.map((tick) => (
         <g key={`left-${tick.text}`}>
           <line
@@ -360,6 +431,24 @@ const ClimateChart = ({ tempPoints, co2Points, range, showTemp, showCo2 }) => {
         x2={chart.axis.x2}
         y2={chart.axis.y2}
       />
+
+      {chart.co2AreaPaths.map((areaPath, index) => (
+        <path
+          key={`co2-area-${index}`}
+          d={areaPath}
+          className="andre-temp-chart-area andre-temp-chart-area--co2"
+          fill={`url(#${gradientId}-co2-glow)`}
+        />
+      ))}
+
+      {chart.tempAreaPaths.map((areaPath, index) => (
+        <path
+          key={`temp-area-${index}`}
+          d={areaPath}
+          className="andre-temp-chart-area andre-temp-chart-area--temp"
+          fill={`url(#${gradientId}-temp-glow)`}
+        />
+      ))}
 
       {chart.tempPath && (
         <path d={chart.tempPath} className="andre-temp-chart-line" />

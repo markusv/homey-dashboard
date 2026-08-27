@@ -21,17 +21,53 @@
  * - Flows: only entries with showOnRoomCard: true
  */
 
+/** Per-room visual theme for the experimental overview cards. */
+export const roomThemes = {
+  adrian: {
+    accent: "#a855f7",
+    icon: "moon-stars",
+    background: "/dashboardAssets/andre/rooms/adrian.png",
+  },
+  fabian: {
+    accent: "#3b82f6",
+    icon: "moon-stars",
+    background: "/dashboardAssets/andre/rooms/fabian.png",
+  },
+  hovedsoverom: {
+    accent: "#f59e0b",
+    icon: "heart",
+    background: "/dashboardAssets/andre/rooms/hovedsoverom.png",
+  },
+  kontor: {
+    accent: "#10b981",
+    icon: "pc-display",
+    background: "/dashboardAssets/andre/rooms/kontor.png",
+  },
+  fellesbad: {
+    accent: "#06b6d4",
+    icon: "droplet",
+    background: "/dashboardAssets/andre/rooms/fellesbad.png",
+  },
+  gang: {
+    accent: "#f97316",
+    icon: "person-walking",
+    background: "/dashboardAssets/andre/rooms/gang.png",
+  },
+};
+
 /** Global shortcuts under the room grid on the /andre overview. */
 export const overviewActions = [
   {
     id: "594fb90c-8b01-4389-904b-7a1d73cc26d6",
     label: "Kveldskos",
     icon: "moon",
+    variant: "mood",
   },
   {
     id: "033f2c8d-2de2-4ee6-b602-2d21b798ef8d",
     label: "Støvsug",
     icon: "vacuum",
+    variant: "vacuum",
   },
 ];
 

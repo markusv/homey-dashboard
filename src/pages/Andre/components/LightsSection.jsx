@@ -28,15 +28,15 @@ export const LightsSection = ({ lightState }) => {
 
   if (!lights.length) return null;
 
-  const fill = color || "var(--sl-color-primary-600)";
+  const fill = color || "var(--andre-room-accent, var(--sl-color-primary-600))";
   const percent = Math.round(localDim * 100);
 
   const activeStyle =
     on && color
-      ? {
-          color,
-        }
-      : undefined;
+      ? { color, "--andre-action-accent": color }
+      : on
+        ? { "--andre-action-accent": "var(--andre-room-accent)" }
+        : undefined;
 
   const sliderStyle = {
     background: `linear-gradient(to right, ${fill} 0%, ${fill} ${percent}%, var(--sl-color-neutral-300) ${percent}%, var(--sl-color-neutral-300) 100%)`,
@@ -56,7 +56,7 @@ export const LightsSection = ({ lightState }) => {
           style={activeStyle}
           className={
             on
-              ? "andre-icon-button--lit andre-icon-button--xl"
+              ? "andre-icon-button--accent andre-icon-button--xl"
               : "andre-icon-button--xl"
           }
         />

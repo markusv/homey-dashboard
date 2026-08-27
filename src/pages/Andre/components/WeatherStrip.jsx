@@ -1,87 +1,76 @@
 import React, { useMemo } from "react";
 import { useFetchForecast } from "../../../components/Weather/helpers/useFetchForecast";
-import { getForecastItemsForDay } from "../../../components/Weather/helpers/getForecastItemsForDay";
-import { getNameOfDay } from "../../../components/Weather/helpers/getNameOfDay";
 import {
   getWeatherIconUrl,
   getWeatherPeriod,
   getWeatherSymbolLabel,
 } from "../helpers/weatherLabels";
 
-/** Hours shown for "today" in the hourly strip (from API timeseries). */
-const HOURLY_TODAY_COUNT = 8;
-/** Extra calendar days after today (tomorrow + following). */
-const FUTURE_DAYS = 4;
+/** Compact hourly slots shown in the overview weather card. */
+const HOURLY_SLOT_COUNT = 3;
 
-const buildHourlyToday = (forecast) => {
+const buildCompactForecast = (forecast) => {
   const now = Date.now() - 20 * 60 * 1000;
   const todayDate = new Date().getDate();
-  return forecast
+  const hourly = forecast
     .filter((entry) => new Date(entry.time).getTime() >= now)
     .filter((entry) => new Date(entry.time).getDate() === todayDate)
     .filter((entry) => getWeatherPeriod(entry))
-    .slice(0, HOURLY_TODAY_COUNT)
+    .slice(0, HOURLY_SLOT_COUNT + 1)
     .map((entry, index) => {
       const period = getWeatherPeriod(entry);
       const temp = entry.data?.instant?.details?.air_temperature;
       const time = new Date(entry.time);
+      let timeLabel = time.toLocaleTimeString("nb-NO", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      if (index === 0) timeLabel = "NÅ";
+
       return {
         key: entry.time,
         isNow: index === 0,
-        timeLabel:
-          index === 0
-            ? "NÅ"
-            : time.toLocaleTimeString("nb-NO", {
-                hour: "2-digit",
-                minute: "2-digit",
-              }),
+        timeLabel,
         symbol: period?.summary?.symbol_code,
         temperature: typeof temp === "number" ? Math.round(temp) : null,
       };
     });
-};
 
-const buildFutureDays = (forecast) => {
-  const days = [];
-  for (let offset = 1; offset <= FUTURE_DAYS; offset += 1) {
-    const dateForForecast = new Date();
-    dateForForecast.setDate(dateForForecast.getDate() + offset);
-    const forecastForDay = forecast.filter(
-      (entry) => new Date(entry.time).getDate() === dateForForecast.getDate()
-    );
-    if (!forecastForDay.length) continue;
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+  const tomorrowEntries = forecast.filter(
+    (entry) => new Date(entry.time).getDate() === tomorrowDate.getDate()
+  );
+  const tomorrowFirst = tomorrowEntries.find((entry) =>
+    getWeatherPeriod(entry)
+  );
+  const tomorrowPeriod = tomorrowFirst ? getWeatherPeriod(tomorrowFirst) : null;
+  const tomorrowTemp = tomorrowFirst?.data?.instant?.details?.air_temperature;
 
-    const points = getForecastItemsForDay(forecastForDay)
-      .filter(Boolean)
-      .filter((item) => getWeatherPeriod(item))
-      .map((item) => {
-        const period = getWeatherPeriod(item);
-        const temp = item.data?.instant?.details?.air_temperature;
-        return {
-          key: item.time,
-          symbol: period?.summary?.symbol_code,
-          temperature: typeof temp === "number" ? Math.round(temp) : null,
-        };
-      });
+  const tomorrow =
+    tomorrowFirst && tomorrowPeriod
+      ? {
+          key: `tomorrow-${tomorrowFirst.time}`,
+          timeLabel: "I morgen",
+          symbol: tomorrowPeriod.summary?.symbol_code,
+          temperature:
+            typeof tomorrowTemp === "number" ? Math.round(tomorrowTemp) : null,
+        }
+      : null;
 
-    if (!points.length) continue;
-    days.push({
-      dayOffset: offset,
-      dayLabel: getNameOfDay(dateForForecast),
-      points,
-    });
-  }
-  return days;
+  return { hourly, tomorrow };
 };
 
 export const WeatherStrip = () => {
   const [forecast] = useFetchForecast();
 
-  const { current, hourly, days } = useMemo(() => {
+  const { current, hourly, tomorrow } = useMemo(() => {
     if (!forecast?.length) {
-      return { current: null, hourly: [], days: [] };
+      return { current: null, hourly: [], tomorrow: null };
     }
-    const hourlyPoints = buildHourlyToday(forecast);
+
+    const { hourly: hourlyPoints, tomorrow: tomorrowPoint } =
+      buildCompactForecast(forecast);
     const first = hourlyPoints[0]
       ? forecast.find((entry) => entry.time === hourlyPoints[0].key)
       : forecast[0];
@@ -97,8 +86,8 @@ export const WeatherStrip = () => {
             label: getWeatherSymbolLabel(symbol),
           }
         : null,
-      hourly: hourlyPoints,
-      days: buildFutureDays(forecast),
+      hourly: hourlyPoints.slice(1),
+      tomorrow: tomorrowPoint,
     };
   }, [forecast]);
 
@@ -110,13 +99,25 @@ export const WeatherStrip = () => {
     );
   }
 
+  const slots = [
+    {
+      key: "now",
+      timeLabel: "NÅ",
+      symbol: current.symbol,
+      temperature: current.temperature,
+      isNow: true,
+    },
+    ...hourly,
+    ...(tomorrow ? [tomorrow] : []),
+  ];
+
   return (
     <div
       className="andre-weather andre-glass"
       role="region"
       aria-label="Værmelding"
     >
-      <div className="andre-weather-track">
+      <div className="andre-weather-compact">
         <div className="andre-weather-now">
           {current.symbol && (
             <img
@@ -135,48 +136,28 @@ export const WeatherStrip = () => {
           </div>
         </div>
 
-        {hourly.map((item) => (
-          <div
-            key={item.key}
-            className={`andre-weather-hour${item.isNow ? " andre-weather-hour--now" : ""}`}
-          >
-            <div className="andre-weather-hour-time">{item.timeLabel}</div>
-            {item.symbol && (
-              <img
-                className="andre-weather-hour-icon"
-                alt=""
-                src={getWeatherIconUrl(item.symbol)}
-              />
-            )}
-            {item.temperature != null && (
-              <div className="andre-weather-hour-temp">{item.temperature}°</div>
-            )}
-          </div>
-        ))}
-
-        {days.map((day) => (
-          <div key={day.dayOffset} className="andre-weather-day">
-            <div className="andre-weather-day-label">{day.dayLabel}</div>
-            <div className="andre-weather-day-points">
-              {day.points.map((item) => (
-                <div key={item.key} className="andre-weather-day-item">
-                  {item.symbol && (
-                    <img
-                      className="andre-weather-day-icon"
-                      alt=""
-                      src={getWeatherIconUrl(item.symbol)}
-                    />
-                  )}
-                  {item.temperature != null && (
-                    <div className="andre-weather-day-temp">
-                      {item.temperature}°
-                    </div>
-                  )}
+        <div className="andre-weather-slots">
+          {slots.map((item) => (
+            <div
+              key={item.key}
+              className={`andre-weather-slot${item.isNow ? " andre-weather-slot--now" : ""}`}
+            >
+              <div className="andre-weather-slot-time">{item.timeLabel}</div>
+              {item.symbol && (
+                <img
+                  className="andre-weather-slot-icon"
+                  alt=""
+                  src={getWeatherIconUrl(item.symbol)}
+                />
+              )}
+              {item.temperature != null && (
+                <div className="andre-weather-slot-temp">
+                  {item.temperature}°
                 </div>
-              ))}
+              )}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

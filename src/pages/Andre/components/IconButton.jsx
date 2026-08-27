@@ -21,7 +21,8 @@ export const IconButton = ({
 
   const usesCustomActiveStyle =
     typeof className === "string" &&
-    (className.includes("andre-icon-button--blinds") ||
+    (className.includes("andre-icon-button--accent") ||
+      className.includes("andre-icon-button--blinds") ||
       className.includes("andre-icon-button--lit"));
 
   return (

@@ -36,7 +36,7 @@ export const Andre = () => {
     <div className="sl-theme-dark andre-shell">
       {/* Keep overview mounted so temperatures/lights stay warm when returning */}
       <div
-        className="andre-page"
+        className="andre-page andre-page--overview"
         hidden={Boolean(selectedRoom)}
         inert={selectedRoom ? true : undefined}
       >
