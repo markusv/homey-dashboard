@@ -1,0 +1,46 @@
+---
+description: Naming, folder structure, and component file conventions
+alwaysApply: true
+---
+
+# Coding conventions
+
+## Naming
+
+- Name functions by purpose, not implementation (`getActiveUsers`, not `filterArrayByFlag`).
+
+## Folders and files
+
+- Folders: camelCase, except component folders = PascalCase (`Card/`).
+- Files: components = PascalCase, helpers/types = camelCase.
+- Component-related files are prefixed with the component name: `Card.jsx`, `Card.css` (never `cardStyle.css`), `Card.types.js`, `Card.constants.js`, `Card.test.jsx`, `Card.fixtures.js`.
+- Constants → `Card.constants.js`. Custom types → `Card.types.js`. Plain `constants.js` / `types.js` only when shared across components in a folder.
+- Enums live in `*.constants.js` — they produce runtime values.
+
+## Helpers
+
+- Helpers are pure functions (this project uses `helpers/`, not `utils/`).
+- 3 or fewer → `Card.helpers.js` (or colocated under the component folder).
+- 4 or more → a `helpers/` folder, one function per file named after the function, with a colocated test:
+
+```text
+helpers/
+  formatPrice.js
+  formatPrice.test.js
+```
+
+## Hooks and components
+
+- Hooks: file named after the hook (`useCardFocus.js`), in a `hooks/` folder.
+- Components: one folder per component. Nest its `helpers/`, `hooks/`, and any subcomponents inside that folder; only lift shared code up to a common ancestor once more than one component needs it — shared subcomponents go in `common/`.
+
+## Before committing
+
+When these scripts are available, always run before committing:
+
+```bash
+npm run lint:fix
+npm run test
+```
+
+Also follow `lint-and-format.mdc` (`npm run lint` / `npm run format`) after code changes.
