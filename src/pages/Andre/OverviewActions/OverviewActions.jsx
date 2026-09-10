@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
-import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
-import { useActionLock } from "../helpers/useActionLock";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon/VacuumIcon";
+import { useActionLock } from "../hooks/useActionLock";
 
 const OverviewActionButton = ({ action }) => {
   const [run, pending] = useActionLock();
@@ -22,7 +22,9 @@ const OverviewActionButton = ({ action }) => {
       })}
       aria-label={action.label}
       disabled={pending || isDisabled}
-      title={isDisabled ? "Legg til Homey flow-id i rooms.js" : undefined}
+      title={
+        isDisabled ? "Legg til Homey flow-id i rooms.constants.js" : undefined
+      }
       onClick={(event) => {
         if (!action.id) return;
         run(() => triggerFlow(action.id));

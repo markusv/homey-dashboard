@@ -11,7 +11,7 @@ import {
 import { getLightGroupColor } from "../helpers/lightColor";
 import { setCapabilityOnDevices } from "../helpers/setCapabilityOnDevices";
 import { subscribeDeviceCapability } from "../helpers/subscribeDeviceCapability";
-import { useActionLock } from "../helpers/useActionLock";
+import { useActionLock } from "./useActionLock";
 import { cssHexToHomey } from "../helpers/lightColor";
 
 const TRACKED_CAPS = [

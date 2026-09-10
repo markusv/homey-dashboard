@@ -4,7 +4,7 @@ import {
   getWeatherIconUrl,
   getWeatherPeriod,
   getWeatherSymbolLabel,
-} from "../helpers/weatherLabels";
+} from "./WeatherStrip.helpers";
 
 /** Compact hourly slots shown in the overview weather card. */
 const HOURLY_SLOT_COUNT = 3;

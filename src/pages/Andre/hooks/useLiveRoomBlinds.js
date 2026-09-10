@@ -9,9 +9,9 @@ import {
   areBlindsUp,
   blindsWithSet,
   getRoomBlinds,
-} from "./getRoomBlinds";
-import { setCapabilityOnDevices } from "./setCapabilityOnDevices";
-import { subscribeBlindPosition } from "./subscribeBlindPosition";
+} from "../helpers/getRoomBlinds";
+import { setCapabilityOnDevices } from "../helpers/setCapabilityOnDevices";
+import { subscribeBlindPosition } from "../helpers/subscribeBlindPosition";
 import { useActionLock } from "./useActionLock";
 
 const readBlindPositions = async (deviceIds) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-import { AirQualityScore } from "./AirQualityScore";
+import { AirQualityScore } from "./AirQualityScore/AirQualityScore";
 
 export const AirQualitySection = ({ readings, overallStatus }) => {
   if (!readings?.length) return null;

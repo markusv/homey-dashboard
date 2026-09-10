@@ -1,15 +1,15 @@
 import React from "react";
 import { SlButton } from "@shoelace-style/shoelace/dist/react";
-import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
-import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
-import { useLiveAirQuality } from "../helpers/useLiveAirQuality";
-import { FlowsSection } from "./FlowsSection";
-import { TemperatureSection } from "./TemperatureSection";
-import { AirQualitySection } from "./AirQualitySection";
-import { HeatPumpSection } from "./HeatPumpSection";
-import { LightsSection } from "./LightsSection";
-import { SpeakerSection } from "./SpeakerSection";
-import { roomThemes } from "../rooms";
+import { useLiveRoomLights } from "../hooks/useLiveRoomLights";
+import { useLiveRoomBlinds } from "../hooks/useLiveRoomBlinds";
+import { useLiveAirQuality } from "../hooks/useLiveAirQuality";
+import { FlowsSection } from "./FlowsSection/FlowsSection";
+import { TemperatureSection } from "./TemperatureSection/TemperatureSection";
+import { AirQualitySection } from "./AirQualitySection/AirQualitySection";
+import { HeatPumpSection } from "./HeatPumpSection/HeatPumpSection";
+import { LightsSection } from "./LightsSection/LightsSection";
+import { SpeakerSection } from "./SpeakerSection/SpeakerSection";
+import { roomThemes } from "../rooms.constants";
 
 export const RoomDetail = ({ room, devices, zones, onBack }) => {
   const accent = roomThemes[room.id]?.accent || "#a78bfa";

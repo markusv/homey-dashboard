@@ -1,14 +1,14 @@
 import React from "react";
 import classNames from "classnames";
-import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
-import { useActionLock } from "../helpers/useActionLock";
-import { getHomey } from "../../../helpers/getHomey";
-import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
-import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
-import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
-import { BlindIcon } from "./BlindIcon";
-import { FanIcon } from "./FanIcon";
-import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
+import { triggerFlow } from "../../../../components/Flows/helpers/triggerFlow";
+import { useActionLock } from "../../hooks/useActionLock";
+import { getHomey } from "../../../../helpers/getHomey";
+import { useGetDevice } from "../../../../components/Devices/helpers/useGetDevice";
+import { useMakeCapabilityInstance } from "../../../../components/Devices/helpers/useMakeCapabilityInstance";
+import { updateCapabilityOnDevice } from "../../../../components/Devices/helpers/updateCapabolityOnDevice";
+import { BlindIcon } from "../../common/BlindIcon/BlindIcon";
+import { FanIcon } from "../../common/FanIcon/FanIcon";
+import { VacuumIcon } from "../../../../components/Devices/Roborock/VacuumIcon/VacuumIcon";
 
 export const FlowsSection = ({
   flows = [],

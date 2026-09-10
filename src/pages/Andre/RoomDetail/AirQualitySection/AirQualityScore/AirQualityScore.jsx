@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { AIR_QUALITY_STATUS_LABELS } from "../helpers/airQualityMetrics";
+import { AIR_QUALITY_STATUS_LABELS } from "../../../helpers/airQuality.constants";
 
 export const AirQualityScore = ({ status, compact = false }) => {
   if (!status) return null;

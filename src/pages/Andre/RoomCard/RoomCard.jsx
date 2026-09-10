@@ -5,17 +5,17 @@ import { getHomey } from "../../../helpers/getHomey";
 import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { AUDIO_PRO_PLAY_MUSIC_FLOW_ID } from "../../../components/Devices/AudioProSpeaker/constants";
-import { IconButton } from "./IconButton";
-import { BlindIcon } from "./BlindIcon";
-import { FanIcon } from "./FanIcon";
-import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
-import { useActionLock } from "../helpers/useActionLock";
-import { useLiveRoomLights } from "../helpers/useLiveRoomLights";
-import { useLiveRoomBlinds } from "../helpers/useLiveRoomBlinds";
-import { useLiveAirQuality } from "../helpers/useLiveAirQuality";
-import { AirQualitySummary } from "./AirQualitySummary";
-import { AIR_QUALITY_STATUS_LABELS } from "../helpers/airQualityMetrics";
-import { roomThemes } from "../rooms";
+import { IconButton } from "../common/IconButton/IconButton";
+import { BlindIcon } from "../common/BlindIcon/BlindIcon";
+import { FanIcon } from "../common/FanIcon/FanIcon";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon/VacuumIcon";
+import { useActionLock } from "../hooks/useActionLock";
+import { useLiveRoomLights } from "../hooks/useLiveRoomLights";
+import { useLiveRoomBlinds } from "../hooks/useLiveRoomBlinds";
+import { useLiveAirQuality } from "../hooks/useLiveAirQuality";
+import { AirQualitySummary } from "./AirQualitySummary/AirQualitySummary";
+import { AIR_QUALITY_STATUS_LABELS } from "../helpers/airQuality.constants";
+import { roomThemes } from "../rooms.constants";
 
 const BLIND_FLOW_ICONS = new Set([
   "sun-shades",

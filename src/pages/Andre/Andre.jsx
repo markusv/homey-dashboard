@@ -4,12 +4,12 @@ import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path";
 import { useGetDevices } from "../../helpers/useGetDevices";
 import { useGetZones } from "../../helpers/useGetZones";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
-import { rooms, overviewActions } from "./rooms";
-import { Clock } from "./components/Clock";
-import { WeatherStrip } from "./components/WeatherStrip";
-import { RoomCard } from "./components/RoomCard";
-import { RoomDetail } from "./components/RoomDetail";
-import { OverviewActions } from "./components/OverviewActions";
+import { rooms, overviewActions } from "./rooms.constants";
+import { Clock } from "./Clock/Clock";
+import { WeatherStrip } from "./WeatherStrip/WeatherStrip";
+import { RoomCard } from "./RoomCard/RoomCard";
+import { RoomDetail } from "./RoomDetail/RoomDetail";
+import { OverviewActions } from "./OverviewActions/OverviewActions";
 import "./Andre.css";
 
 setBasePath(

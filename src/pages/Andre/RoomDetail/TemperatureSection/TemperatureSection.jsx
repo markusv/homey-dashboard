@@ -1,20 +1,15 @@
 import React, { useId, useMemo, useState } from "react";
 import classNames from "classnames";
-import { useTemperatureInsights } from "../helpers/useTemperatureInsights";
-import { useCapabilityInsights } from "../helpers/useCapabilityInsights";
-import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
-import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
-import {
-  AIR_QUALITY_STATUS_COLORS,
-  getCo2ChartThresholds,
-  getCo2Status,
-} from "../helpers/airQualityMetrics";
+import { useCapabilityInsights } from "../../hooks/useCapabilityInsights";
+import { useGetDevice } from "../../../../components/Devices/helpers/useGetDevice";
+import { useMakeCapabilityInstance } from "../../../../components/Devices/helpers/useMakeCapabilityInstance";
+import { AIR_QUALITY_STATUS_COLORS } from "../../helpers/airQuality.constants";
+import { getCo2ChartThresholds } from "../../helpers/getCo2ChartThresholds";
+import { getCo2Status } from "../../helpers/getCo2Status";
+import { RANGES } from "./TemperatureSection.constants";
 
-const RANGES = [
-  { id: "day", label: "Dag" },
-  { id: "week", label: "Uke" },
-  { id: "month", label: "Måned" },
-];
+const useTemperatureInsights = (deviceId, range) =>
+  useCapabilityInsights(deviceId, "measure_temperature", range);
 
 const formatTemp = (value) => `${Math.round(value * 10) / 10}°`;
 const formatCo2 = (value) => `${Math.round(value)}`;

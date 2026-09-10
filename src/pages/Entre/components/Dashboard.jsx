@@ -14,7 +14,7 @@ import {
 import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/useMakeCapabilityInstance";
 import { EntranceDoorCard } from "./EntranceDoorCard";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
-import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon";
+import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon/VacuumIcon";
 import "../../../components/Devices/device.css";
 
 export const Dashboard = () => {

@@ -1,12 +1,12 @@
 import React from "react";
 import classNames from "classnames";
-import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
-import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
-import { SonosFocus } from "../../../components/Devices/Sonos/SonosFocus";
-import { AudioProSpeakerFocus } from "../../../components/Devices/AudioProSpeaker/AudioProSpeakerFocus";
-import { useActionLock } from "../helpers/useActionLock";
-import "../../../components/Devices/Sonos/sonos.css";
-import "../../../components/Devices/AudioProSpeaker/audiopro.css";
+import { useGetDevice } from "../../../../components/Devices/helpers/useGetDevice";
+import { triggerFlow } from "../../../../components/Flows/helpers/triggerFlow";
+import { SonosFocus } from "../../../../components/Devices/Sonos/SonosFocus";
+import { AudioProSpeakerFocus } from "../../../../components/Devices/AudioProSpeaker/AudioProSpeakerFocus";
+import { useActionLock } from "../../hooks/useActionLock";
+import "../../../../components/Devices/Sonos/sonos.css";
+import "../../../../components/Devices/AudioProSpeaker/audiopro.css";
 
 const SpeakerFlowButton = ({ flow }) => {
   const [run, pending] = useActionLock();

@@ -1,4 +1,4 @@
-import { getMetricsForDevice } from "./airQualityMetrics";
+import { getMetricsForDevice } from "./getMetricsForDevice";
 
 export const deviceHasAirQuality = (device) =>
   getMetricsForDevice(device).length > 0;

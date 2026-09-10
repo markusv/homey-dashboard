@@ -1,14 +1,7 @@
 import React from "react";
 import classNames from "classnames";
-import {
-  useDebouncedTarget,
-  useLiveHeatPump,
-} from "../helpers/useLiveHeatPump";
-
-const MODE_META = {
-  heating: { label: "Varme", accent: "heat" },
-  cooling: { label: "Kjøling", accent: "cool" },
-};
+import { useDebouncedTarget, useLiveHeatPump } from "./hooks/useLiveHeatPump";
+import { MODE_META } from "./HeatPumpSection.constants";
 
 export const HeatPumpSection = ({ deviceId }) => {
   const heatPump = useLiveHeatPump(deviceId);

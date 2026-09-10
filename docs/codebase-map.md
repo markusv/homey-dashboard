@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-08-16. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-09-10. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -14,24 +14,24 @@ Last updated: 2026-08-16. Prefer reading this file over broad codebase explorati
 
 Registered in `src/index.js`:
 
-| Path     | Page                        | Notes                        |
-| -------- | --------------------------- | ---------------------------- |
-| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape        |
-| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance + Ruter iframe      |
-| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor, 720×1280 portrait |
+| Path     | Page                        | Notes                                                                                |
+| -------- | --------------------------- | ------------------------------------------------------------------------------------ |
+| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape                                                                |
+| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance + Ruter iframe                                                              |
+| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor, 720×1280 portrait (component folders + `hooks/` / `helpers/` / `common/`) |
 
 New SPA routes: add to `src/index.js` + `scripts/verify.js` (+ `.cursor/rules/verify-http.mdc`). Express already serves all paths via catch-all.
 
 ## Config / IDs
 
-| Location                       | Contents                                                     |
-| ------------------------------ | ------------------------------------------------------------ |
-| `src/constants.js`             | Shared device/flow IDs (1st floor, Roborock…)                |
-| `src/pages/Stue/constants.js`  | `STUE_MOODS`                                                 |
-| `src/pages/Entre/constants.js` | `ENTRE_MOODS`                                                |
-| `src/pages/Andre/rooms.js`     | Data-driven 2nd-floor rooms                                  |
-| `src/server/rooms.js`          | Temperature Insights room → device (e.g. loft)               |
-| Env                            | `VITE_HOMEY_TOKEN` / `REACT_APP_HOMEY_TOKEN` / `HOMEY_TOKEN` |
+| Location                             | Contents                                                     |
+| ------------------------------------ | ------------------------------------------------------------ |
+| `src/constants.js`                   | Shared device/flow IDs (1st floor, Roborock…)                |
+| `src/pages/Stue/constants.js`        | `STUE_MOODS`                                                 |
+| `src/pages/Entre/constants.js`       | `ENTRE_MOODS`                                                |
+| `src/pages/Andre/rooms.constants.js` | Data-driven 2nd-floor rooms                                  |
+| `src/server/rooms.js`                | Temperature Insights room → device (e.g. loft)               |
+| Env                                  | `VITE_HOMEY_TOKEN` / `REACT_APP_HOMEY_TOKEN` / `HOMEY_TOKEN` |
 
 ## Homey (client)
 
@@ -126,11 +126,11 @@ Response shape: `{ current, points, unit, range, … }`.
 
 ## Adding a dashboard / room
 
-1. Prefer data-driven config (see `src/pages/Andre/rooms.js`) — avoid `if (room.id === '…')`.
+1. Prefer data-driven config (see `src/pages/Andre/rooms.constants.js`) — avoid `if (room.id === '…')`.
 2. Reuse Homey helpers, weather hooks, Sonos/AudioPro, `triggerFlow`, Insights API.
 3. Register route + verify endpoint.
 4. Run `npm run lint`, `npm run format`; after substantial work: build + `npm run verify`.
 
 ## Homey zones (2. etasje parent)
 
-Parent zone id: `b840a982-a3a7-4513-9d96-902d81128f5c` (“2 Etg”). Child rooms used by `/andre` are listed in `src/pages/Andre/rooms.js` with live Homey IDs.
+Parent zone id: `b840a982-a3a7-4513-9d96-902d81128f5c` (“2 Etg”). Child rooms used by `/andre` are listed in `src/pages/Andre/rooms.constants.js` with live Homey IDs.

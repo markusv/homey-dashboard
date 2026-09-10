@@ -1,14 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
 import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
-import { subscribeDeviceCapability } from "./subscribeDeviceCapability";
-import { getRoomAirQualityDeviceId } from "./getRoomAirQualityDevice";
-import {
-  getAirthingsOverallStatus,
-  getDetailMetrics,
-  getMetricReading,
-  getMetricsForDevice,
-} from "./airQualityMetrics";
+import { subscribeDeviceCapability } from "../helpers/subscribeDeviceCapability";
+import { getRoomAirQualityDeviceId } from "../helpers/getRoomAirQualityDevice";
+import { getAirthingsOverallStatus } from "../helpers/getAirthingsOverallStatus";
+import { getDetailMetrics } from "../helpers/getDetailMetrics";
+import { getMetricReading } from "../helpers/getMetricReading";
+import { getMetricsForDevice } from "../helpers/getMetricsForDevice";
 
 export const useLiveAirQuality = (devices, room) => {
   const deviceId = useMemo(

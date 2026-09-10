@@ -3,7 +3,7 @@ import { useGetDevice } from "../helpers/useGetDevice";
 import { ROBOROCK_STUE_DEVICE_ID } from "../../../constants";
 import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
 import { RoborockFocus } from "./RoborockFocus";
-import { VacuumIcon } from "./VacuumIcon";
+import { VacuumIcon } from "./VacuumIcon/VacuumIcon";
 import "../device.css";
 
 export const Roborock = ({ onClick }) => {

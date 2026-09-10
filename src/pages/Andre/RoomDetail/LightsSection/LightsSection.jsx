@@ -1,14 +1,7 @@
 import React from "react";
-import { IconButton } from "./IconButton";
-import { useDebouncedDim } from "../helpers/useLiveRoomLights";
-
-const PRESET_COLORS = [
-  "#e53935", // rød
-  "#fdd835", // gul
-  "#fb8c00", // oransje
-  "#43a047", // grønn
-  "#1e88e5", // blå
-];
+import { IconButton } from "../../common/IconButton/IconButton";
+import { useDebouncedDim } from "../../hooks/useLiveRoomLights";
+import { PRESET_COLORS } from "./LightsSection.constants";
 
 export const LightsSection = ({ lightState }) => {
   const {

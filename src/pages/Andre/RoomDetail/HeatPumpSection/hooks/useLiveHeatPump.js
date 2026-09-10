@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useGetDevice } from "../../../components/Devices/helpers/useGetDevice";
-import { updateCapabilityOnDevice } from "../../../components/Devices/helpers/updateCapabolityOnDevice";
-import { getHomey } from "../../../helpers/getHomey";
-import { subscribeDeviceCapability } from "./subscribeDeviceCapability";
-import { useActionLock } from "./useActionLock";
+import { useGetDevice } from "../../../../../components/Devices/helpers/useGetDevice";
+import { updateCapabilityOnDevice } from "../../../../../components/Devices/helpers/updateCapabolityOnDevice";
+import { getHomey } from "../../../../../helpers/getHomey";
+import { subscribeDeviceCapability } from "../../../helpers/subscribeDeviceCapability";
+import { useActionLock } from "../../../hooks/useActionLock";
 
 const TRACKED_CAPS = [
   "onoff",
