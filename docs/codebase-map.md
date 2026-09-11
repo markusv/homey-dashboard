@@ -74,7 +74,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - UI: `Weather`, `WeatherLarge`, `ForecastDay`, `ForecastItem`
 - Day slots: `getForecastItemsForDay` (4 points/day; past hours mostly absent from MET)
 - Icons: `public/dashboardAssets/weatherIcons/{symbol_code}.svg`
-- `/andre` uses horizontal `WeatherStrip` (same data, swipe row)
+- `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row)
 
 ## Speakers
 

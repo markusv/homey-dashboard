@@ -27,15 +27,14 @@ export const Weather = ({ onSetFocus, className }) => {
 
   return (
     <div onClick={onWeatherClick} className={className}>
-      {forecast && (
-        <>
-          <ForecastDay forecast={forecast} dayOfset={0} />
-          <ForecastDay forecast={forecast} dayOfset={1} />
-          <ForecastDay forecast={forecast} dayOfset={1} />
-          <ForecastDay forecast={forecast} dayOfset={1} />
-          <ForecastDay forecast={forecast} dayOfset={4} />
-        </>
-      )}
+      {forecast &&
+        [0, 1, 2, 3, 4].map((dayOffset) => (
+          <ForecastDay
+            key={dayOffset}
+            forecast={forecast}
+            dayOfset={dayOffset}
+          />
+        ))}
     </div>
   );
 };
