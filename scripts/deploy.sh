@@ -7,6 +7,10 @@
 # One-time on your Mac (you type any password locally; the agent never sees it):
 #   ssh-copy-id pi@192.168.68.91
 #   ssh-copy-id rpi@192.168.68.99
+#   ssh-add --apple-use-keychain   # optional: forward this Mac's GitHub key during deploy
+#
+# GitHub on the Pi: prefer a passphrase-less read-only deploy key for `git pull`.
+# This script also forwards your Mac ssh-agent so deploy stays non-interactive.
 #
 # Usage (from the repo root):
 #   npm run deploy
@@ -32,6 +36,7 @@ BRANCH="${BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
 SKIP_ENTRE="${SKIP_ENTRE:-0}"
 SKIP_VERIFY="${SKIP_VERIFY:-0}"
 SSH_OPTS=(-o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=15)
+SSH_GIT_OPTS=("${SSH_OPTS[@]}" -o ForwardAgent=yes)
 
 main_host="${MAIN_PI#*@}"
 VERIFY_BASE_URL="${VERIFY_BASE_URL:-http://${main_host}}"
@@ -40,8 +45,32 @@ ssh_pi() {
   ssh "${SSH_OPTS[@]}" "$@"
 }
 
+ssh_pi_git() {
+  ssh "${SSH_GIT_OPTS[@]}" "$@"
+}
+
 die() {
   echo "error: $*" >&2
+  exit 1
+}
+
+ensure_mac_agent() {
+  if ssh-add -l >/dev/null 2>&1; then
+    echo "SSH agent has keys (forwarded to the Pi for GitHub)"
+    return 0
+  fi
+  ssh-add --apple-load-keychain >/dev/null 2>&1 || ssh-add --apple-use-keychain >/dev/null 2>&1 || true
+  if ssh-add -l >/dev/null 2>&1; then
+    echo "SSH agent has keys (forwarded to the Pi for GitHub)"
+    return 0
+  fi
+  cat >&2 <<EOF
+No SSH keys in the agent. The Pi cannot unlock its own GitHub key without a passphrase.
+
+On this Mac (passphrase stays in your terminal):
+  ssh-add --apple-use-keychain
+  ssh-add -l
+EOF
   exit 1
 }
 
@@ -141,11 +170,21 @@ preflight_ssh "$MAIN_PI"
 if [[ "$SKIP_ENTRE" != "1" ]]; then
   preflight_ssh "$ENTRE_PI"
 fi
+ensure_mac_agent
 
 echo "Pull + install + build on $MAIN_PI ..."
-ssh_pi "$MAIN_PI" \
+ssh_pi_git "$MAIN_PI" \
   "APP_DIR=$(printf '%q' "$APP_DIR") BRANCH=$(printf '%q' "$BRANCH") bash -s" <<'REMOTE'
 set -euo pipefail
+
+if ssh-add -l >/dev/null 2>&1; then
+  # Ignore the Pi's passphrase-protected GitHub key; use the Mac agent.
+  export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o IdentitiesOnly=no -F /dev/null"
+  echo "Using forwarded Mac SSH agent for GitHub"
+else
+  echo "No forwarded agent keys; trying the Pi's GitHub SSH key (must have no passphrase)"
+  export GIT_SSH_COMMAND="ssh -o BatchMode=yes"
+fi
 
 if [ -s "$HOME/.config/nvm/nvm.sh" ]; then
   export NVM_DIR="$HOME/.config/nvm"

@@ -65,4 +65,6 @@ ssh-copy-id pi@192.168.68.91
 ssh-copy-id rpi@192.168.68.99
 ```
 
+On the main Pi, `git pull` should use a **passphrase-less read-only GitHub deploy key** (so deploy is not blocked by a key passphrase). The deploy script also forwards your Mac ssh-agent as a fallback.
+
 See [`scripts/deploy.sh`](scripts/deploy.sh) and [`docs/codebase-map.md`](docs/codebase-map.md) (Production).

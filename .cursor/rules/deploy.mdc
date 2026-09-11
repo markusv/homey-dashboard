@@ -12,6 +12,6 @@ Two LAN kiosks. **Never ask for, store, or use SSH passwords** (or sudo password
 | Stue (main) | `pi@192.168.68.91` | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
 | Entre | `rpi@192.168.68.99` | Kiosk `/entre` only (no app server) |
 
-- **User deploys** from their Mac: `npm run deploy` (`scripts/deploy.sh`). It uses existing SSH keys and `BatchMode` (fails instead of prompting for a password).
-- **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password, never run `ssh-copy-id` for the user, never disable host-key checking.
+- **User deploys** from their Mac: `npm run deploy` (`scripts/deploy.sh`). It uses existing SSH keys and `BatchMode` (fails instead of prompting for a password). GitHub `git pull` on the Pi uses a passphrase-less read-only deploy key, with Mac **SSH agent forwarding** as a non-interactive fallback.
+- **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password or GitHub key passphrase, never run `ssh-copy-id` for the user, never disable host-key checking.
 - Push the branch to GitHub first. The main Pi pulls and `npm run build`, then both Pis reboot so kiosk browsers reload.
