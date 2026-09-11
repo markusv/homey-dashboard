@@ -4,6 +4,9 @@
 
 .entre-dash-col-one {
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .entre-dash-col-two {

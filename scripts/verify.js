@@ -8,6 +8,7 @@ const endpoints = [
   { path: "/andre", name: "2. etasje dashboard" },
   { path: "/api/read/temperature/loft", name: "Temperature API (loft)" },
   { path: "/api/read/weather", name: "Weather API" },
+  { path: "/api/read/departures", name: "Departures API" },
 ];
 
 const verify = async () => {

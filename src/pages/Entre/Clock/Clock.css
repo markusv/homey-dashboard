@@ -1,0 +1,43 @@
+.entre-clock {
+  box-sizing: border-box;
+  padding: 0.75rem 1rem 0;
+  text-align: center;
+}
+
+.entre-clock-time {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.entre-clock-time,
+.entre-clock-time span {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.entre-clock-time .clock-colon {
+  padding: 0 0.12em;
+}
+
+.entre-clock-date {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: capitalize;
+}
+
+/* Entre kiosk 13.1" / 1920×1080 — beat `* { font-size: 1.5rem }` on digit spans */
+@media screen and (min-width: 1900px) {
+  .entre-clock-time,
+  .entre-clock-time span {
+    font-size: 2.5rem;
+  }
+
+  .entre-clock-date {
+    font-size: 0.85rem;
+  }
+}

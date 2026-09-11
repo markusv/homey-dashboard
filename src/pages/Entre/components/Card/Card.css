@@ -9,6 +9,7 @@
   margin-bottom: 2rem;
 }
 
+/* Entre kiosk 13.1" / 1920×1080 */
 @media screen and (min-width: 1900px) {
   .entre-card {
     padding: 2rem;

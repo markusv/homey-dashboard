@@ -20,6 +20,7 @@ Only explore further when that doc is missing the area you need, then **update `
 | Flows | `src/components/Flows/helpers/triggerFlow.js` |
 | Blinds | `/andre` via zone auto-discover (`getRoomBlinds`); Stue Markise hard-coded |
 | Weather | `src/server/routes/weather.js`, `useFetchForecast`, `getForecastItemsForDay` |
+| Public transport | `src/components/Departures/`, `src/server/routes/departures.js` |
 | Insights / temp API | `src/server/routes/temperature.js`, `src/server/insights.js` |
 | Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`; also Spotify Connect) |
 | AudioPro | `src/components/Devices/AudioProSpeaker/` (flow fallback) |

@@ -1,0 +1,31 @@
+---
+description: Entur Journey Planner docs and Entre departure-board constraints
+globs: src/pages/Entre/**,src/server/routes/departures.js,src/components/Departures/**
+alwaysApply: false
+---
+
+# Entur (Ruter sanntid)
+
+Open APIs only. Identify every request with `ET-Client-Name` (`homey-dashboard-entre`). No OAuth.
+
+When implementing or changing the Entre departure board, fetch docs first:
+
+- Index: https://developer.entur.no/llms.txt
+- Board: https://developer.entur.no/docs/open-services/journey-planner.md
+- Examples: https://developer.entur.no/docs/open-services/journey-planner/examples.md
+- GraphQL: `POST https://api.entur.io/journey-planner/v3/graphql`
+
+Do not call Entur from the browser. Proxy + short cache via Express, same pattern as weather.
+
+Westbound only (same as current `mon.ruter.no` iframe):
+
+| Stop | StopPlace | Quay | Mode | Hide |
+| ---- | --------- | ---- | ---- | ---- |
+| Alna tog | `NSR:StopPlace:62308` | `NSR:Quay:641` | rail | Lillestrøm, bus |
+| Risløkka | `NSR:StopPlace:5922` | `NSR:Quay:10861` | metro | Vestli |
+
+3 departures per stop. Poll HTTP; no WebSocket. Use `estimatedCalls` (`expectedDepartureTime`, `aimedDepartureTime`, `realtime`, `destinationDisplay`, `line.publicCode`, `transportMode`, `situations`).
+
+Entre kiosk is a 13.1" touch screen at **1920×1080** (`min-width: 1900px` CSS). Stue kiosk is the official Pi 7" touch v1 at **800×480** and does not show this board.
+
+Do not keep situation text on screen. Show an amber `!` on rows that have `situations`; tap opens a popover. This is a touch kiosk — do not rely on hover.

@@ -14,6 +14,7 @@ html {
   box-sizing: border-box;
 }
 
+/* Shared dashboard shell. Kiosks: Stue 800×480 (Pi 7" v1), Entre 1920×1080 (13.1"), Andre 720×1280 portrait. */
 .homey-dashboard {
   font-family: var(--sl-font-sans);
   font-size: var(--sl-font-size-medium);

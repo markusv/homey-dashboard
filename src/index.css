@@ -11,3 +11,28 @@ code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.clock-colon {
+  --clock-colon-on: #f4f4f5;
+  --clock-colon-dim: rgba(244, 244, 245, 0.38);
+  color: var(--clock-colon-on);
+  animation: clock-colon-blink 2s ease-in-out infinite;
+}
+
+@keyframes clock-colon-blink {
+  0%,
+  41% {
+    color: var(--clock-colon-on);
+  }
+
+  50%,
+  91% {
+    color: var(--clock-colon-dim);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clock-colon {
+    animation: none;
+  }
+}

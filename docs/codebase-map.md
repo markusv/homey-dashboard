@@ -14,11 +14,11 @@ Last updated: 2026-09-11. Prefer reading this file over broad codebase explorati
 
 Registered in `src/index.js`:
 
-| Path     | Page                        | Notes                                                                                |
-| -------- | --------------------------- | ------------------------------------------------------------------------------------ |
-| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape                                                                |
-| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance + Ruter iframe                                                              |
-| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor, 720×1280 portrait (component folders + `hooks/` / `helpers/` / `common/`) |
+| Path     | Page                        | Notes                                                                                    |
+| -------- | --------------------------- | ---------------------------------------------------------------------------------------- |
+| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape — official Pi 7" touch v1, **800×480**                             |
+| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance — 13.1" touch **1920×1080**; Entur board (iframe fallback)                      |
+| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor, **720×1280** portrait (component folders + `hooks/` / `helpers/` / `common/`) |
 
 New SPA routes: add to `src/index.js` + `scripts/verify.js` (+ `.cursor/rules/verify-http.mdc`). Express already serves all paths via catch-all.
 
@@ -76,6 +76,14 @@ Response shape: `{ current, points, unit, range, … }`.
 - Icons: `public/dashboardAssets/weatherIcons/{symbol_code}.svg`
 - `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row)
 
+## Public transport (Entre)
+
+- UI: `DeparturesBoard` on `/entre` via Entur Journey Planner (`GET /api/read/departures`)
+- Fallback: Ruter iframe kept behind `USE_ENTUR_DEPARTURES` in `src/pages/Entre/constants.js`
+- Westbound only: Alna quay `NSR:Quay:641` (rail), Risløkka quay `NSR:Quay:10861` (metro)
+- Situations: amber `!` on the affected row; tap opens a popover (touch kiosk — do not rely on hover)
+- Docs: `.cursor/rules/entur.mdc` → https://developer.entur.no/llms.txt
+
 ## Speakers
 
 | Implementation      | Path                                       | Notes                                                                                                                             |
@@ -120,18 +128,19 @@ Response shape: `{ current, points, unit, range, … }`.
 - Shoelace: `sl-theme-dark`, `SlButton`, `<sl-icon>`, CDN `setBasePath`
 - Shared layout CSS: `src/App.css` (Stue columns)
 - Entre cards: `src/pages/Entre/components/Card/*`
+- Entre clock: `src/pages/Entre/Clock/` above Stemninger (same date format as `/andre`)
 - Focus overlay: `FocusedElement`
-- Large displays: `@media (min-width: 1900px)` bumps sizes
+- Large displays: `@media (min-width: 1900px)` is the Entre 13.1" kiosk (1920×1080)
 - `/andre`: touch-first, no hover reliance, portrait CSS in `Andre.css`
 
 ## Production (Raspberry Pi)
 
 Two kiosk Pis on the LAN. The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`).
 
-| Device      | Address                 | Role                                                                                                                                                                    |
-| ----------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stue (main) | `192.168.68.91` (`pi`)  | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
-| Entre       | `192.168.68.99` (`rpi`) | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
+| Device      | Address                 | Screen                                           | Role                                                                                                                                                                    |
+| ----------- | ----------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stue (main) | `192.168.68.91` (`pi`)  | Official Raspberry Pi 7" touch (v1), **800×480** | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
+| Entre       | `192.168.68.99` (`rpi`) | 13.1" touch, **1920×1080**                       | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
 
 Deploy from a Mac on the same LAN (`scripts/deploy.sh`):
 

@@ -107,12 +107,18 @@
   pointer-events: none;
 }
 
-.andre-clock-time {
+.andre-clock-time,
+.andre-clock-time span {
   position: relative;
   font-size: 4.6rem;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
+}
+
+.andre-clock-time .clock-colon {
+  --clock-colon-on: #f5f5f7;
+  --clock-colon-dim: rgba(245, 245, 247, 0.38);
 }
 
 .andre-clock-date {

@@ -7,10 +7,10 @@ alwaysApply: true
 
 Two LAN kiosks. **Never ask for, store, or use SSH passwords** (or sudo passwords). Do not put secrets, private keys, or `authorized_keys` in the repo.
 
-| Pi | Address | Role |
-| -- | ------- | ---- |
-| Stue (main) | `pi@192.168.68.91` | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
-| Entre | `rpi@192.168.68.99` | Kiosk `/entre` only (no app server) |
+| Pi | Address | Screen | Role |
+| -- | ------- | ------ | ---- |
+| Stue (main) | `pi@192.168.68.91` | Official Raspberry Pi 7" touch (v1), **800×480** | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
+| Entre | `rpi@192.168.68.99` | 13.1" touch, **1920×1080** | Kiosk `/entre` only (no app server) |
 
 - **User deploys** from their Mac: `npm run deploy` (`scripts/deploy.sh`). SSH keys only, `BatchMode`. Mac and the main Pi must be on `main`; the Pi pulls `origin/main` (no ahead/behind/push check).
 - **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password or GitHub key passphrase, never run `ssh-copy-id` for the user, never disable host-key checking.

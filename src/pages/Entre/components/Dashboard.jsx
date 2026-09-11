@@ -15,6 +15,7 @@ import { useMakeCapabilityInstance } from "../../../components/Devices/helpers/u
 import { EntranceDoorCard } from "./EntranceDoorCard";
 import { triggerFlow } from "../../../components/Flows/helpers/triggerFlow";
 import { VacuumIcon } from "../../../components/Devices/Roborock/VacuumIcon/VacuumIcon";
+import { Clock } from "../Clock/Clock";
 import "../../../components/Devices/device.css";
 
 export const Dashboard = () => {
@@ -54,6 +55,7 @@ export const Dashboard = () => {
   return (
     <div className="entre-dash">
       <div className="entre-dash-col-one">
+        <Clock />
         <Moods flows={flows} moods={ENTRE_MOODS} onMoodClick={onMoodClick} />
       </div>
       <div className="entre-dash-col-two">

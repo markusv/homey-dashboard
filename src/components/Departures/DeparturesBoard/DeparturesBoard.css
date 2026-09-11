@@ -1,0 +1,321 @@
+.departures-board {
+  --departures-muted: rgba(255, 255, 255, 0.55);
+  --departures-border: rgba(255, 255, 255, 0.1);
+  --departures-bg: rgba(255, 255, 255, 0.04);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 1rem 1.2rem 1.1rem;
+  color: #f4f4f5;
+  background: #12141a;
+  border: 1px solid var(--departures-border);
+  border-radius: 18px;
+}
+
+.departures-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.departures-board-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--departures-muted);
+}
+
+.departures-board-meta,
+.departures-board-meta * {
+  color: var(--departures-muted);
+  font-size: 0.95rem;
+}
+
+.departures-board-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.departures-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.departures-live-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+}
+
+.departures-board-empty,
+.departures-stop-empty {
+  color: var(--departures-muted);
+}
+
+.departures-stops {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 1rem;
+}
+
+.departures-stop {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.55rem 0.75rem 0.35rem;
+  background: var(--departures-bg);
+  border: 1px solid var(--departures-border);
+  border-radius: 14px;
+}
+
+.departures-stop-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.departures-stop-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.departures-row {
+  display: grid;
+  grid-template-columns: 2.6rem auto minmax(0, 1fr) 1.7rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+}
+
+.departures-row + .departures-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.departures-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 1.85rem;
+  padding: 0 0.45rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: #3f3f46;
+  color: #fff;
+}
+
+.departures-line--l1 {
+  background: #125e5b;
+}
+
+.departures-line--metro-4 {
+  background: #0054a6;
+}
+
+.departures-line--metro-5 {
+  background: #d05c12;
+}
+
+.departures-row-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 3.6rem;
+}
+
+.departures-row-countdown {
+  display: flex;
+  align-items: baseline;
+  gap: 0.18em;
+}
+
+.departures-row-minutes {
+  font-size: 1.7rem;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.departures-row-unit {
+  font-size: 0.85rem;
+  color: var(--departures-muted);
+}
+
+.departures-row-clock {
+  font-size: 0.85rem;
+  color: var(--departures-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.departures-row-destination {
+  min-width: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.departures-situation-trigger,
+.departures-situation-trigger-spacer {
+  display: block;
+  width: 1.55rem;
+  height: 1.55rem;
+  justify-self: end;
+}
+
+.departures-situation-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.departures-situation-trigger--open,
+.departures-situation-trigger:hover {
+  background: rgba(245, 158, 11, 0.32);
+}
+
+.departures-situation-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.departures-situation-popover {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  max-width: min(34rem, calc(100% - 2rem));
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: #1c1917;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.departures-situation-text {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: #fde68a;
+  white-space: normal;
+}
+
+.departures-situation-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+/* Entre kiosk 13.1" / 1920×1080 */
+@media screen and (min-width: 1900px) {
+  .departures-board {
+    padding: 0.55rem 0.75rem 0.55rem;
+  }
+
+  .departures-board-header {
+    margin-bottom: 0.4rem;
+  }
+
+  .departures-board-title {
+    font-size: 0.95rem;
+  }
+
+  .departures-board-meta,
+  .departures-board-meta * {
+    font-size: 0.85rem;
+  }
+
+  .departures-stops {
+    gap: 0.7rem;
+  }
+
+  .departures-stop {
+    padding: 0.4rem 0.6rem 0.25rem;
+  }
+
+  .departures-stop-title {
+    margin-bottom: 0.3rem;
+    font-size: 1.05rem;
+  }
+
+  .departures-row {
+    padding: 0.22rem 0;
+    gap: 0.5rem;
+  }
+
+  .departures-row-minutes {
+    font-size: 1.35rem;
+  }
+
+  .departures-row-destination {
+    font-size: 0.95rem;
+  }
+
+  .departures-line {
+    min-width: 2.1rem;
+    height: 1.55rem;
+    font-size: 0.85rem;
+  }
+
+  .departures-situation-trigger,
+  .departures-situation-trigger-spacer {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+
+  .departures-situation-trigger {
+    font-size: 0.9rem;
+  }
+
+  .departures-situation-text {
+    font-size: 1.05rem;
+  }
+}

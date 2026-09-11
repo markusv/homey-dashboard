@@ -18,5 +18,6 @@ The verify script must get **200 OK** for:
 - `/andre` (2. etasje dashboard)
 - `/api/read/temperature/loft` (temperature API)
 - `/api/read/weather` (weather API)
+- `/api/read/departures` (Entur departure board)
 
 Do not consider the task done if any of these fail. Stop the temporary server when finished.

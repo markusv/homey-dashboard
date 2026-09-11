@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Deploy Homey dashboard from your Mac to the living-room Pi, then reboot both kiosks.
 #
+# Screens:
+#   Stue  (pi@192.168.68.91)  official Raspberry Pi 7" touch v1, 800x480, kiosk /
+#   Entre (rpi@192.168.68.99) 13.1" touch, 1920x1080, kiosk /entre (no Node)
+#
 # Security: uses existing SSH keys only. Never prompts for a password
 # (BatchMode). Do not put passwords, tokens, or private keys in this file.
 #

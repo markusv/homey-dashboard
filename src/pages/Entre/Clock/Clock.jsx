@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Clock.css";
 
 const formatTime = (date) =>
   date.toLocaleTimeString("nb-NO", {
@@ -25,18 +26,15 @@ export const Clock = () => {
   const minutes = String(now.getMinutes()).padStart(2, "0");
 
   return (
-    <header className="andre-clock">
-      <div className="andre-clock-hero">
-        <div className="andre-clock-glow" aria-hidden="true" />
-        <div className="andre-clock-time" aria-label={formatTime(now)}>
-          <span>{hours}</span>
-          <span className="clock-colon" aria-hidden="true">
-            :
-          </span>
-          <span>{minutes}</span>
-        </div>
+    <header className="entre-clock">
+      <div className="entre-clock-time" aria-label={formatTime(now)}>
+        <span className="entre-clock-hours">{hours}</span>
+        <span className="clock-colon" aria-hidden="true">
+          :
+        </span>
+        <span className="entre-clock-minutes">{minutes}</span>
       </div>
-      <div className="andre-clock-date">{formatDate(now)}</div>
+      <div className="entre-clock-date">{formatDate(now)}</div>
     </header>
   );
 };

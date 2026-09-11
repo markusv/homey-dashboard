@@ -3,6 +3,8 @@ import "./Entre.css";
 import { Dashboard } from "./components/Dashboard";
 import { useFetchForecast } from "../../components/Weather/helpers/useFetchForecast";
 import { WeatherLarge } from "../../components/Weather/WeatherLarge";
+import { DeparturesBoard } from "../../components/Departures/DeparturesBoard/DeparturesBoard";
+import { USE_ENTUR_DEPARTURES, RUTER_MONITOR_URL } from "./constants";
 import { useGetDevice } from "../../components/Devices/helpers/useGetDevice";
 import { ETG_2_HEATPUMP_ID } from "../../constants";
 import { useMakeCapabilityInstance } from "../../components/Devices/helpers/useMakeCapabilityInstance";
@@ -40,12 +42,20 @@ export const Entre = () => {
         </div>
       </div>
       <div className="entre-col-two">
-        <div className="public-transport-container">
-          <iframe
-            title="Ruter"
-            className="public-transport-frame"
-            src="https://mon.ruter.no/departures/59.93371152573079-10.823993057232567/N4Igrgzgpgwg9gGzAWwHYBkCGBPOYAuIAXPgE5hQA0IARnJqQCYTEDaoE+cADgAoKYAxlACSzNiAByAZQBKRaVz4DhRAGwAmAMwAGABwgAutUZQB2KI0UN8AFQCWyKMR3UAFvcamM91FBZEoDLyijz8QlDq2voSwUQAimA46gAsOgC06ACMmfYICP5kAB-IRgC+1KgoNFCkAPIAZgAiUNw2YKT+xFrU+Pb4BcQgAIIIqJgABFwA5iAm9hCYNAWMtqSYqBDccKT4ALJwpgGstJBG1FDjy5bEZBTunlBrQgDW8Ehot+RQFRxK4cIxMcpHIFP8VJEAKwATg0GnOIFM5ks1l2DicLgeXku6F8XUCIJC4IiRBhcNioMSySy+jUWnSKXSADVCgh7HNCQkktgiDS9HT0pDmaz2dQ4lSeXyBUKWZw2RMAG72Sa2IoWVDlSrVWqNFptXYdfE9EB9AbOIggWQLBBFF4vFU0DbOeaLa6rdabba7A5HNjGECXJYrL73EAeUzPQRvRAoDUkb5lf0K2oQexwOMaMpAA"
-          />
+        <div
+          className={`public-transport-container${
+            USE_ENTUR_DEPARTURES ? " public-transport-container--entur" : ""
+          }`}
+        >
+          {USE_ENTUR_DEPARTURES ? (
+            <DeparturesBoard />
+          ) : (
+            <iframe
+              title="Ruter"
+              className="public-transport-frame"
+              src={RUTER_MONITOR_URL}
+            />
+          )}
         </div>
         <div className="weather-container">
           {outsideTemp && (
