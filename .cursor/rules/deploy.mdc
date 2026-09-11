@@ -1,0 +1,17 @@
+---
+description: Raspberry Pi deploy topology and credential rules
+alwaysApply: true
+---
+
+# Deploy (Raspberry Pi kiosks)
+
+Two LAN kiosks. **Never ask for, store, or use SSH passwords** (or sudo passwords). Do not put secrets, private keys, or `authorized_keys` in the repo.
+
+| Pi | Address | Role |
+| -- | ------- | ---- |
+| Stue (main) | `pi@192.168.68.91` | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
+| Entre | `rpi@192.168.68.99` | Kiosk `/entre` only (no app server) |
+
+- **User deploys** from their Mac: `npm run deploy` (`scripts/deploy.sh`). It uses existing SSH keys and `BatchMode` (fails instead of prompting for a password).
+- **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password, never run `ssh-copy-id` for the user, never disable host-key checking.
+- Push the branch to GitHub first. The main Pi pulls and `npm run build`, then both Pis reboot so kiosk browsers reload.

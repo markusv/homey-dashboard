@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-09-10. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-09-11. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -123,6 +123,26 @@ Response shape: `{ current, points, unit, range, … }`.
 - Focus overlay: `FocusedElement`
 - Large displays: `@media (min-width: 1900px)` bumps sizes
 - `/andre`: touch-first, no hover reliance, portrait CSS in `Andre.css`
+
+## Production (Raspberry Pi)
+
+Two kiosk Pis on the LAN. The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`).
+
+| Device      | Address                 | Role                                                                                                                                                                    |
+| ----------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stue (main) | `192.168.68.91` (`pi`)  | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
+| Entre       | `192.168.68.99` (`rpi`) | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
+
+Deploy from a Mac on the same LAN (`scripts/deploy.sh`):
+
+1. Push the branch to GitHub (the Pi only pulls `origin`).
+2. SSH key auth to both Pis (`BatchMode` — no password prompt).
+3. On the main Pi: `git pull`, `npm install`, `npm run build`.
+4. Reboot the main Pi; wait until SSH and HTTP 200 on `/`.
+5. Run `VERIFY_BASE_URL=http://192.168.68.91 npm run verify`.
+6. Reboot the entre Pi so its kiosk reloads `/entre`.
+
+One-time SSH keys (run locally, never commit keys or paste passwords into chat): `ssh-copy-id pi@192.168.68.91` and `ssh-copy-id rpi@192.168.68.99`. Reboot needs passwordless `sudo /sbin/reboot` on each Pi.
 
 ## Adding a dashboard / room
 

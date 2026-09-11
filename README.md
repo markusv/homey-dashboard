@@ -8,16 +8,17 @@ Requires **Node.js LTS** via nvm (`.nvmrc` → `lts/*`, currently **^24.19.0** i
 
 ## Scripts
 
-| Script                      | Purpose                                                                          |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| `npm start` / `npm run dev` | Vite (port 3000) + Express API (port 3080; `/api` proxied)                       |
-| `npm run start:api`         | Express API only (port 3080)                                                     |
-| `npm run build`             | Production build → `build/`                                                      |
-| `npm run start:production`  | Express static + API (`PORT`, default 80; use `sudo` on the Pi if binding to 80) |
-| `npm test`                  | Vitest                                                                           |
-| `npm run lint`              | ESLint                                                                           |
-| `npm run format`            | Prettier                                                                         |
-| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, `/andre`, temperature API, and weather API    |
+| Script                      | Purpose                                                                                |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| `npm start` / `npm run dev` | Vite (port 3000) + Express API (port 3080; `/api` proxied)                             |
+| `npm run start:api`         | Express API only (port 3080)                                                           |
+| `npm run build`             | Production build → `build/`                                                            |
+| `npm run start:production`  | Express static + API (`PORT`, default 80; use `sudo` on the Pi if binding to 80)       |
+| `npm test`                  | Vitest                                                                                 |
+| `npm run lint`              | ESLint                                                                                 |
+| `npm run format`            | Prettier                                                                               |
+| `npm run verify`            | HTTP 200 checks for `/`, `/entre`, `/andre`, temperature API, and weather API          |
+| `npm run deploy`            | From your Mac: pull/build on the living-room Pi, reboot both kiosk Pis (SSH keys only) |
 
 ## Environment
 
@@ -46,3 +47,22 @@ Kiosk on the Pi (server + fullscreen Chromium):
 ```bash
 ./scripts/start.sh
 ```
+
+## Deploy (Raspberry Pi)
+
+Living-room Pi **192.168.68.91** runs the production server and the `/` kiosk. Entre Pi **192.168.68.99** (`rpi`) only opens `/entre` in a browser (it does not run Node).
+
+From your Mac, after the branch is on GitHub:
+
+```bash
+npm run deploy
+```
+
+The script uses **SSH keys only** (`BatchMode` — it will not ask for a password). One-time setup in your own terminal:
+
+```bash
+ssh-copy-id pi@192.168.68.91
+ssh-copy-id rpi@192.168.68.99
+```
+
+See [`scripts/deploy.sh`](scripts/deploy.sh) and [`docs/codebase-map.md`](docs/codebase-map.md) (Production).

@@ -33,7 +33,8 @@
     "prettier:fix": "prettier --write .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "node scripts/verify.js"
+    "verify": "node scripts/verify.js",
+    "deploy": "bash scripts/deploy.sh"
   },
   "browserslist": {
     "production": [

@@ -25,3 +25,4 @@ Only explore further when that doc is missing the area you need, then **update `
 | AudioPro | `src/components/Devices/AudioProSpeaker/` (flow fallback) |
 | Roborock | `src/components/Devices/Roborock/`, `/andre` vacuum via `clean_full` |
 | Verify | `scripts/verify.js` — `/`, `/entre`, `/andre`, temp loft, weather |
+| Deploy | `scripts/deploy.sh`, `.cursor/rules/deploy.mdc` |
