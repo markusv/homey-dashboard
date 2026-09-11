@@ -20,9 +20,10 @@
 #   MAIN_PI     default pi@192.168.68.91
 #   ENTRE_PI    default rpi@192.168.68.99
 #   APP_DIR     default /home/pi/Projects/homey-dashboard
-#   BRANCH      default: current local git branch (must already be on origin)
 #   SKIP_ENTRE=1   skip rebooting the entre kiosk
 #   SKIP_VERIFY=1  skip HTTP 200 checks after the main Pi is back
+#
+# Deploys origin/main. This Mac and the main Pi must both be on main.
 
 set -euo pipefail
 
@@ -32,7 +33,7 @@ cd "$ROOT"
 MAIN_PI="${MAIN_PI:-pi@192.168.68.91}"
 ENTRE_PI="${ENTRE_PI:-rpi@192.168.68.99}"
 APP_DIR="${APP_DIR:-/home/pi/Projects/homey-dashboard}"
-BRANCH="${BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
+BRANCH="main"
 SKIP_ENTRE="${SKIP_ENTRE:-0}"
 SKIP_VERIFY="${SKIP_VERIFY:-0}"
 SSH_OPTS=(-o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=15)
@@ -42,7 +43,8 @@ main_host="${MAIN_PI#*@}"
 VERIFY_BASE_URL="${VERIFY_BASE_URL:-http://${main_host}}"
 
 ssh_pi() {
-  ssh "${SSH_OPTS[@]}" "$@"
+  # -n: do not read stdin (otherwise later ssh can consume the rest of the script)
+  ssh -n "${SSH_OPTS[@]}" "$@"
 }
 
 ssh_pi_git() {
@@ -97,7 +99,7 @@ wait_for_ssh() {
   start="$(date +%s)"
   echo "Waiting for SSH on $target ..."
   while true; do
-    if ssh "${SSH_OPTS[@]}" -o ConnectTimeout=5 "$target" true 2>/dev/null; then
+    if ssh -n "${SSH_OPTS[@]}" -o ConnectTimeout=5 "$target" true 2>/dev/null; then
       echo "SSH is up: $target"
       return 0
     fi
@@ -110,18 +112,20 @@ wait_for_ssh() {
 
 wait_for_http() {
   local url="$1"
-  local timeout="${2:-180}"
+  local timeout="${2:-300}"
   local start
   start="$(date +%s)"
   echo "Waiting for HTTP 200: $url ..."
   while true; do
-    if curl -fsS -o /dev/null --connect-timeout 5 --max-time 10 "$url"; then
+    if curl -fs -o /dev/null --connect-timeout 5 --max-time 10 "$url" 2>/dev/null; then
+      echo
       echo "HTTP OK: $url"
       return 0
     fi
     if (( $(date +%s) - start > timeout )); then
       die "timed out waiting for $url"
     fi
+    printf '.'
     sleep 5
   done
 }
@@ -144,26 +148,9 @@ echo "Deploy branch: $BRANCH"
 echo "Main Pi:       $MAIN_PI  ($APP_DIR)"
 echo "Entre Pi:      $ENTRE_PI"
 
-if [[ "$BRANCH" == "HEAD" ]]; then
-  die "detached HEAD — check out a branch (or set BRANCH=...) before deploying"
-fi
-
-git fetch origin "$BRANCH" || die "could not fetch origin/$BRANCH — push this branch first"
-
-local_sha="$(git rev-parse HEAD)"
-if ! remote_sha="$(git rev-parse "origin/$BRANCH" 2>/dev/null)"; then
-  die "origin/$BRANCH does not exist — git push -u origin $BRANCH"
-fi
-
-if [[ "$local_sha" != "$remote_sha" ]]; then
-  if git merge-base --is-ancestor "$remote_sha" "$local_sha"; then
-    die "local $BRANCH is ahead of origin — git push before deploying (the Pi pulls from GitHub)"
-  fi
-  echo "warning: local $BRANCH differs from origin; the Pi will deploy origin/$BRANCH ($remote_sha)"
-fi
-
-if [[ -n "$(git status --porcelain)" ]]; then
-  echo "warning: working tree is dirty; the Pi still deploys whatever is on origin/$BRANCH"
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+if [[ "$local_branch" != "main" ]]; then
+  die "this Mac must be on main (currently $local_branch)"
 fi
 
 preflight_ssh "$MAIN_PI"
@@ -202,9 +189,13 @@ command -v node >/dev/null || {
 }
 
 cd "$APP_DIR"
-git fetch origin "$BRANCH"
-git checkout "$BRANCH"
-git pull --ff-only origin "$BRANCH"
+git fetch origin main
+git checkout main
+git pull --ff-only origin main
+if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then
+  echo "Pi is not on main (currently $(git rev-parse --abbrev-ref HEAD))" >&2
+  exit 1
+fi
 
 npm install
 npm run build
@@ -214,16 +205,19 @@ REMOTE
 
 reboot_pi "$MAIN_PI"
 wait_for_ssh "$MAIN_PI"
-wait_for_http "$VERIFY_BASE_URL/"
+# systemd Type=idle + Node binding :80 often lags SSH by a bit
+sleep 8
+wait_for_http "${VERIFY_BASE_URL}/"
 
-if [[ "$SKIP_VERIFY" != "1" ]]; then
-  echo "Verifying production endpoints on $VERIFY_BASE_URL ..."
-  VERIFY_BASE_URL="$VERIFY_BASE_URL" npm run verify
+if [[ "${SKIP_VERIFY}" != "1" ]]; then
+  echo "Verifying production endpoints on ${VERIFY_BASE_URL} ..."
+  VERIFY_BASE_URL="${VERIFY_BASE_URL}" npm run verify
 fi
 
-if [[ "$SKIP_ENTRE" != "1" ]]; then
-  reboot_pi "$ENTRE_PI"
-  wait_for_ssh "$ENTRE_PI"
+if [[ "${SKIP_ENTRE}" != "1" ]]; then
+  reboot_pi "${ENTRE_PI}"
+  wait_for_ssh "${ENTRE_PI}"
 fi
 
-echo "Deploy done. Stue kiosk: $VERIFY_BASE_URL/  Entre kiosk: $VERIFY_BASE_URL/entre"
+printf 'Deploy done. Stue kiosk: %s/  Entre kiosk: %s/entre\n' \
+  "${VERIFY_BASE_URL}" "${VERIFY_BASE_URL}"
