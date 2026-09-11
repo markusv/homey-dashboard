@@ -15,6 +15,7 @@ The verify script must get **200 OK** for:
 
 - `/` (Stue dashboard)
 - `/entre` (Entre dashboard)
+- `/andre` (2. etasje dashboard)
 - `/api/read/temperature/loft` (temperature API)
 - `/api/read/weather` (weather API)
 

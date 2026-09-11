@@ -3,8 +3,12 @@ import { SONOS_KITCHEN_ID } from "./Sonos";
 import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
 import "./sonos.css";
 
-export const SonosFavorites = ({ close, onFavoriteClick }) => {
-  const { loading, favorites } = useGetFavoritees(SONOS_KITCHEN_ID);
+export const SonosFavorites = ({
+  close,
+  onFavoriteClick,
+  deviceId = SONOS_KITCHEN_ID,
+}) => {
+  const { loading, favorites } = useGetFavoritees(deviceId);
   if (loading) {
     return <div className="sonos-favorites-loading">Loading...</div>;
   }

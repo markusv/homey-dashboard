@@ -11,36 +11,76 @@ import { SonosFavorites } from "./SonosFavorites";
 import DefaultAlbumArt from "./assets/default_album_art.png";
 import { ShuffleIcon } from "./assets/ShuffleIcon";
 
-export const SonosFocus = ({ close }) => {
-  const [sonosKitchen, setSonosKitchen] = useGetDevice(SONOS_KITCHEN_ID);
+const isSonosDevice = (device, deviceId) =>
+  deviceId === SONOS_KITCHEN_ID ||
+  Boolean(
+    String(device?.driverId || "")
+      .toLowerCase()
+      .includes("sonos")
+  );
+
+export const SonosFocus = ({
+  close,
+  deviceId = SONOS_KITCHEN_ID,
+  title = "Sonos",
+  sectionTitle,
+  embedded = false,
+}) => {
+  const [sonosDevice, setSonosDevice] = useGetDevice(deviceId);
   const [showFavorites, setShowFavorites] = useState(false);
-  const artist = sonosKitchen?.capabilitiesObj?.["speaker_artist"]?.value;
-  const track = sonosKitchen?.capabilitiesObj?.["speaker_track"]?.value ?? "";
-  const isPlaying = sonosKitchen?.capabilitiesObj?.["speaker_playing"]?.value;
-  const isShuffle = sonosKitchen?.capabilitiesObj?.["speaker_shuffle"]?.value;
+  const [coverFailed, setCoverFailed] = useState(false);
+  const artist = sonosDevice?.capabilitiesObj?.["speaker_artist"]?.value;
+  const track = sonosDevice?.capabilitiesObj?.["speaker_track"]?.value ?? "";
+  const trackName = typeof track === "string" ? track.trim() : "";
+  const isPlaying = sonosDevice?.capabilitiesObj?.["speaker_playing"]?.value;
+  const isShuffle = sonosDevice?.capabilitiesObj?.["speaker_shuffle"]?.value;
+  const caps = sonosDevice?.capabilities || [];
+  const supportsShuffle = caps.includes("speaker_shuffle");
+  const supportsPrev = caps.includes("speaker_prev");
+  const supportsNext = caps.includes("speaker_next");
+  const supportsFavorites = isSonosDevice(sonosDevice, deviceId);
   const imageRef = useRef();
   const containerRef = useRef();
   const imageUrl = useUpdateImageUrls(
-    sonosKitchen,
+    sonosDevice,
     track,
     imageRef,
     containerRef
   );
-  const [volume, setVolume, onSliderChange] = useVolume(sonosKitchen);
-  const actualId = sonosKitchen?.id;
+  const [volume, setVolume, onSliderChange] = useVolume(sonosDevice);
+  const actualId = sonosDevice?.id;
   useEffect(() => {
     if (!actualId) {
       return;
     }
-    setVolume(getVolumeFromDevice(sonosKitchen));
+    setVolume(getVolumeFromDevice(sonosDevice));
   }, [actualId]);
 
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_album");
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_artist");
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_playing");
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_playing");
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_track");
-  useMakeCapabilityInstance(sonosKitchen, setSonosKitchen, "speaker_shuffle");
+  // Album art lives on device.images; refresh when the track changes (Spotify Connect).
+  useEffect(() => {
+    if (!deviceId || track === undefined) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const homeyApi = await getHomey();
+        const fresh = await homeyApi.devices.getDevice({ id: deviceId });
+        if (cancelled || !fresh) return;
+        // Keep a real Homey Device instance (capability listeners need it).
+        setSonosDevice(fresh);
+      } catch {
+        // Ignore transient Homey/API errors while artwork refreshes.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [deviceId, track, setSonosDevice]);
+
+  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_album");
+  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_artist");
+  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_playing");
+  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_track");
+  useMakeCapabilityInstance(sonosDevice, setSonosDevice, "speaker_shuffle");
 
   const onPauseClick = () => {
     setPlayback(false);
@@ -52,7 +92,7 @@ export const SonosFocus = ({ close }) => {
   const onShuffleClick = async () => {
     const homeyApi = await getHomey();
     homeyApi.devices.setCapabilityValue({
-      deviceId: sonosKitchen.id,
+      deviceId: sonosDevice.id,
       capabilityId: "speaker_shuffle",
       value: !isShuffle,
     });
@@ -61,7 +101,7 @@ export const SonosFocus = ({ close }) => {
   const onPrevClick = async () => {
     const homeyApi = await getHomey();
     homeyApi.devices.setCapabilityValue({
-      deviceId: sonosKitchen.id,
+      deviceId: sonosDevice.id,
       capabilityId: "speaker_prev",
       value: true,
     });
@@ -70,7 +110,7 @@ export const SonosFocus = ({ close }) => {
   const onNextClick = async () => {
     const homeyApi = await getHomey();
     homeyApi.devices.setCapabilityValue({
-      deviceId: sonosKitchen.id,
+      deviceId: sonosDevice.id,
       capabilityId: "speaker_next",
       value: true,
     });
@@ -79,7 +119,7 @@ export const SonosFocus = ({ close }) => {
   const setPlayback = async (playback) => {
     const homeyApi = await getHomey();
     homeyApi.devices.setCapabilityValue({
-      deviceId: sonosKitchen.id,
+      deviceId: sonosDevice.id,
       capabilityId: "speaker_playing",
       value: playback,
     });
@@ -89,7 +129,7 @@ export const SonosFocus = ({ close }) => {
     const homeyApi = await getHomey();
     await homeyApi.flow.runFlowCardAction({
       uri: "homey:manager:flow",
-      id: `homey:device:${SONOS_KITCHEN_ID}:cloud_play_sonos_favorite`,
+      id: `homey:device:${deviceId}:cloud_play_sonos_favorite`,
       args: { favorite },
     });
     setShowFavorites(false);
@@ -99,6 +139,16 @@ export const SonosFocus = ({ close }) => {
     setShowFavorites(!showFavorites);
   };
 
+  const hasNowPlaying = Boolean(trackName) || isPlaying === true;
+  const coverUrl =
+    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : DefaultAlbumArt;
+  const backgroundUrl =
+    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : undefined;
+
+  useEffect(() => {
+    setCoverFailed(false);
+  }, [imageUrl, trackName, isPlaying]);
+
   if (showFavorites) {
     return (
       <SonosFavorites
@@ -106,31 +156,31 @@ export const SonosFocus = ({ close }) => {
           setShowFavorites(false);
         }}
         onFavoriteClick={onFavoriteClick}
+        deviceId={deviceId}
       />
     );
   }
 
-  return (
-    <FocusedElement
-      title="Sonos"
-      onCloseClick={close}
-      backgroundImageUrl={imageUrl}
-      ref={containerRef}
-    >
-      <div className="sonos-playing-container">
-        <div className="sonos-playing-image-container">
-          <img
-            src={imageUrl ?? DefaultAlbumArt}
-            className="sonos-image"
-            ref={imageRef}
-          />
+  const content = (
+    <div className="sonos-playing-container">
+      <div className="sonos-playing-image-container">
+        <img
+          src={coverUrl}
+          className="sonos-image"
+          alt=""
+          ref={imageRef}
+          onError={() => {
+            if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
+          }}
+        />
+      </div>
+      <div className="sonos-playing-content">
+        <div className="sonos-playing-info">
+          <div className="sonos-track-name">{trackName}</div>
+          <div className="sonos-artist-name">{artist}</div>
         </div>
-        <div className="sonos-playing-content">
-          <div className="sonos-playing-info">
-            <div className="sonos-track-name">{track}</div>
-            <div className="sonos-artist-name">{artist}</div>
-          </div>
-          <div className="sonos-buttons">
+        <div className="sonos-buttons">
+          {supportsShuffle && (
             <button
               type="button"
               className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
@@ -141,51 +191,94 @@ export const SonosFocus = ({ close }) => {
                 fill={isShuffle ? "black" : "white"}
               />
             </button>
+          )}
+          {supportsPrev && (
             <button
               type="button"
               className="sonos-prev"
               onClick={onPrevClick}
             />
-            {isPlaying && (
-              <button
-                type="button"
-                className="sonos-pause"
-                onClick={onPauseClick}
-              />
-            )}
-            {!isPlaying && (
-              <button
-                type="button"
-                className="sonos-play"
-                onClick={onPlayClick}
-              />
-            )}
+          )}
+          {isPlaying && (
+            <button
+              type="button"
+              className="sonos-pause"
+              onClick={onPauseClick}
+            />
+          )}
+          {!isPlaying && (
+            <button
+              type="button"
+              className="sonos-play"
+              onClick={onPlayClick}
+            />
+          )}
+          {supportsNext && (
             <button
               type="button"
               className="sonos-next"
               onClick={onNextClick}
             />
+          )}
+          {supportsFavorites && (
             <button
+              type="button"
               className="sonos-favorite-button"
               onClick={onShowFavoriteToggle}
             />
-          </div>
-          <div className="sonos-playing-volume">
-            <span className="sonos-volume-down" />
-            <input
-              className="sonos-playing-volume-slider"
-              type="range"
-              id="volume"
-              name="volume"
-              min="0"
-              max="50"
-              value={volume}
-              onChange={onSliderChange}
-            />
-            <span className="sonos-volume-up" />
-          </div>
+          )}
+        </div>
+        <div className="sonos-playing-volume">
+          <span className="sonos-volume-down" />
+          <input
+            className="sonos-playing-volume-slider"
+            type="range"
+            id="volume"
+            name="volume"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={onSliderChange}
+          />
+          <span className="sonos-volume-up" />
         </div>
       </div>
+    </div>
+  );
+
+  if (embedded) {
+    return (
+      <div className="sonos-embedded">
+        <div
+          className="sonos-embedded-background"
+          ref={containerRef}
+          style={
+            backgroundUrl
+              ? { backgroundImage: `url(${backgroundUrl})` }
+              : undefined
+          }
+          aria-hidden
+        />
+        <div className="sonos-embedded-content">
+          {sectionTitle ? (
+            <h2 className="andre-section-title sonos-embedded-title">
+              {sectionTitle}
+            </h2>
+          ) : null}
+          {content}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <FocusedElement
+      title={title}
+      onCloseClick={close}
+      backgroundImageUrl={backgroundUrl}
+      ref={containerRef}
+    >
+      {content}
     </FocusedElement>
   );
 };

@@ -4,6 +4,10 @@ import { getHomey } from "../../../helpers/getHomey";
 export const useGetDevice = (deviceId) => {
   const [device, setDevice] = useState();
   useEffect(() => {
+    if (!deviceId) {
+      setDevice(undefined);
+      return;
+    }
     const getD = async () => {
       try {
         const homeyApi = await getHomey();

@@ -38,7 +38,6 @@ export const useVolume = (sonosKitchen) => {
     setVolume,
     (sliderEvent) => {
       sliderEvent.stopPropagation();
-      sliderEvent.preventDefault();
       setVolume(sliderEvent.target.value);
     },
   ];

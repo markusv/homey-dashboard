@@ -18,6 +18,6 @@ export const useGetFavoritees = (deviceId) => {
       setLoading(false);
     };
     getF();
-  }, []);
+  }, [deviceId]);
   return { loading, favorites };
 };

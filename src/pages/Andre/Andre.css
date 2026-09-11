@@ -1,0 +1,1810 @@
+/* 2nd-floor hallway dashboard — 720 × 1280 portrait, glass UI */
+
+.andre-page {
+  --andre-glass-bg: rgba(255, 255, 255, 0.06);
+  --andre-glass-bg-strong: rgba(255, 255, 255, 0.1);
+  --andre-glass-border: rgba(255, 255, 255, 0.12);
+  --andre-glass-blur: 24px;
+  --andre-accent: #a855f7;
+  --andre-text-muted: rgba(255, 255, 255, 0.58);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-font-size-medium);
+  color: #f5f5f7;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10px 14px 16px;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  background:
+    radial-gradient(
+      ellipse 100% 60% at 50% -5%,
+      rgba(168, 85, 247, 0.22),
+      transparent 50%
+    ),
+    #07070d;
+}
+
+.andre-page--overview {
+  background:
+    radial-gradient(
+      ellipse 90% 50% at 50% 0%,
+      rgba(168, 85, 247, 0.28),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 80% 20%,
+      rgba(59, 130, 246, 0.12),
+      transparent 50%
+    ),
+    #050508;
+}
+
+.andre-shell {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.andre-page[hidden] {
+  display: none !important;
+}
+
+.andre-glass {
+  background: var(--andre-glass-bg);
+  border: 1px solid var(--andre-glass-border);
+  border-radius: 18px;
+  backdrop-filter: blur(var(--andre-glass-blur));
+  -webkit-backdrop-filter: blur(var(--andre-glass-blur));
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.andre-page--loading {
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* Clock */
+.andre-clock {
+  text-align: center;
+  flex-shrink: 0;
+  padding: 0 0 6px;
+}
+
+.andre-clock-hero {
+  position: relative;
+  display: inline-block;
+  padding: 8px 0 4px;
+}
+
+.andre-clock-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 36px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(168, 85, 247, 0.55),
+    transparent 70%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.andre-clock-time {
+  position: relative;
+  font-size: 4.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.andre-clock-date {
+  margin-top: 0.2rem;
+  font-size: 1.15rem;
+  color: var(--andre-text-muted);
+  text-transform: capitalize;
+}
+
+/* Weather — compact card for overview */
+.andre-weather {
+  flex-shrink: 0;
+  margin: 10px 0 14px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.andre-weather--empty {
+  display: flex;
+  justify-content: center;
+  color: var(--andre-text-muted);
+}
+
+.andre-weather-compact {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 72px;
+}
+
+.andre-weather-now {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  padding-right: 16px;
+  border-right: 1px solid var(--andre-glass-border);
+}
+
+.andre-weather-now-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.andre-weather-now-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.andre-weather-now-temp {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-weather-now-label {
+  font-size: 0.88rem;
+  color: var(--andre-text-muted);
+  line-height: 1.2;
+  max-width: 7rem;
+}
+
+.andre-weather-slots {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.andre-weather-slot {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 2px;
+  border-radius: 12px;
+}
+
+.andre-weather-slot--now {
+  background: rgba(168, 85, 247, 0.18);
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.28);
+}
+
+.andre-weather-slot-time {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--andre-text-muted);
+  white-space: nowrap;
+}
+
+.andre-weather-slot--now .andre-weather-slot-time {
+  color: #e9d5ff;
+}
+
+.andre-weather-slot-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.andre-weather-slot-temp {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* Legacy horizontal scroll weather (unused on overview) */
+.andre-weather-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  min-height: 96px;
+}
+
+.andre-weather-now {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 132px;
+  padding-right: 12px;
+  margin-right: 4px;
+  border-right: 1px solid var(--andre-glass-border);
+}
+
+.andre-weather-now-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.andre-weather-now-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.andre-weather-now-temp {
+  font-size: 2.4rem;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-weather-now-label {
+  font-size: 0.95rem;
+  color: var(--andre-text-muted);
+  line-height: 1.2;
+  max-width: 7.5rem;
+}
+
+.andre-weather-hour {
+  flex-shrink: 0;
+  width: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border-radius: 14px;
+}
+
+.andre-weather-hour--now {
+  background: rgba(167, 139, 250, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.35),
+    0 0 18px rgba(167, 139, 250, 0.25);
+}
+
+.andre-weather-hour-time {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--andre-text-muted);
+}
+
+.andre-weather-hour--now .andre-weather-hour-time {
+  color: #e9e0ff;
+}
+
+.andre-weather-hour-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.andre-weather-hour-temp {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.andre-weather-day {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding-left: 12px;
+  margin-left: 4px;
+  border-left: 1px solid var(--andre-glass-border);
+}
+
+.andre-weather-day-label {
+  position: sticky;
+  left: 12px;
+  z-index: 2;
+  width: max-content;
+  max-width: 100%;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--andre-text-muted);
+  white-space: nowrap;
+  line-height: 1.2;
+  padding: 2px 16px 2px 0;
+  box-sizing: content-box;
+  background: none;
+}
+
+.andre-weather-day-points {
+  display: flex;
+  gap: 6px;
+}
+
+.andre-weather-day-item {
+  width: 52px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.andre-weather-day-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.andre-weather-day-temp {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Room grid */
+.andre-overview-main {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+}
+
+.andre-room-grid {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: auto;
+  align-content: start;
+  gap: 10px;
+}
+
+.andre-overview-moods {
+  flex: 0 0 auto;
+  margin-top: 8px;
+  padding-bottom: 4px;
+}
+
+.andre-overview-moods-title {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--andre-text-muted);
+  text-align: center;
+}
+
+.andre-overview-actions {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.andre-overview-action {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--andre-glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(var(--andre-glass-blur));
+  -webkit-backdrop-filter: blur(var(--andre-glass-blur));
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.andre-overview-action-icon,
+.andre-overview-action sl-icon {
+  font-size: 1.45rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.andre-overview-action-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.andre-overview-action--lights-on .andre-overview-action-icon,
+.andre-overview-action--lights-on sl-icon {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.65));
+}
+
+.andre-overview-action--mood .andre-overview-action-icon,
+.andre-overview-action--mood sl-icon {
+  color: #c084fc;
+  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.65));
+}
+
+.andre-overview-action--vacuum .andre-overview-action-icon {
+  color: #60a5fa;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.7));
+}
+
+.andre-overview-action--disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.andre-overview-action--pending {
+  opacity: 0.55;
+}
+
+.andre-overview-action:active {
+  transform: scale(0.98);
+}
+
+.andre-overview-action:focus {
+  outline: none;
+}
+
+.andre-overview-action:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.55);
+  outline-offset: 2px;
+}
+
+.andre-room-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 196px;
+  height: auto;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  isolation: isolate;
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.andre-room-card-bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--andre-room-bg);
+  background-size: cover;
+  background-position: center center;
+  transform: scale(1.02);
+  z-index: 0;
+}
+
+.andre-room-card-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.5) 45%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+.andre-room-card-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2;
+  background: var(--andre-room-accent, #a78bfa);
+  opacity: 0.85;
+  box-shadow: 0 0 16px var(--andre-room-accent, #a78bfa);
+}
+
+.andre-room-card-glow--top {
+  top: 0;
+}
+
+.andre-room-card-glow--bottom {
+  bottom: 0;
+  opacity: 0.55;
+}
+
+.andre-room-card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+  min-height: 196px;
+  padding: 12px 12px 10px;
+}
+
+.andre-room-card-open {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-room-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 0;
+}
+
+.andre-room-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.andre-room-card-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.andre-room-card:has(.andre-room-card-open:active) {
+  transform: scale(0.985);
+}
+
+.andre-room-card-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+}
+
+.andre-room-card-temp {
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.andre-room-card-temp--empty {
+  color: var(--andre-text-muted);
+}
+
+/* Air quality — compact on room cards */
+.andre-air-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.andre-air-section-header .andre-section-title {
+  margin-bottom: 0;
+}
+
+.andre-air-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.andre-air-score--compact {
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+
+.andre-air-score-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.andre-air-score--good .andre-air-score-dot {
+  background: #6ee7b7;
+  box-shadow: 0 0 10px rgba(110, 231, 183, 0.65);
+}
+
+.andre-air-score--moderate .andre-air-score-dot {
+  background: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.65);
+}
+
+.andre-air-score--poor .andre-air-score-dot {
+  background: #f87171;
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.65);
+}
+
+.andre-air-score--good .andre-air-score-label {
+  color: #6ee7b7;
+}
+
+.andre-air-score--moderate .andre-air-score-label {
+  color: #fbbf24;
+}
+
+.andre-air-score--poor .andre-air-score-label {
+  color: #f87171;
+}
+
+.andre-air-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+  width: 100%;
+  margin: 0;
+}
+
+.andre-air-summary-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.andre-air-summary-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.82;
+}
+
+.andre-air-summary-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.andre-air-summary-unit {
+  margin-left: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.andre-air-summary-item--good .andre-air-summary-value {
+  color: #6ee7b7;
+}
+
+.andre-air-summary-item--moderate .andre-air-summary-value {
+  color: #fbbf24;
+}
+
+.andre-air-summary-item--poor .andre-air-summary-value {
+  color: #f87171;
+}
+
+/* Air quality — detail tiles */
+.andre-air-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.andre-air-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left-width: 4px;
+}
+
+.andre-air-tile-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.andre-air-tile-value {
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-air-tile-unit {
+  margin-left: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.andre-air-tile--good {
+  border-left-color: #34d399;
+}
+
+.andre-air-tile--good .andre-air-tile-value {
+  color: #6ee7b7;
+}
+
+.andre-air-tile--moderate {
+  border-left-color: #fbbf24;
+}
+
+.andre-air-tile--moderate .andre-air-tile-value {
+  color: #fbbf24;
+}
+
+.andre-air-tile--poor {
+  border-left-color: #f87171;
+}
+
+.andre-air-tile--poor .andre-air-tile-value {
+  color: #f87171;
+}
+
+.andre-air-summary--compact {
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.andre-air-summary--compact .andre-air-summary-item {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 4px;
+}
+
+.andre-air-summary--compact .andre-air-summary-label {
+  font-size: 0.68rem;
+}
+
+.andre-air-summary--compact .andre-air-summary-value {
+  font-size: 0.82rem;
+}
+
+.andre-air-summary--compact .andre-air-summary-unit {
+  font-size: 0.62rem;
+}
+
+.andre-room-card-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding-top: 6px;
+  --andre-action-accent: var(--andre-room-accent, #a78bfa);
+}
+
+/* Icon buttons — pill style on room cards */
+.andre-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.78);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.andre-icon-button sl-icon {
+  font-size: 1.15rem;
+}
+
+.andre-blind-icon {
+  font-size: 1.15rem;
+  display: block;
+}
+
+.andre-vacuum-icon {
+  font-size: 1.15rem;
+  display: block;
+}
+
+.andre-icon-button--accent {
+  color: var(--andre-action-accent);
+  border-color: color-mix(in srgb, var(--andre-action-accent) 45%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--andre-action-accent) 18%,
+    rgba(0, 0, 0, 0.4)
+  );
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--andre-action-accent) 35%, transparent);
+}
+
+.andre-icon-button--accent sl-icon,
+.andre-icon-button--accent .andre-blind-icon,
+.andre-icon-button--accent .andre-vacuum-icon,
+.andre-icon-button--accent .andre-fan-icon {
+  filter: drop-shadow(
+    0 0 6px color-mix(in srgb, var(--andre-action-accent) 80%, transparent)
+  );
+}
+
+.andre-icon-button--accent-soft {
+  color: var(--andre-action-accent, #7dd3fc);
+  border-color: color-mix(
+    in srgb,
+    var(--andre-action-accent, #7dd3fc) 35%,
+    transparent
+  );
+}
+
+.andre-icon-button--xl {
+  width: 72px;
+  height: 72px;
+}
+
+.andre-icon-button--xl sl-icon {
+  font-size: 2.1rem;
+}
+
+.andre-icon-button--active {
+  color: #fbbf24;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.andre-icon-button--lit {
+  color: #fbbf24;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.andre-icon-button--lit sl-icon {
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.95))
+    drop-shadow(0 0 10px rgba(251, 191, 36, 0.7))
+    drop-shadow(0 0 18px rgba(251, 191, 36, 0.4));
+}
+
+.andre-icon-button--blinds-up {
+  color: #7dd3fc;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.andre-icon-button--blinds-up sl-icon,
+.andre-icon-button--blinds-up .andre-blind-icon {
+  filter: drop-shadow(0 0 4px rgba(125, 211, 252, 0.95))
+    drop-shadow(0 0 10px rgba(125, 211, 252, 0.65))
+    drop-shadow(0 0 18px rgba(125, 211, 252, 0.35));
+}
+
+.andre-icon-button--blinds-down {
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.andre-icon-button--blinds-down sl-icon,
+.andre-icon-button--blinds-down .andre-blind-icon {
+  filter: drop-shadow(0 0 4px rgba(148, 163, 184, 0.7))
+    drop-shadow(0 0 10px rgba(148, 163, 184, 0.4));
+}
+
+.andre-icon-button--pending {
+  opacity: 0.55;
+}
+
+.andre-icon-button:active {
+  transform: scale(0.94);
+}
+
+/* Scene-style action button (Lys på / Lys av) — icon + label only */
+.andre-scene-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 96px;
+  min-height: 88px;
+  padding: 10px 12px;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.andre-scene-button sl-icon,
+.andre-scene-button .andre-blind-icon,
+.andre-scene-button .andre-fan-icon,
+.andre-scene-button .andre-vacuum-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.andre-scene-button-label {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.andre-scene-button--on {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.andre-scene-button--on sl-icon {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.75));
+}
+
+.andre-scene-button--fan-on {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.andre-scene-button--fan-on .andre-fan-icon {
+  color: #7dd3fc;
+  filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.65));
+}
+
+.andre-fan-icon {
+  display: block;
+  transform-origin: 50% 50%;
+}
+
+.andre-fan-icon--spinning {
+  animation: andre-fan-spin 1.1s linear infinite;
+}
+
+@keyframes andre-fan-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .andre-fan-icon--spinning {
+    animation: none;
+  }
+}
+
+.andre-scene-button--off sl-icon {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.andre-scene-button--vacuum.andre-scene-button--active {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.andre-scene-button--vacuum.andre-scene-button--active sl-icon,
+.andre-scene-button--vacuum.andre-scene-button--active .andre-vacuum-icon {
+  color: #60a5fa;
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.75));
+}
+
+.andre-scene-button--blinds.andre-scene-button--active {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.andre-scene-button--blinds.andre-scene-button--active sl-icon,
+.andre-scene-button--blinds.andre-scene-button--active .andre-blind-icon {
+  color: #7dd3fc;
+  filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.7));
+}
+
+.andre-scene-button--pending {
+  opacity: 0.55;
+}
+
+.andre-scene-button:active {
+  transform: scale(0.97);
+}
+
+.andre-scene-button:focus {
+  outline: none;
+}
+
+.andre-scene-button:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.55);
+  outline-offset: 2px;
+}
+
+/* Room detail */
+.andre-room-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Room detail — per-room accent theme */
+.andre-room-detail {
+  --andre-action-accent: var(--andre-room-accent, #a78bfa);
+}
+
+.andre-room-detail .andre-lights-onoff {
+  --andre-action-accent: var(--andre-room-accent, #a78bfa);
+}
+
+.andre-room-detail .andre-temp-legend-item--temp::before {
+  background: var(--andre-room-accent, var(--sl-color-primary-600));
+}
+
+.andre-room-detail .andre-temp-chart-line {
+  stroke: var(--andre-room-accent, var(--sl-color-primary-600));
+}
+
+.andre-room-detail .andre-temp-range--active {
+  background: color-mix(
+    in srgb,
+    var(--andre-room-accent, #a78bfa) 35%,
+    transparent
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--andre-room-accent, #a78bfa) 55%,
+    transparent
+  );
+  color: #fff;
+  box-shadow: 0 0 16px
+    color-mix(in srgb, var(--andre-room-accent, #a78bfa) 30%, transparent);
+}
+
+.andre-room-detail .andre-scene-button--on sl-icon {
+  color: var(--andre-room-accent, #fbbf24);
+  filter: drop-shadow(
+    0 0 10px
+      color-mix(in srgb, var(--andre-room-accent, #fbbf24) 75%, transparent)
+  );
+}
+
+.andre-room-detail .andre-icon-button--accent {
+  --andre-action-accent: var(--andre-room-accent, #a78bfa);
+}
+
+.andre-room-detail-header {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+}
+
+.andre-back-button {
+  align-self: flex-start;
+}
+
+sl-button.andre-back-button::part(base) {
+  --sl-input-height-large: 3.25rem;
+  min-width: 9rem;
+  font-size: 1.15rem;
+  background: var(--andre-glass-bg);
+  border: 1px solid var(--andre-glass-border);
+  border-radius: 14px;
+}
+
+.andre-room-detail-title {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.andre-room-detail-body {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.andre-section {
+  flex-shrink: 0;
+  background: var(--andre-glass-bg);
+  border: 1px solid var(--andre-glass-border);
+  border-radius: 18px;
+  padding: 14px;
+  backdrop-filter: blur(var(--andre-glass-blur));
+  -webkit-backdrop-filter: blur(var(--andre-glass-blur));
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.andre-section-title {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.andre-flows {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+}
+
+/* Temperature */
+.andre-temp-current {
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.andre-temp-current-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px 32px;
+  margin-bottom: 10px;
+}
+
+.andre-temp-current-row .andre-temp-current {
+  margin-bottom: 0;
+  font-size: 2rem;
+}
+
+.andre-temp-current--co2.andre-temp-current--good {
+  color: #6ee7b7;
+}
+
+.andre-temp-current--co2.andre-temp-current--moderate {
+  color: #fbbf24;
+}
+
+.andre-temp-current--co2.andre-temp-current--poor {
+  color: #f87171;
+}
+
+.andre-temp-current-unit {
+  margin-left: 6px;
+  font-size: 0.42em;
+  font-weight: 500;
+  opacity: 0.82;
+  letter-spacing: 0.01em;
+}
+
+.andre-temp-legend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.andre-temp-legend-item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-temp-legend-item::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.andre-temp-legend-item--temp::before {
+  background: var(--sl-color-primary-600);
+}
+
+.andre-temp-legend-item--co2::before {
+  background: #6ee7b7;
+}
+
+.andre-temp-legend-item--off {
+  opacity: 0.45;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.andre-temp-legend-item--off::before {
+  opacity: 0.35;
+}
+
+.andre-temp-legend-item:active {
+  transform: scale(0.98);
+}
+
+.andre-temp-legend-item:focus {
+  outline: none;
+}
+
+.andre-temp-legend-item:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.55);
+  outline-offset: 2px;
+}
+
+.andre-temp-chart-wrap {
+  position: relative;
+  min-height: 200px;
+}
+
+.andre-temp-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--sl-color-neutral-0) 70%, transparent);
+  color: var(--sl-color-neutral-700);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.andre-temp-chart {
+  width: 100%;
+  height: 200px;
+  display: block;
+  overflow: visible;
+}
+
+.andre-temp-chart--empty {
+  height: 200px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+}
+
+.andre-temp-chart-area {
+  stroke: none;
+  pointer-events: none;
+}
+
+.andre-temp-chart-line {
+  fill: none;
+  stroke: var(--sl-color-primary-600);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(
+    0 0 4px
+      color-mix(in srgb, var(--andre-room-accent, #a78bfa) 55%, transparent)
+  );
+}
+
+.andre-temp-chart-line--co2-segment {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px rgba(110, 231, 183, 0.45));
+}
+
+.andre-temp-chart-label--right {
+  fill: rgba(255, 255, 255, 0.72);
+}
+
+.andre-temp-chart-axis--right {
+  stroke: rgba(110, 231, 183, 0.45);
+}
+
+.andre-temp-chart-axis {
+  stroke: var(--sl-color-neutral-500);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-grid {
+  stroke: var(--sl-color-neutral-300);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.andre-temp-chart-label {
+  fill: rgba(255, 255, 255, 0.62);
+  font-size: 14px;
+  font-family: var(--sl-font-sans);
+}
+
+.andre-temp-status {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.62);
+  padding: 1.5rem 0;
+}
+
+.andre-temp-status--error {
+  color: var(--sl-color-danger-600);
+}
+
+.andre-temp-ranges {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.andre-temp-range {
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--andre-glass-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f5f5f7;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-temp-range--active {
+  background: rgba(167, 139, 250, 0.35);
+  border-color: rgba(167, 139, 250, 0.55);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.3);
+}
+
+.andre-temp-range:active {
+  transform: scale(0.97);
+}
+
+/* Lights */
+.andre-lights-onoff {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Heat pump / Daikin */
+.andre-heatpump-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.andre-heatpump-power {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 84px;
+  min-height: 84px;
+  padding: 10px;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  touch-action: manipulation;
+  font-family: inherit;
+}
+
+.andre-heatpump-power sl-icon {
+  font-size: 1.85rem;
+}
+
+.andre-heatpump-power span {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.andre-heatpump-power--on {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: #86efac;
+}
+
+.andre-heatpump-power--on sl-icon {
+  filter: drop-shadow(0 0 10px rgba(134, 239, 172, 0.55));
+}
+
+.andre-heatpump-temps {
+  flex: 1;
+  min-width: 0;
+}
+
+.andre-heatpump-temp-main {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.andre-heatpump--heat .andre-heatpump-temp-main {
+  color: #f87171;
+}
+
+.andre-heatpump--cool .andre-heatpump-temp-main {
+  color: #60a5fa;
+}
+
+.andre-heatpump-temp-sub {
+  margin-top: 6px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.andre-heatpump-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.andre-heatpump-mode {
+  min-height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-heatpump-mode--heat.andre-heatpump-mode--active {
+  border-color: rgba(248, 113, 113, 0.55);
+  background: rgba(248, 113, 113, 0.16);
+  color: #fca5a5;
+  box-shadow: 0 0 18px rgba(248, 113, 113, 0.22);
+}
+
+.andre-heatpump-mode--cool.andre-heatpump-mode--active {
+  border-color: rgba(96, 165, 250, 0.55);
+  background: rgba(96, 165, 250, 0.16);
+  color: #93c5fd;
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.22);
+}
+
+.andre-heatpump-slider-wrap {
+  margin-bottom: 14px;
+}
+
+.andre-heatpump-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.andre-heatpump-speed {
+  margin-bottom: 12px;
+}
+
+.andre-heatpump-row-label {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.andre-heatpump-speed-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.andre-heatpump-chip {
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-heatpump-chip--active {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.andre-heatpump--heat .andre-heatpump-chip--active {
+  border-color: rgba(248, 113, 113, 0.5);
+  background: rgba(248, 113, 113, 0.18);
+  color: #fecaca;
+}
+
+.andre-heatpump--cool .andre-heatpump-chip--active {
+  border-color: rgba(96, 165, 250, 0.5);
+  background: rgba(96, 165, 250, 0.18);
+  color: #bfdbfe;
+}
+
+.andre-heatpump-powerful {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-heatpump-powerful sl-icon {
+  font-size: 1.35rem;
+}
+
+.andre-heatpump-powerful--on {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.14);
+  color: #fcd34d;
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.22);
+}
+
+.andre-heatpump--pending {
+  opacity: 0.85;
+}
+
+.andre-heatpump-power:active,
+.andre-heatpump-mode:active,
+.andre-heatpump-chip:active,
+.andre-heatpump-powerful:active {
+  transform: scale(0.98);
+}
+
+.andre-lights-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.andre-dimmer {
+  margin: 8px 0 14px;
+}
+
+.andre-dimmer-slider {
+  width: 100%;
+  height: 36px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 999px;
+  touch-action: none;
+}
+
+.andre-dimmer-slider::-webkit-slider-runnable-track {
+  height: 14px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.andre-dimmer-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 36px;
+  height: 36px;
+  margin-top: -11px;
+  border-radius: 50%;
+  background: var(--andre-dim-fill, var(--sl-color-neutral-0));
+  border: 3px solid var(--sl-color-neutral-700);
+  box-shadow: var(--sl-shadow-medium);
+}
+
+.andre-dimmer-slider::-moz-range-track {
+  height: 14px;
+  border-radius: 999px;
+  background: var(--sl-color-neutral-300);
+}
+
+.andre-dimmer-slider::-moz-range-progress {
+  height: 14px;
+  border-radius: 999px;
+  background: var(--andre-dim-fill, var(--sl-color-primary-600));
+}
+
+.andre-dimmer-slider::-moz-range-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--andre-dim-fill, var(--sl-color-neutral-0));
+  border: 3px solid var(--sl-color-neutral-700);
+}
+
+.andre-color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.andre-color-swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--sl-color-neutral-500);
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.andre-color-swatch:active {
+  transform: scale(0.94);
+}
+
+.andre-color-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--sl-color-neutral-700);
+}
+
+.andre-color-custom input[type="color"] {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.andre-speaker-section--player {
+  padding: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.andre-speaker-section--player .sonos-embedded {
+  border-radius: 0;
+  background: transparent;
+}
+
+.andre-speaker-flows {
+  position: relative;
+  z-index: 1;
+  padding: 12px 14px 14px;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.22);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.andre-speaker-section .sonos-playing-container {
+  flex-direction: column;
+  height: auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.andre-speaker-section .sonos-playing-image-container,
+.andre-speaker-section .sonos-image {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+.andre-speaker-section .sonos-playing-content {
+  margin: 0;
+  width: 100%;
+}
+
+.andre-audiopro .entrance-focused-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.andre-audiopro .audiopro-focused-content {
+  margin-left: 0;
+  width: 100%;
+  max-width: 280px;
+}
+
+sl-button.audiopro-focused-buttton::part(base) {
+  --sl-input-height-large: 3.25rem;
+}
+
+/* Exact kiosk viewport helper when opened in a fixed frame */
+@media (width: 720px) and (height: 1280px) {
+  .andre-clock-time {
+    font-size: 5rem;
+  }
+
+  .andre-room-card-temp {
+    font-size: 2.5rem;
+  }
+}

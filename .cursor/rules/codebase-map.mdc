@@ -1,0 +1,28 @@
+---
+description: Codebase map — read before exploring dashboards/Homey structure
+alwaysApply: true
+---
+
+# Codebase map (do not re-explore blindly)
+
+Before launching explore/subagents to map this repo’s dashboards, Homey, weather, or device patterns, **read `docs/codebase-map.md` first**.
+
+Only explore further when that doc is missing the area you need, then **update `docs/codebase-map.md`** with what you learned.
+
+## Quick pointers
+
+| Need | Start here |
+| ---- | ---------- |
+| Routes / pages | `src/index.js` → `src/pages/{Stue,Entre,Andre}/` |
+| 2nd-floor rooms config | `src/pages/Andre/rooms.constants.js` |
+| Andre layout | page + `Clock/` `RoomCard/` `RoomDetail/` `common/` `hooks/` `helpers/` |
+| Homey client | `src/helpers/getHomey.js`, `useGetDevices`, `useGetZones`, `useGetDevice`, `useMakeCapabilityInstance` |
+| Flows | `src/components/Flows/helpers/triggerFlow.js` |
+| Blinds | `/andre` via zone auto-discover (`getRoomBlinds`); Stue Markise hard-coded |
+| Weather | `src/server/routes/weather.js`, `useFetchForecast`, `getForecastItemsForDay` |
+| Insights / temp API | `src/server/routes/temperature.js`, `src/server/insights.js` |
+| Sonos | `src/components/Devices/Sonos/` (`SonosFocus` supports `deviceId`, `embedded`; also Spotify Connect) |
+| AudioPro | `src/components/Devices/AudioProSpeaker/` (flow fallback) |
+| Roborock | `src/components/Devices/Roborock/`, `/andre` vacuum via `clean_full` |
+| Verify | `scripts/verify.js` — `/`, `/entre`, `/andre`, temp loft, weather |
+| Deploy | `scripts/deploy.sh`, `.cursor/rules/deploy.mdc` |
