@@ -1,0 +1,31 @@
+.weather-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 1;
+  transition: opacity 280ms ease;
+}
+
+.weather-overlay--dimmed {
+  opacity: 0.12;
+}
+
+.weather-overlay__sun,
+.weather-overlay__precip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.weather-overlay__sun {
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather-overlay {
+    transition: none;
+  }
+}

@@ -19,6 +19,7 @@ import { Sonos } from "../../components/Devices/Sonos/Sonos";
 import { RINGEKLOKKE_BILDE_URL_VARIABLE } from "../../constants";
 import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
 import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
+import { WeatherOverlay } from "../../components/Weather/WeatherOverlay/WeatherOverlay";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/"
@@ -88,6 +89,7 @@ export const Stue = () => {
 
   return (
     <div className="sl-theme-dark homey-dashboard">
+      <WeatherOverlay dimmed={Boolean(focusElement)} />
       <div className="first-column">
         <Moods flows={flows} moods={STUE_MOODS} onMoodClick={onMoodClick} />
       </div>
