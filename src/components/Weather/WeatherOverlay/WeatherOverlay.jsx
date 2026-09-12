@@ -20,15 +20,14 @@ export const WeatherOverlay = ({ dimmed: dimmedFromParent = false }) => {
   );
   const idleDimmed = useIdleOverlayFade();
   const dimmed = dimmedFromParent || idleDimmed;
-  const sunCanvasRef = useRef(null);
   const precipCanvasRef = useRef(null);
   const showPrecip =
     state.kind !== WEATHER_OVERLAY_KIND.NONE && state.intensity > 0;
 
   useWeatherOverlayCanvas({
-    sunCanvasRef,
     precipCanvasRef,
     state,
+    paused: dimmed,
   });
 
   if (!state.showSun && !showPrecip) {
@@ -40,10 +39,17 @@ export const WeatherOverlay = ({ dimmed: dimmedFromParent = false }) => {
       className={classNames("weather-overlay", {
         "weather-overlay--dimmed": dimmed,
       })}
+      style={
+        state.showSun
+          ? { "--sun-intensity": String(state.sunIntensity) }
+          : undefined
+      }
       aria-hidden="true"
     >
-      <canvas ref={sunCanvasRef} className="weather-overlay__sun" />
-      <canvas ref={precipCanvasRef} className="weather-overlay__precip" />
+      {state.showSun ? <div className="weather-overlay__sun" /> : null}
+      {showPrecip ? (
+        <canvas ref={precipCanvasRef} className="weather-overlay__precip" />
+      ) : null}
     </div>
   );
 };

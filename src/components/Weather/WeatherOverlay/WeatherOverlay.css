@@ -5,13 +5,13 @@
   z-index: 20;
   opacity: 1;
   transition: opacity 280ms ease;
+  contain: layout paint;
 }
 
 .weather-overlay--dimmed {
   opacity: 0.12;
 }
 
-.weather-overlay__sun,
 .weather-overlay__precip {
   position: absolute;
   inset: 0;
@@ -21,7 +21,19 @@
 }
 
 .weather-overlay__sun {
+  position: absolute;
+  top: -18%;
+  right: -22%;
+  width: 70vmax;
+  height: 70vmax;
+  opacity: var(--sun-intensity, 1);
   mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 214, 140, 0.28) 0%,
+    rgba(255, 196, 110, 0.12) 38%,
+    rgba(255, 180, 80, 0) 70%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

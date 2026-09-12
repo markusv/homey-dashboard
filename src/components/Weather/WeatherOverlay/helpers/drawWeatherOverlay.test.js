@@ -35,4 +35,17 @@ describe("createPrecipParticles", () => {
     expect(particles.rain).toHaveLength(6);
     expect(particles.snow).toHaveLength(4);
   });
+
+  it("stores rain speed as viewport heights per second", () => {
+    const { rain } = createPrecipParticles({
+      kind: WEATHER_OVERLAY_KIND.RAIN,
+      count: 20,
+      width: 1920,
+      height: 1080,
+    });
+    rain.forEach((drop) => {
+      expect(drop.speed).toBeGreaterThan(0.4);
+      expect(drop.speed).toBeLessThan(2);
+    });
+  });
 });
