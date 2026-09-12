@@ -74,7 +74,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - UI: `Weather`, `WeatherLarge`, `ForecastDay`, `ForecastItem`
 - Day slots: `getForecastItemsForDay` (4 points/day; past hours mostly absent from MET)
 - Icons: `public/dashboardAssets/weatherIcons/{symbol_code}.svg`
-- Full-screen overlay: `WeatherOverlay` on `/`, `/entre`, `/andre` — canvas rain/snow/sleet scaled from MET `next_1_hours.details.precipitation_amount` + symbol; daytime `clearsky`/`fair`/`partlycloudy` sun glow (`mix-blend-mode: screen`); fades on tap (`pointer-events: none`)
+- Full-screen overlay: `WeatherOverlay` on `/`, `/entre`, `/andre` — CSS rain/snow/sleet drops (one element per drop, GPU `transform` + staggered `animation-delay`) scaled from MET `next_1_hours.details.precipitation_amount` + symbol; daytime `clearsky`/`fair`/`partlycloudy` sun glow; fades on tap (`pointer-events: none`)
 - `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row)
 
 ## Public transport (Entre)

@@ -3,6 +3,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 20;
+  overflow: hidden;
   opacity: 1;
   transition: opacity 280ms ease;
   contain: layout paint;
@@ -12,32 +13,79 @@
   opacity: 0.12;
 }
 
-.weather-overlay__precip {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
 .weather-overlay__sun {
   position: absolute;
-  top: -18%;
-  right: -22%;
-  width: 70vmax;
-  height: 70vmax;
+  top: -10%;
+  right: -12%;
+  width: 42vmax;
+  height: 42vmax;
   opacity: var(--sun-intensity, 1);
-  mix-blend-mode: screen;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(255, 214, 140, 0.28) 0%,
-    rgba(255, 196, 110, 0.12) 38%,
+    rgba(255, 214, 140, 0.22) 0%,
+    rgba(255, 196, 110, 0.08) 42%,
     rgba(255, 180, 80, 0) 70%
   );
+}
+
+.weather-overlay__drop,
+.weather-overlay__flake {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.weather-overlay__drop {
+  width: 2px;
+  margin-top: -12vh;
+  border-radius: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(220, 236, 252, 0),
+    rgba(220, 236, 252, 0.85)
+  );
+  animation-name: weather-drop-fall;
+}
+
+.weather-overlay__flake {
+  margin-top: -8vh;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  animation-name: weather-flake-fall;
+}
+
+.weather-overlay--dimmed .weather-overlay__drop,
+.weather-overlay--dimmed .weather-overlay__flake {
+  animation-play-state: paused;
+}
+
+@keyframes weather-drop-fall {
+  from {
+    transform: translate3d(0, -12vh, 0);
+  }
+  to {
+    transform: translate3d(-9vw, 118vh, 0);
+  }
+}
+
+@keyframes weather-flake-fall {
+  from {
+    transform: translate3d(0, -8vh, 0);
+  }
+  to {
+    transform: translate3d(7vw, 116vh, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .weather-overlay {
     transition: none;
+  }
+
+  .weather-overlay__drop,
+  .weather-overlay__flake {
+    animation: none;
   }
 }
