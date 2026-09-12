@@ -43,7 +43,14 @@
 }
 
 .focused-weather-container {
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout paint;
 }
 
 .weather-large .forecast-for-day {
