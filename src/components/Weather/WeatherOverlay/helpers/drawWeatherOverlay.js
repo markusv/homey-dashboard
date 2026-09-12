@@ -1,4 +1,8 @@
-import { WEATHER_OVERLAY_KIND } from "../WeatherOverlay.constants";
+import {
+  RAIN_HEIGHTS_PER_SEC,
+  SNOW_HEIGHTS_PER_SEC,
+  WEATHER_OVERLAY_KIND,
+} from "../WeatherOverlay.constants";
 import { getOverlayCanvasScale } from "./getOverlayCanvasScale";
 import { getPrecipMotionScale } from "./getPrecipMotionScale";
 
@@ -27,8 +31,14 @@ const createRaindrops = (count, width, height, intensity = 1) =>
   Array.from({ length: count }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
-    len: 16 + Math.random() * 22 + intensity * 10,
-    speed: 0.55 + Math.random() * 0.45 + intensity * 0.28,
+    len: Math.max(
+      14,
+      height * (0.032 + Math.random() * 0.04 + intensity * 0.015)
+    ),
+    speed:
+      RAIN_HEIGHTS_PER_SEC.min +
+      Math.random() * RAIN_HEIGHTS_PER_SEC.span +
+      intensity * RAIN_HEIGHTS_PER_SEC.intensity,
     width: 1.35 + Math.random() * 0.7 + intensity * 0.25,
     alpha: 0.32 + Math.random() * 0.32,
   }));
@@ -38,7 +48,10 @@ const createSnowflakes = (count, width, height, intensity = 1) =>
     x: Math.random() * width,
     y: Math.random() * height,
     r: 1.6 + Math.random() * 3.2 + intensity * 1.4,
-    speed: 0.055 + Math.random() * 0.08 + intensity * 0.03,
+    speed:
+      SNOW_HEIGHTS_PER_SEC.min +
+      Math.random() * SNOW_HEIGHTS_PER_SEC.span +
+      intensity * SNOW_HEIGHTS_PER_SEC.intensity,
     wobble: Math.random() * Math.PI * 2,
     wobbleSpeed: 0.48 + Math.random() * 0.72,
     alpha: 0.38 + Math.random() * 0.34 + intensity * 0.1,
@@ -117,14 +130,13 @@ export const drawPrecipFrame = ({
   particles,
   width,
   height,
-  intensity,
+  intensity: _intensity,
   animate,
   dtSeconds = 0,
 }) => {
   ctx.clearRect(0, 0, width, height);
   const motion = getPrecipMotionScale({
     animate,
-    intensity,
     dtSeconds,
   });
   if (particles.rain.length) {

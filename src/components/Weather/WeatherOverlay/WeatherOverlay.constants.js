@@ -20,3 +20,6 @@ export const OVERLAY_PIXEL_BUDGET = 600_000;
 export const OVERLAY_FPS = 30;
 export const OVERLAY_FRAME_MS = 1000 / OVERLAY_FPS;
 export const MAX_DT_SECONDS = 0.05;
+/** Viewport heights per second (about 1.5–2.5 s to cross the screen). */
+export const RAIN_HEIGHTS_PER_SEC = { min: 0.38, span: 0.22, intensity: 0.1 };
+export const SNOW_HEIGHTS_PER_SEC = { min: 0.04, span: 0.05, intensity: 0.02 };

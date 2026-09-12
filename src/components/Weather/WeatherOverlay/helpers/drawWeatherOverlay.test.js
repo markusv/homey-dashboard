@@ -44,8 +44,8 @@ describe("createPrecipParticles", () => {
       height: 1080,
     });
     rain.forEach((drop) => {
-      expect(drop.speed).toBeGreaterThan(0.4);
-      expect(drop.speed).toBeLessThan(2);
+      expect(drop.speed).toBeGreaterThan(0.3);
+      expect(drop.speed).toBeLessThan(0.8);
     });
   });
 });
