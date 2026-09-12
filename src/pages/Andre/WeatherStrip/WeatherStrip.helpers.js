@@ -1,3 +1,7 @@
+import { getWeatherSymbolBase } from "../../../components/Weather/helpers/getWeatherSymbolBase";
+
+export { getWeatherPeriod } from "../../../components/Weather/helpers/getWeatherPeriod";
+
 /** Short Norwegian labels for MET symbol_code (base without _day/_night). */
 const SYMBOL_LABELS = {
   clearsky: "Klarvær",
@@ -28,18 +32,9 @@ const SYMBOL_LABELS = {
 
 export const getWeatherSymbolLabel = (symbolCode) => {
   if (!symbolCode) return "Vær";
-  const base = String(symbolCode)
-    .replace(/_day$/, "")
-    .replace(/_night$/, "")
-    .replace(/_polartwilight$/, "");
+  const base = getWeatherSymbolBase(symbolCode);
   return SYMBOL_LABELS[base] || "Vær";
 };
-
-export const getWeatherPeriod = (entry) =>
-  entry?.data?.next_1_hours ||
-  entry?.data?.next_6_hours ||
-  entry?.data?.next_12_hours ||
-  null;
 
 export const getWeatherIconUrl = (symbolCode) =>
   `${import.meta.env.BASE_URL}dashboardAssets/weatherIcons/${symbolCode}.svg`;

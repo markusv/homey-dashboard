@@ -10,6 +10,7 @@ import { WeatherStrip } from "./WeatherStrip/WeatherStrip";
 import { RoomCard } from "./RoomCard/RoomCard";
 import { RoomDetail } from "./RoomDetail/RoomDetail";
 import { OverviewActions } from "./OverviewActions/OverviewActions";
+import { WeatherOverlay } from "../../components/Weather/WeatherOverlay/WeatherOverlay";
 import "./Andre.css";
 
 setBasePath(
@@ -34,6 +35,7 @@ export const Andre = () => {
 
   return (
     <div className="sl-theme-dark andre-shell">
+      <WeatherOverlay dimmed={Boolean(selectedRoom)} />
       {/* Keep overview mounted so temperatures/lights stay warm when returning */}
       <div
         className="andre-page andre-page--overview"

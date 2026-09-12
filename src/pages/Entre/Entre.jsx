@@ -12,6 +12,7 @@ import { Temperature } from "../../components/Focus/components/Temperature/Tempe
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
 import { useGetDevices } from "../../helpers/useGetDevices";
 import { useGetFlows } from "../../helpers/useGetFlows";
+import { WeatherOverlay } from "../../components/Weather/WeatherOverlay/WeatherOverlay";
 
 export const Entre = () => {
   const [devices] = useGetDevices();
@@ -36,6 +37,7 @@ export const Entre = () => {
       ?.value ?? "";
   return (
     <div className="entre-page sl-theme-dark homey-dashboard">
+      <WeatherOverlay />
       <div className="entre-col-one">
         <div className="smart-home-container">
           <Dashboard />
