@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-09-12. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-09-13. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -14,11 +14,11 @@ Last updated: 2026-09-12. Prefer reading this file over broad codebase explorati
 
 Registered in `src/index.js`:
 
-| Path     | Page                        | Notes                                                                                    |
-| -------- | --------------------------- | ---------------------------------------------------------------------------------------- |
-| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape — official Pi 7" touch v1, **800×480**                             |
-| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance — 13.1" touch **1920×1080**; Entur board (iframe fallback)                      |
-| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor, **720×1280** portrait (component folders + `hooks/` / `helpers/` / `common/`) |
+| Path     | Page                        | Notes                                                                                                                                                               |
+| -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`      | `src/pages/Stue/Stue.jsx`   | Living room landscape — official Pi 7" touch v1, **800×480**                                                                                                        |
+| `/entre` | `src/pages/Entre/Entre.jsx` | Entrance — 13.1" touch **1920×1080**; Entur board (iframe fallback)                                                                                                 |
+| `/andre` | `src/pages/Andre/Andre.jsx` | 2nd floor hallway. Target kiosk: **Raspberry Pi 5** + official **7" Touch Display 2**, **720×1280** portrait. Component folders + `hooks/` / `helpers/` / `common/` |
 
 New SPA routes: add to `src/index.js` + `scripts/verify.js` (+ `.cursor/rules/verify-http.mdc`). Express already serves all paths via catch-all.
 
@@ -87,11 +87,11 @@ Response shape: `{ current, points, unit, range, … }`.
 
 ## Speakers
 
-| Implementation      | Path                                       | Notes                                                                                                                             |
-| ------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Sonos** (Stue)    | `src/components/Devices/Sonos/*`           | Capabilities: play/pause, volume (`useVolume` debounce 750ms), favorites, album art. `SonosFocus` accepts `deviceId` + `embedded` |
-| **Spotify Connect** | same `SonosFocus` UI                       | `/andre` Fabian via `speakerDeviceId` → Homey app `nl.pendo.spotify` (speaker caps; no Sonos favorites)                           |
-| **AudioPro**        | `src/components/Devices/AudioProSpeaker/*` | Flow-driven fallback when device lacks `speaker_playing`                                                                          |
+| Implementation      | Path                                       | Notes                                                                                                                                                                                                                                        |
+| ------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sonos** (Stue)    | `src/components/Devices/Sonos/*`           | Shared `SonosFocus` on `/` + `/andre`. Container query: two columns in landscape overlay (Stue 800×480); stacked in portrait (`/andre` RPi 5 + Touch Display 2, 720×1280). Caps: play/pause, volume, favorites, art. `deviceId` + `embedded` |
+| **Spotify Connect** | same `SonosFocus` UI                       | `/andre` Fabian via `speakerDeviceId` → Homey app `nl.pendo.spotify` (speaker caps; no Sonos favorites)                                                                                                                                      |
+| **AudioPro**        | `src/components/Devices/AudioProSpeaker/*` | Flow-driven fallback when device lacks `speaker_playing`                                                                                                                                                                                     |
 
 ## Vacuum / Roborock
 
@@ -132,16 +132,17 @@ Response shape: `{ current, points, unit, range, … }`.
 - Entre clock: `src/pages/Entre/Clock/` above Stemninger (same date format as `/andre`)
 - Focus overlay: `FocusedElement`
 - Large displays: `@media (min-width: 1900px)` is the Entre 13.1" kiosk (1920×1080)
-- `/andre`: touch-first, no hover reliance, portrait CSS in `Andre.css`
+- `/andre`: touch-first, no hover reliance, portrait CSS in `Andre.css` (RPi 5 + 7" Touch Display 2, 720×1280)
 
 ## Production (Raspberry Pi)
 
-Two kiosk Pis on the LAN. The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`).
+The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`). That script currently reboots **Stue + Entre** only.
 
-| Device      | Address                 | Screen                                           | Role                                                                                                                                                                    |
-| ----------- | ----------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stue (main) | `192.168.68.91` (`pi`)  | Official Raspberry Pi 7" touch (v1), **800×480** | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
-| Entre       | `192.168.68.99` (`rpi`) | 13.1" touch, **1920×1080**                       | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
+| Device      | Address                          | Screen                                                              | Role                                                                                                                                                                    |
+| ----------- | -------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stue (main) | `192.168.68.91` (`pi`)           | Official Raspberry Pi 7" touch **v1**, **800×480** landscape        | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
+| Entre       | `192.168.68.99` (`rpi`)          | 13.1" touch, **1920×1080**                                          | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
+| Andre       | Raspberry Pi **5** (address TBD) | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium kiosk on `/andre` (loads the Stue app server). Not in `scripts/deploy.sh` yet.                                                                                 |
 
 Deploy from a Mac on the same LAN (`scripts/deploy.sh`):
 

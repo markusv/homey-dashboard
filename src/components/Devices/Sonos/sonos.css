@@ -1,5 +1,23 @@
-.sonos-playing-container {
+/* Default: stacked (portrait /andre on RPi 5 + 7" Touch Display 2, 720×1280). Two columns when
+   the overlay is a defined landscape box (Stue 800×480 focus). Andres
+   embedded player is auto-height + inline-size, so orientation cannot
+   match and it stays stacked even though the card is ~720px wide. */
+.sonos-layout {
+  container-name: sonos;
+  container-type: inline-size;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.focused-element > .sonos-layout {
+  container-type: size;
   height: 100%;
+  overflow: hidden;
+}
+
+.sonos-playing-container {
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,14 +27,14 @@
 
 .sonos-playing-image-container {
   flex-shrink: 0;
-  width: 220px;
-  height: 220px;
+  width: min(180px, 50cqw);
+  height: min(180px, 50cqw);
 }
 
 .sonos-image {
   display: block;
-  width: 220px;
-  height: 220px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
   opacity: 1;
@@ -34,6 +52,35 @@
   gap: 16px;
   flex-shrink: 0;
   overflow: hidden;
+}
+
+@container sonos (min-width: 420px) and (orientation: landscape) {
+  .sonos-playing-container {
+    height: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .sonos-playing-image-container {
+    width: 197px;
+    height: auto;
+    max-height: 100%;
+    align-self: stretch;
+  }
+
+  .sonos-image {
+    width: 197px;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .sonos-playing-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    flex: 1;
+    max-width: none;
+  }
 }
 
 .sonos-playing-info {

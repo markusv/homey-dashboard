@@ -1,4 +1,4 @@
-/* 2nd-floor hallway dashboard — 720 × 1280 portrait, glass UI */
+/* 2nd-floor hallway dashboard — Raspberry Pi 5 + official 7" Touch Display 2, 720×1280 portrait, glass UI */
 
 .andre-page {
   --andre-glass-bg: rgba(255, 255, 255, 0.06);
@@ -1680,25 +1680,6 @@ sl-button.andre-back-button::part(base) {
   margin: 0;
   background: rgba(0, 0, 0, 0.22);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.andre-speaker-section .sonos-playing-container {
-  flex-direction: column;
-  height: auto;
-  gap: 12px;
-  align-items: center;
-}
-
-.andre-speaker-section .sonos-playing-image-container,
-.andre-speaker-section .sonos-image {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto;
-}
-
-.andre-speaker-section .sonos-playing-content {
-  margin: 0;
-  width: 100%;
 }
 
 .andre-audiopro .entrance-focused-container {

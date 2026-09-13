@@ -162,85 +162,87 @@ export const SonosFocus = ({
   }
 
   const content = (
-    <div className="sonos-playing-container">
-      <div className="sonos-playing-image-container">
-        <img
-          src={coverUrl}
-          className="sonos-image"
-          alt=""
-          ref={imageRef}
-          onError={() => {
-            if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
-          }}
-        />
-      </div>
-      <div className="sonos-playing-content">
-        <div className="sonos-playing-info">
-          <div className="sonos-track-name">{trackName}</div>
-          <div className="sonos-artist-name">{artist}</div>
-        </div>
-        <div className="sonos-buttons">
-          {supportsShuffle && (
-            <button
-              type="button"
-              className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
-              onClick={onShuffleClick}
-            >
-              <ShuffleIcon
-                className="sonos-shuffle-icon"
-                fill={isShuffle ? "black" : "white"}
-              />
-            </button>
-          )}
-          {supportsPrev && (
-            <button
-              type="button"
-              className="sonos-prev"
-              onClick={onPrevClick}
-            />
-          )}
-          {isPlaying && (
-            <button
-              type="button"
-              className="sonos-pause"
-              onClick={onPauseClick}
-            />
-          )}
-          {!isPlaying && (
-            <button
-              type="button"
-              className="sonos-play"
-              onClick={onPlayClick}
-            />
-          )}
-          {supportsNext && (
-            <button
-              type="button"
-              className="sonos-next"
-              onClick={onNextClick}
-            />
-          )}
-          {supportsFavorites && (
-            <button
-              type="button"
-              className="sonos-favorite-button"
-              onClick={onShowFavoriteToggle}
-            />
-          )}
-        </div>
-        <div className="sonos-playing-volume">
-          <span className="sonos-volume-down" />
-          <input
-            className="sonos-playing-volume-slider"
-            type="range"
-            id="volume"
-            name="volume"
-            min="0"
-            max="100"
-            value={volume}
-            onChange={onSliderChange}
+    <div className="sonos-layout">
+      <div className="sonos-playing-container">
+        <div className="sonos-playing-image-container">
+          <img
+            src={coverUrl}
+            className="sonos-image"
+            alt=""
+            ref={imageRef}
+            onError={() => {
+              if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
+            }}
           />
-          <span className="sonos-volume-up" />
+        </div>
+        <div className="sonos-playing-content">
+          <div className="sonos-playing-info">
+            <div className="sonos-track-name">{trackName}</div>
+            <div className="sonos-artist-name">{artist}</div>
+          </div>
+          <div className="sonos-buttons">
+            {supportsShuffle && (
+              <button
+                type="button"
+                className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
+                onClick={onShuffleClick}
+              >
+                <ShuffleIcon
+                  className="sonos-shuffle-icon"
+                  fill={isShuffle ? "black" : "white"}
+                />
+              </button>
+            )}
+            {supportsPrev && (
+              <button
+                type="button"
+                className="sonos-prev"
+                onClick={onPrevClick}
+              />
+            )}
+            {isPlaying && (
+              <button
+                type="button"
+                className="sonos-pause"
+                onClick={onPauseClick}
+              />
+            )}
+            {!isPlaying && (
+              <button
+                type="button"
+                className="sonos-play"
+                onClick={onPlayClick}
+              />
+            )}
+            {supportsNext && (
+              <button
+                type="button"
+                className="sonos-next"
+                onClick={onNextClick}
+              />
+            )}
+            {supportsFavorites && (
+              <button
+                type="button"
+                className="sonos-favorite-button"
+                onClick={onShowFavoriteToggle}
+              />
+            )}
+          </div>
+          <div className="sonos-playing-volume">
+            <span className="sonos-volume-down" />
+            <input
+              className="sonos-playing-volume-slider"
+              type="range"
+              id="volume"
+              name="volume"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={onSliderChange}
+            />
+            <span className="sonos-volume-up" />
+          </div>
         </div>
       </div>
     </div>

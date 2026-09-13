@@ -15,7 +15,7 @@ The verify script must get **200 OK** for:
 
 - `/` (Stue dashboard)
 - `/entre` (Entre dashboard)
-- `/andre` (2. etasje dashboard)
+- `/andre` (2. etasje dashboard — Raspberry Pi 5 + 7" Touch Display 2, 720×1280 portrait)
 - `/api/read/temperature/loft` (temperature API)
 - `/api/read/weather` (weather API)
 - `/api/read/departures` (Entur departure board)

@@ -5,12 +5,15 @@ alwaysApply: true
 
 # Deploy (Raspberry Pi kiosks)
 
-Two LAN kiosks. **Never ask for, store, or use SSH passwords** (or sudo passwords). Do not put secrets, private keys, or `authorized_keys` in the repo.
+**Never ask for, store, or use SSH passwords** (or sudo passwords). Do not put secrets, private keys, or `authorized_keys` in the repo.
+
+`npm run deploy` currently covers **two** LAN kiosks (Stue + Entre). `/andre` is a separate Raspberry Pi 5 kiosk (official 7" Touch Display 2, 720×1280 portrait) and is **not** in that script until an address and deploy steps are added.
 
 | Pi | Address | Screen | Role |
 | -- | ------- | ------ | ---- |
-| Stue (main) | `pi@192.168.68.91` | Official Raspberry Pi 7" touch (v1), **800×480** | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
+| Stue (main) | `pi@192.168.68.91` | Official Raspberry Pi 7" touch **v1**, **800×480** landscape | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
 | Entre | `rpi@192.168.68.99` | 13.1" touch, **1920×1080** | Kiosk `/entre` only (no app server) |
+| Andre | Raspberry Pi **5** (address TBD) | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium kiosk on `/andre`. Loads the app from the Stue server; not in `scripts/deploy.sh` yet. |
 
 - **User deploys** from their Mac: `npm run deploy` (`scripts/deploy.sh`). SSH keys only, `BatchMode`. Mac and the main Pi must be on `main`; the Pi pulls `origin/main` (no ahead/behind/push check).
 - **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password or GitHub key passphrase, never run `ssh-copy-id` for the user, never disable host-key checking.

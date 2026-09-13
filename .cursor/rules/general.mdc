@@ -2,15 +2,15 @@
 alwaysApply: true
 ---
 
-This is a Vite + React app serving smarthome dashboards. The smart home is Homey-based. It uses the `homey-api` npm package and an auth token for authorization to Homey. The app has pages for dashboards: 1st floor living room (`/`), 1st floor entre (`/entre`), and 2nd floor hallway (`/andre`, 720×1280 portrait). Dashboards run as Chromium kiosks on Raspberry Pis. The living-room Pi also runs this app (Express serves the Vite `build/` output plus `/api` routes).
+This is a Vite + React app serving smarthome dashboards. The smart home is Homey-based. It uses the `homey-api` npm package and an auth token for authorization to Homey. The app has pages for dashboards: 1st floor living room (`/`), 1st floor entre (`/entre`), and 2nd floor hallway (`/andre`). Dashboards run as Chromium kiosks on Raspberry Pis. The living-room Pi also runs this app (Express serves the Vite `build/` output plus `/api` routes).
 
 Kiosk screens (landscape unless noted):
 
 | Page | Pi | Screen |
 | ---- | -- | ------ |
-| `/` Stue | `pi@192.168.68.91` (also the app server) | Official Raspberry Pi 7" touch, first version, **800×480** |
+| `/` Stue | `pi@192.168.68.91` (also the app server) | Official Raspberry Pi 7" touch **v1**, **800×480** landscape |
 | `/entre` | `rpi@192.168.68.99` | 13.1" touch, **1920×1080** (`min-width: 1900px` CSS) |
-| `/andre` | (not these two kiosks) | **720×1280** portrait |
+| `/andre` | Raspberry Pi **5** (not in `npm run deploy` yet) | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait. Design `/andre` for this panel: touch-first, no hover. |
 
 Requires Node.js LTS via nvm (`.nvmrc` = `lts/*`, `package.json` engines `^24.19.0`). The smart home also posts data to an MQTT server.
 

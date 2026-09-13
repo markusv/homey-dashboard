@@ -50,7 +50,9 @@ Kiosk on the Pi (server + fullscreen Chromium):
 
 ## Deploy (Raspberry Pi)
 
-Living-room Pi **192.168.68.91** (`pi`) runs the production server and the `/` kiosk on the official Raspberry Pi **7" touch (first version, 800×480)**. Entre Pi **192.168.68.99** (`rpi`) only opens `/entre` in a browser on a **13.1" touch screen (1920×1080)** — it does not run Node.
+Living-room Pi **192.168.68.91** (`pi`) runs the production server and the `/` kiosk on the official Raspberry Pi **7" touch v1 (800×480 landscape)**. Entre Pi **192.168.68.99** (`rpi`) only opens `/entre` in a browser on a **13.1" touch screen (1920×1080)** — it does not run Node.
+
+`/andre` is designed for a **Raspberry Pi 5** with the official **7" Touch Display 2 (720×1280 portrait)**. That kiosk is not part of `npm run deploy` yet.
 
 From your Mac, after the branch is on GitHub:
 

@@ -15,7 +15,7 @@ Only explore further when that doc is missing the area you need, then **update `
 | ---- | ---------- |
 | Routes / pages | `src/index.js` → `src/pages/{Stue,Entre,Andre}/` |
 | 2nd-floor rooms config | `src/pages/Andre/rooms.constants.js` |
-| Andre layout | page + `Clock/` `RoomCard/` `RoomDetail/` `common/` `hooks/` `helpers/` |
+| Andre layout | page + `Clock/` `RoomCard/` `RoomDetail/` `common/` `hooks/` `helpers/` — target **RPi 5 + 7" Touch Display 2, 720×1280 portrait** |
 | Homey client | `src/helpers/getHomey.js`, `useGetDevices`, `useGetZones`, `useGetDevice`, `useMakeCapabilityInstance` |
 | Flows | `src/components/Flows/helpers/triggerFlow.js` |
 | Blinds | `/andre` via zone auto-discover (`getRoomBlinds`); Stue Markise hard-coded |
