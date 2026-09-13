@@ -79,12 +79,30 @@ describe("getWeatherOverlayState", () => {
     expect(state.sunIntensity).toBe(1);
   });
 
-  it("does not show sun at night", () => {
-    const state = getWeatherOverlayState(
-      [entry({ symbol: "clearsky_night", mm: 0 })],
+  it("shows a weaker sun for fair and partly cloudy days", () => {
+    const fair = getWeatherOverlayState(
+      [entry({ symbol: "fair_day", mm: 0 })],
       now
     );
-    expect(state.showSun).toBe(false);
+    const partlyCloudy = getWeatherOverlayState(
+      [entry({ symbol: "partlycloudy_day", mm: 0 })],
+      now
+    );
+    expect(fair.showSun).toBe(true);
+    expect(fair.sunIntensity).toBe(0.72);
+    expect(partlyCloudy.showSun).toBe(true);
+    expect(partlyCloudy.sunIntensity).toBe(0.42);
+    expect(fair.sunIntensity).toBeGreaterThan(partlyCloudy.sunIntensity);
+  });
+
+  it("does not show sun at night or when overcast", () => {
+    expect(
+      getWeatherOverlayState([entry({ symbol: "clearsky_night", mm: 0 })], now)
+        .showSun
+    ).toBe(false);
+    expect(
+      getWeatherOverlayState([entry({ symbol: "cloudy", mm: 0 })], now).showSun
+    ).toBe(false);
   });
 
   it("infers snow from freezing precip without a rain/snow symbol", () => {
