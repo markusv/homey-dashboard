@@ -7,29 +7,36 @@ export const SonosFavorites = ({
   close,
   onFavoriteClick,
   deviceId = SONOS_KITCHEN_ID,
+  embedded = false,
 }) => {
   const { loading, favorites } = useGetFavoritees(deviceId);
   if (loading) {
-    return <div className="sonos-favorites-loading">Loading...</div>;
+    return <div className="sonos-favorites-loading">Laster…</div>;
+  }
+  const list = (
+    <div className="sonos-favorites-container">
+      {favorites?.map((f) => {
+        return (
+          <div
+            key={f.id}
+            className="sonos-favorites"
+            onClick={() => {
+              onFavoriteClick(f);
+            }}
+          >
+            <img src={f.image} className="sonos-favorites-image" />
+            {f.name}
+          </div>
+        );
+      })}
+    </div>
+  );
+  if (embedded) {
+    return list;
   }
   return (
     <FocusedElement title="Sonos Favoritter" onCloseClick={close}>
-      <div className="sonos-favorites-container">
-        {favorites?.map((f) => {
-          return (
-            <div
-              key={f.id}
-              className="sonos-favorites"
-              onClick={() => {
-                onFavoriteClick(f);
-              }}
-            >
-              <img src={f.image} className="sonos-favorites-image" />
-              {f.name}
-            </div>
-          );
-        })}
-      </div>
+      {list}
     </FocusedElement>
   );
 };

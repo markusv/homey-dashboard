@@ -15,7 +15,7 @@ import { STUE_MOODS } from "./constants";
 import { useSetDocumentTitle } from "../../helpers/useSetDocumentTitle";
 import { Markise } from "../../components/Devices/Markise/Markise";
 import { Roborock } from "../../components/Devices/Roborock/Roborock";
-import { Sonos } from "../../components/Devices/Sonos/Sonos";
+import { Speakers } from "../../components/Devices/Speakers/Speakers";
 import { RINGEKLOKKE_BILDE_URL_VARIABLE } from "../../constants";
 import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
 import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
@@ -102,7 +102,7 @@ export const Stue = () => {
         </div>
         <div className="second-row">
           <Dishwasher onClick={onSetFocus} />
-          <Sonos onClick={onSetFocus} />
+          <Speakers onClick={onSetFocus} devices={devices} />
           <Rullegardiner />
           <Markise onClick={onSetFocus} />
           <Roborock onClick={onSetFocus} />

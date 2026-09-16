@@ -37,12 +37,21 @@
   margin: 0;
 }
 
+.focused-element-back-icon,
 .focused-element-close-icon {
   font-weight: bold;
   flex: 0;
   border: none;
   background: transparent;
   padding: 0 1rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.focused-element-back-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  padding-left: 0;
 }
 
 .focused-element {

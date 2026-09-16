@@ -1,20 +1,13 @@
 ---
-description: /andre kiosk — Raspberry Pi 5 + official 7" Touch Display 2 (720×1280 portrait)
-alwaysApply: true
+description: /andre kiosk layout — Pi 5 + 7" Touch Display 2, 720×1280 portrait
+globs: src/pages/Andre/**
+alwaysApply: false
 ---
 
-# /andre kiosk hardware
+# /andre kiosk
 
-`/andre` (2. etasje hallway) will run as a Chromium kiosk on a **Raspberry Pi 5** with the official Raspberry Pi **7" Touch Display 2** (version 2 of the Pi 7" panel).
+Design `/andre` for a **Raspberry Pi 5** + official **7" Touch Display 2**: **720×1280 portrait**, touch-first, no hover.
 
-| | |
-| -- | -- |
-| Board | Raspberry Pi 5 |
-| Screen | Official Raspberry Pi 7" Touch Display 2 |
-| Resolution | **720×1280** |
-| Orientation | **Portrait** |
-| Input | Touch-first — do not rely on hover |
-
-Design and CSS for `/andre` against this panel (`src/pages/Andre/Andre.css`, `max-width: 720px`). Shared UI (e.g. `SonosFocus`) must work in this portrait box: stacked player, not Stue’s landscape two-column overlay.
-
-This kiosk is **not** in `npm run deploy` yet (no LAN address in `scripts/deploy.sh`). It will load the app from the Stue server, same pattern as Entre.
+- CSS: `src/pages/Andre/Andre.css`, `max-width: 720px`
+- Shared UI (e.g. `SonosFocus`) must work in this portrait box: stacked player, not Stue’s landscape two-column overlay
+- This kiosk is not in `npm run deploy` yet; it loads the app from the Stue server, same pattern as Entre

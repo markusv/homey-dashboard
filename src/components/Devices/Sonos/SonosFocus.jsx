@@ -10,14 +10,8 @@ import { useUpdateImageUrls } from "./hooks/useUpdateImageUrls";
 import { SonosFavorites } from "./SonosFavorites";
 import DefaultAlbumArt from "./assets/default_album_art.png";
 import { ShuffleIcon } from "./assets/ShuffleIcon";
-
-const isSonosDevice = (device, deviceId) =>
-  deviceId === SONOS_KITCHEN_ID ||
-  Boolean(
-    String(device?.driverId || "")
-      .toLowerCase()
-      .includes("sonos")
-  );
+import { SPEAKER_KIND } from "../Speakers/Speakers.constants";
+import { getSpeakerKind } from "../Speakers/Speakers.helpers";
 
 export const SonosFocus = ({
   close,
@@ -25,6 +19,8 @@ export const SonosFocus = ({
   title = "Sonos",
   sectionTitle,
   embedded = false,
+  onBackClick,
+  onShowLibrary,
 }) => {
   const [sonosDevice, setSonosDevice] = useGetDevice(deviceId);
   const [showFavorites, setShowFavorites] = useState(false);
@@ -38,7 +34,11 @@ export const SonosFocus = ({
   const supportsShuffle = caps.includes("speaker_shuffle");
   const supportsPrev = caps.includes("speaker_prev");
   const supportsNext = caps.includes("speaker_next");
-  const supportsFavorites = isSonosDevice(sonosDevice, deviceId);
+  const speakerKind = getSpeakerKind(sonosDevice);
+  const isSonos =
+    speakerKind === SPEAKER_KIND.SONOS || deviceId === SONOS_KITCHEN_ID;
+  const isSpotify = speakerKind === SPEAKER_KIND.SPOTIFY;
+  const showLibraryButton = onShowLibrary ? isSonos || isSpotify : isSonos;
   const imageRef = useRef();
   const containerRef = useRef();
   const imageUrl = useUpdateImageUrls(
@@ -136,6 +136,10 @@ export const SonosFocus = ({
   };
 
   const onShowFavoriteToggle = () => {
+    if (onShowLibrary) {
+      onShowLibrary();
+      return;
+    }
     setShowFavorites(!showFavorites);
   };
 
@@ -221,10 +225,11 @@ export const SonosFocus = ({
                 onClick={onNextClick}
               />
             )}
-            {supportsFavorites && (
+            {showLibraryButton && (
               <button
                 type="button"
                 className="sonos-favorite-button"
+                aria-label={isSpotify ? "Playlister" : "Favoritter"}
                 onClick={onShowFavoriteToggle}
               />
             )}
@@ -277,6 +282,7 @@ export const SonosFocus = ({
     <FocusedElement
       title={title}
       onCloseClick={close}
+      onBackClick={onBackClick}
       backgroundImageUrl={backgroundUrl}
       ref={containerRef}
     >

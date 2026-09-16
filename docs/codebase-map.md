@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-09-13. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-09-15. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -87,11 +87,12 @@ Response shape: `{ current, points, unit, range, … }`.
 
 ## Speakers
 
-| Implementation      | Path                                       | Notes                                                                                                                                                                                                                                        |
-| ------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Sonos** (Stue)    | `src/components/Devices/Sonos/*`           | Shared `SonosFocus` on `/` + `/andre`. Container query: two columns in landscape overlay (Stue 800×480); stacked in portrait (`/andre` RPi 5 + Touch Display 2, 720×1280). Caps: play/pause, volume, favorites, art. `deviceId` + `embedded` |
-| **Spotify Connect** | same `SonosFocus` UI                       | `/andre` Fabian via `speakerDeviceId` → Homey app `nl.pendo.spotify` (speaker caps; no Sonos favorites)                                                                                                                                      |
-| **AudioPro**        | `src/components/Devices/AudioProSpeaker/*` | Flow-driven fallback when device lacks `speaker_playing`                                                                                                                                                                                     |
+| Implementation              | Path                                       | Notes                                                                                                                                                                                                                                                                                 |
+| --------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **All speakers** (Stue `/`) | `src/components/Devices/Speakers/*`        | Auto-discovers Homey devices with `speaker_playing`. Overlay: list (cover + left-bleed blur) → `SonosFocus` player → library. Homey names. No grouping. Refresh device list when overlay opens.                                                                                       |
+| **Sonos**                   | `src/components/Devices/Sonos/*`           | Shared `SonosFocus` on `/` + `/andre`. Stue library = Sonos favorites per selected speaker (`cloud_play_sonos_favorite`). Container query: two columns in landscape overlay (Stue 800×480); stacked in portrait (`/andre`). `deviceId` + `embedded` + `onBackClick` / `onShowLibrary` |
+| **Spotify Connect**         | `SonosFocus` + `SpotifyPlaylists`          | `/andre` Fabian via `speakerDeviceId` → `nl.pendo.spotify` (unchanged). Stue list includes the same device; playlists via flow card `play_playlist` (Homey/API order ≈ iOS Your Library **Nylige**).                                                                                  |
+| **AudioPro**                | `src/components/Devices/AudioProSpeaker/*` | Flow-driven fallback when device lacks `speaker_playing` (not used on Stue list)                                                                                                                                                                                                      |
 
 ## Vacuum / Roborock
 

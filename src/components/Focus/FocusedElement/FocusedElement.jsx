@@ -2,8 +2,14 @@ import React, { forwardRef } from "react";
 import "./focusedElement.css";
 
 export const FocusedElement = forwardRef((props, ref) => {
-  const { title, children, onCloseClick, className, backgroundImageUrl } =
-    props;
+  const {
+    title,
+    children,
+    onCloseClick,
+    onBackClick,
+    className,
+    backgroundImageUrl,
+  } = props;
   const cls = (className ?? "") + " focused-element";
   return (
     <div
@@ -20,6 +26,16 @@ export const FocusedElement = forwardRef((props, ref) => {
       )}
       <div className="focused-element-content">
         <div className="focused-element-header">
+          {onBackClick ? (
+            <button
+              type="button"
+              className="focused-element-back-icon"
+              onClick={onBackClick}
+              aria-label="Tilbake"
+            >
+              ←
+            </button>
+          ) : null}
           <h1 className="focused-element-title">{title}</h1>
           <button className="focused-element-close-icon" onClick={onCloseClick}>
             X

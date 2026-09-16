@@ -5,19 +5,12 @@ alwaysApply: true
 
 # Verify the app still works
 
-After build/dependency/config changes (and when finishing substantial app work), verify the app responds with HTTP 200:
+After build/dependency/config changes (and when finishing substantial app work):
 
 1. Build: `npm run build`
 2. Start production server on a non-privileged port, e.g. `PORT=3080 npm run start:production`
 3. Run: `VERIFY_BASE_URL=http://localhost:3080 npm run verify`
 
-The verify script must get **200 OK** for:
-
-- `/` (Stue dashboard)
-- `/entre` (Entre dashboard)
-- `/andre` (2. etasje dashboard — Raspberry Pi 5 + 7" Touch Display 2, 720×1280 portrait)
-- `/api/read/temperature/loft` (temperature API)
-- `/api/read/weather` (weather API)
-- `/api/read/departures` (Entur departure board)
+`scripts/verify.js` must get **200 OK** for `/`, `/entre`, `/andre`, `/api/read/temperature/loft`, `/api/read/weather`, `/api/read/departures`.
 
 Do not consider the task done if any of these fail. Stop the temporary server when finished.

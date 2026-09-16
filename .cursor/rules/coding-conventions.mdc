@@ -34,13 +34,10 @@ helpers/
 - Hooks: file named after the hook (`useCardFocus.js`), in a `hooks/` folder.
 - Components: one folder per component. Nest its `helpers/`, `hooks/`, and any subcomponents inside that folder; only lift shared code up to a common ancestor once more than one component needs it — shared subcomponents go in `common/`.
 
-## Before committing
+## Logic vs UI
 
-When these scripts are available, always run before committing:
-
-```bash
-npm run lint:fix
-npm run test
-```
-
-Also follow `lint-and-format.mdc` (`npm run lint` / `npm run format`) after code changes.
+- JSX renders and wires clicks. Filtering, sorting, matching, formatting, and chart math go in **pure helpers** (with tests). Homey fetch/subscribe/setCapability lives in **hooks**.
+- Do not put Homey `runFlowCardAction` / `setCapabilityValue` inline in a large render tree — a small named function or hook is enough.
+- Split a component when a chunk has its own state, a clear name (`SpeakerRow`, `RoomTemperature`), or a second caller. Do not split one-off markup into files “for cleanliness”.
+- Do not split on line count alone. Do split when one file mixes unrelated concerns (e.g. SVG chart geometry + room chrome).
+- Prefer a local function in the same file until a second caller exists. `common/` only after two parents need it.
