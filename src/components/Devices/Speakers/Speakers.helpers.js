@@ -1,4 +1,8 @@
-import { SPEAKER_KIND, SPEAKER_LIST_ORDER } from "./Speakers.constants";
+import {
+  SPEAKER_KIND,
+  SPEAKER_LIST_ORDER,
+  SPEAKERS_VIEW,
+} from "./Speakers.constants";
 
 export const isMusicSpeaker = (device) => {
   if (!device) return false;
@@ -28,3 +32,20 @@ export const getMusicSpeakers = (devices) => {
 
 export const getSpotifyPlayPlaylistCardId = (deviceId) =>
   `homey:device:${deviceId}:play_playlist`;
+
+export const getSpeakerShareName = (part, deviceId) =>
+  deviceId ? `speaker-${part}-${deviceId}` : undefined;
+
+export const getSpeakersHeaderTitle = ({
+  view,
+  selectedName,
+  selectedKind,
+}) => {
+  if (view === SPEAKERS_VIEW.LIBRARY) {
+    return selectedKind === SPEAKER_KIND.SONOS ? "Favoritter" : "Playlister";
+  }
+  if (view === SPEAKERS_VIEW.PLAYER) {
+    return selectedName || "Høyttaler";
+  }
+  return "Høyttalere";
+};

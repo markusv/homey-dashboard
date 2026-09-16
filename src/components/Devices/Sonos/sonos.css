@@ -249,18 +249,11 @@
   background: url(./assets/volumeUp.svg) no-repeat center;
 }
 
-.sonos-favorites-loading {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .sonos-favorites-container {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  align-content: flex-start;
   overflow-y: scroll;
   height: 100%;
 }
@@ -271,10 +264,57 @@
   overflow: hidden;
   flex-direction: column;
   gap: 0.2rem;
+  flex-shrink: 0;
 }
 
 .sonos-favorites-image {
+  display: block;
   width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background: #2a2a30;
+  flex-shrink: 0;
+}
+
+.sonos-favorites-name {
+  display: block;
+  min-height: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  font-size: 0.8rem;
+}
+
+.sonos-favorites-skeleton-block,
+.sonos-favorites-skeleton-name {
+  background: #2a2a30;
+  animation: sonos-favorites-pulse 1.2s ease-in-out infinite;
+}
+
+.sonos-favorites-skeleton-name {
+  display: block;
+  height: 0.85em;
+  width: 72%;
+  margin-top: 0.2rem;
+  border-radius: 4px;
+}
+
+@keyframes sonos-favorites-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonos-favorites-skeleton-block,
+  .sonos-favorites-skeleton-name {
+    animation: none;
+  }
 }
 
 .sonos-embedded {

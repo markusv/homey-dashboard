@@ -1,6 +1,6 @@
 import { useGetDevice } from "../helpers/useGetDevice";
 import { useMakeCapabilityInstance } from "../helpers/useMakeCapabilityInstance";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, ViewTransition } from "react";
 import { SONOS_KITCHEN_ID } from "./Sonos";
 import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
 import { getHomey } from "../../../helpers/getHomey";
@@ -12,6 +12,7 @@ import DefaultAlbumArt from "./assets/default_album_art.png";
 import { ShuffleIcon } from "./assets/ShuffleIcon";
 import { SPEAKER_KIND } from "../Speakers/Speakers.constants";
 import { getSpeakerKind } from "../Speakers/Speakers.helpers";
+import "./sonos.css";
 
 export const SonosFocus = ({
   close,
@@ -19,8 +20,12 @@ export const SonosFocus = ({
   title = "Sonos",
   sectionTitle,
   embedded = false,
+  overlay = false,
   onBackClick,
   onShowLibrary,
+  artTransitionName,
+  onBackgroundUrlChange,
+  initialCoverUrl,
 }) => {
   const [sonosDevice, setSonosDevice] = useGetDevice(deviceId);
   const [showFavorites, setShowFavorites] = useState(false);
@@ -45,7 +50,8 @@ export const SonosFocus = ({
     sonosDevice,
     track,
     imageRef,
-    containerRef
+    containerRef,
+    initialCoverUrl
   );
   const [volume, setVolume, onSliderChange] = useVolume(sonosDevice);
   const actualId = sonosDevice?.id;
@@ -144,14 +150,24 @@ export const SonosFocus = ({
   };
 
   const hasNowPlaying = Boolean(trackName) || isPlaying === true;
+  const waitingForDevice = !sonosDevice && Boolean(initialCoverUrl);
+  const displayedArt =
+    imageUrl || (waitingForDevice ? initialCoverUrl : undefined);
   const coverUrl =
-    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : DefaultAlbumArt;
-  const backgroundUrl =
-    hasNowPlaying && imageUrl && !coverFailed ? imageUrl : undefined;
+    displayedArt && !coverFailed && (hasNowPlaying || waitingForDevice)
+      ? displayedArt
+      : DefaultAlbumArt;
+  const backgroundUrl = coverUrl !== DefaultAlbumArt ? coverUrl : undefined;
 
   useEffect(() => {
     setCoverFailed(false);
   }, [imageUrl, trackName, isPlaying]);
+
+  useEffect(() => {
+    if (!onBackgroundUrlChange) return undefined;
+    onBackgroundUrlChange(backgroundUrl);
+    return undefined;
+  }, [backgroundUrl, onBackgroundUrlChange]);
 
   if (showFavorites) {
     return (
@@ -165,20 +181,34 @@ export const SonosFocus = ({
     );
   }
 
+  const cover = (
+    <div className="sonos-playing-image-container">
+      <img
+        src={coverUrl}
+        className="sonos-image"
+        alt=""
+        ref={imageRef}
+        onError={() => {
+          if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
+        }}
+      />
+    </div>
+  );
+
   const content = (
     <div className="sonos-layout">
       <div className="sonos-playing-container">
-        <div className="sonos-playing-image-container">
-          <img
-            src={coverUrl}
-            className="sonos-image"
-            alt=""
-            ref={imageRef}
-            onError={() => {
-              if (coverUrl !== DefaultAlbumArt) setCoverFailed(true);
-            }}
-          />
-        </div>
+        {artTransitionName ? (
+          <ViewTransition
+            name={artTransitionName}
+            share="speaker-share-art"
+            default="none"
+          >
+            {cover}
+          </ViewTransition>
+        ) : (
+          cover
+        )}
         <div className="sonos-playing-content">
           <div className="sonos-playing-info">
             <div className="sonos-track-name">{trackName}</div>
@@ -252,6 +282,10 @@ export const SonosFocus = ({
       </div>
     </div>
   );
+
+  if (overlay) {
+    return content;
+  }
 
   if (embedded) {
     return (

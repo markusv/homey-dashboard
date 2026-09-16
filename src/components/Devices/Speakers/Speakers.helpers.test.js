@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { SPEAKER_KIND } from "./Speakers.constants";
+import { SPEAKER_KIND, SPEAKERS_VIEW } from "./Speakers.constants";
 import {
   getMusicSpeakers,
   getSpeakerKind,
+  getSpeakerShareName,
+  getSpeakersHeaderTitle,
   isMusicSpeaker,
 } from "./Speakers.helpers";
 
@@ -92,5 +94,38 @@ describe("getMusicSpeakers", () => {
 
   it("returns an empty list when devices are missing", () => {
     expect(getMusicSpeakers(undefined)).toEqual([]);
+  });
+});
+
+describe("getSpeakerShareName", () => {
+  it("builds a unique name for shared view transitions", () => {
+    expect(getSpeakerShareName("art", "abc")).toBe("speaker-art-abc");
+    expect(getSpeakerShareName("name")).toBeUndefined();
+  });
+});
+
+describe("getSpeakersHeaderTitle", () => {
+  it("uses the list, player, and library titles", () => {
+    expect(getSpeakersHeaderTitle({ view: SPEAKERS_VIEW.LIST })).toBe(
+      "Høyttalere"
+    );
+    expect(
+      getSpeakersHeaderTitle({
+        view: SPEAKERS_VIEW.PLAYER,
+        selectedName: "Sonos Kjøkken",
+      })
+    ).toBe("Sonos Kjøkken");
+    expect(
+      getSpeakersHeaderTitle({
+        view: SPEAKERS_VIEW.LIBRARY,
+        selectedKind: SPEAKER_KIND.SONOS,
+      })
+    ).toBe("Favoritter");
+    expect(
+      getSpeakersHeaderTitle({
+        view: SPEAKERS_VIEW.LIBRARY,
+        selectedKind: SPEAKER_KIND.SPOTIFY,
+      })
+    ).toBe("Playlister");
   });
 });

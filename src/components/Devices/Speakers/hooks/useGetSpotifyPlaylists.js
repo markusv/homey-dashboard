@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use } from "react";
 import { getHomey } from "../../../../helpers/getHomey";
 import {
   readCachedSpotifyPlaylists,
@@ -6,90 +6,85 @@ import {
 } from "../helpers/cacheSpotifyPlaylists";
 import { getSpotifyPlayPlaylistCardId } from "../Speakers.helpers";
 
-const RETRY_MS = 10_000;
+export const SPOTIFY_PLAYLISTS_RETRY_MS = 10_000;
 const UNAVAILABLE_MESSAGE =
   "Spotify Connect er ikke tilgjengelig i Homey. Playlister lastes når høyttaleren er online.";
 
-export const useGetSpotifyPlaylists = (deviceId) => {
-  const [loading, setLoading] = useState(true);
-  const [playlists, setPlaylists] = useState([]);
-  const [fromCache, setFromCache] = useState(false);
-  const [error, setError] = useState();
+const playlistsByDeviceId = new Map();
 
-  useEffect(() => {
-    if (!deviceId) {
-      setLoading(false);
-      setPlaylists([]);
-      setFromCache(false);
-      setError(undefined);
-      return undefined;
-    }
+const asFulfilled = (value) => ({
+  status: "fulfilled",
+  value,
+  then: (resolve) => Promise.resolve(value).then(resolve),
+});
 
-    let cancelled = false;
-    let retryTimer;
-    const cached = readCachedSpotifyPlaylists(deviceId);
-    if (cached.length) {
-      setPlaylists(cached);
-      setFromCache(true);
-      setLoading(false);
-    }
-
-    const load = async ({ silent } = {}) => {
-      if (!silent && !cached.length) setLoading(true);
-      try {
-        const homeyApi = await getHomey();
-        const device = await homeyApi.devices.getDevice({ id: deviceId });
-        if (cancelled) return;
-        if (!device?.available) {
-          throw new Error(UNAVAILABLE_MESSAGE);
-        }
-        const result = await homeyApi.flow.getFlowCardAutocomplete({
-          uri: "homey:manager:flow",
-          id: getSpotifyPlayPlaylistCardId(deviceId),
-          name: "playlist",
-          query: "",
-          type: "flowcardaction",
-        });
-        if (cancelled) return;
-        const list = result ?? [];
-        writeCachedSpotifyPlaylists(deviceId, list);
-        setPlaylists(list);
-        setFromCache(false);
-        setError(undefined);
-        setLoading(false);
-      } catch (caught) {
-        if (cancelled) return;
-        const fallback = readCachedSpotifyPlaylists(deviceId);
-        const message = String(caught?.message || "");
-        const unavailable = /ikke tilgjengelig/i.test(message);
-        if (fallback.length) {
-          setPlaylists(fallback);
-          setFromCache(true);
-          setError(undefined);
-        } else {
-          setPlaylists([]);
-          setFromCache(false);
-          setError(
-            unavailable
-              ? UNAVAILABLE_MESSAGE
-              : message || "Kunne ikke hente Spotify-playlister"
-          );
-        }
-        setLoading(false);
-        clearTimeout(retryTimer);
-        retryTimer = setTimeout(() => load({ silent: true }), RETRY_MS);
-      }
-    };
-
-    load();
-    return () => {
-      cancelled = true;
-      clearTimeout(retryTimer);
-    };
-  }, [deviceId]);
-
-  return { loading, playlists, fromCache, error };
+const emptyPlaylists = {
+  playlists: [],
+  fromCache: false,
+  error: undefined,
 };
+
+export const loadLiveSpotifyPlaylists = async (deviceId) => {
+  const cached = readCachedSpotifyPlaylists(deviceId);
+  try {
+    const homeyApi = await getHomey();
+    const device = await homeyApi.devices.getDevice({ id: deviceId });
+    if (!device?.available) {
+      throw new Error(UNAVAILABLE_MESSAGE);
+    }
+    const result = await homeyApi.flow.getFlowCardAutocomplete({
+      uri: "homey:manager:flow",
+      id: getSpotifyPlayPlaylistCardId(deviceId),
+      name: "playlist",
+      query: "",
+      type: "flowcardaction",
+    });
+    const playlists = result ?? [];
+    writeCachedSpotifyPlaylists(deviceId, playlists);
+    const next = { playlists, fromCache: false, error: undefined };
+    playlistsByDeviceId.set(deviceId, asFulfilled(next));
+    return next;
+  } catch (caught) {
+    const message = String(caught?.message || "");
+    const unavailable = /ikke tilgjengelig/i.test(message);
+    if (cached.length) {
+      const next = { playlists: cached, fromCache: true, error: undefined };
+      playlistsByDeviceId.set(deviceId, asFulfilled(next));
+      return next;
+    }
+    const next = {
+      playlists: [],
+      fromCache: false,
+      error: unavailable
+        ? UNAVAILABLE_MESSAGE
+        : message || "Kunne ikke hente Spotify-playlister",
+    };
+    playlistsByDeviceId.set(deviceId, asFulfilled(next));
+    return next;
+  }
+};
+
+export const getSpotifyPlaylistsResource = (deviceId) => {
+  if (!deviceId) return asFulfilled(emptyPlaylists);
+  const cachedResource = playlistsByDeviceId.get(deviceId);
+  if (cachedResource) return cachedResource;
+  const local = readCachedSpotifyPlaylists(deviceId);
+  if (local.length) {
+    const resource = asFulfilled({
+      playlists: local,
+      fromCache: true,
+      error: undefined,
+    });
+    playlistsByDeviceId.set(deviceId, resource);
+    return resource;
+  }
+  const resource = loadLiveSpotifyPlaylists(deviceId);
+  playlistsByDeviceId.set(deviceId, resource);
+  return resource;
+};
+
+export const useGetSpotifyPlaylists = (deviceId) =>
+  use(getSpotifyPlaylistsResource(deviceId));
 
 export const playSpotifyPlaylist = async (deviceId, playlist) => {
   const homeyApi = await getHomey();

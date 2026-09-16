@@ -4,6 +4,11 @@ export const SPEAKERS_VIEW = {
   LIBRARY: "library",
 };
 
+export const SPEAKERS_TRANSITION = {
+  FORWARD: "speakers-forward",
+  BACK: "speakers-back",
+};
+
 export const SPEAKER_KIND = {
   SONOS: "sonos",
   SPOTIFY: "spotify",

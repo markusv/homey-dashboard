@@ -1,63 +1,61 @@
 import { useEffect, useRef, useState } from "react";
-import { getImageUrl } from "../helpers/getImageUrl";
-
-const HOMEY_LOCAL_ORIGIN = "https://192-168-68-80.homey.homeylocal.com";
-
-const resolveAlbumArtUrl = (imageUrl) => {
-  if (!imageUrl) return null;
-  const cacheBust = `ts=${Date.now()}`;
-  if (/^https?:\/\//i.test(imageUrl)) {
-    return `${imageUrl}${imageUrl.includes("?") ? "&" : "?"}${cacheBust}`;
-  }
-  return `${HOMEY_LOCAL_ORIGIN}${imageUrl}?${cacheBust}`;
-};
+import { getDeviceAlbumArtUrl } from "../helpers/getDeviceAlbumArtUrl";
 
 /**
  * Keeps the previous album art visible until the next cover is fully loaded,
  * then swaps — no fade-to-black between tracks. Clears when Homey has no art.
+ * `initialUrl` is the list-row src so the player can morph the already-decoded image.
  */
-export const useUpdateImageUrls = (device, track, imageRef, containerRef) => {
-  const [imageUrl, setImageUrl] = useState();
-  const albumArtPath = getImageUrl(device);
+export const useUpdateImageUrls = (
+  device,
+  track,
+  imageRef,
+  containerRef,
+  initialUrl
+) => {
+  const resolved = getDeviceAlbumArtUrl(device, track);
+  const [imageUrl, setImageUrl] = useState(() => resolved || initialUrl);
+  const displayedRef = useRef(resolved || initialUrl);
   const requestIdRef = useRef(0);
 
   useEffect(() => {
-    const url = resolveAlbumArtUrl(albumArtPath);
-    if (!url) {
+    const reveal = (url) => {
+      displayedRef.current = url;
+      setImageUrl(url);
+      if (imageRef?.current) imageRef.current.style.opacity = "1";
+      if (containerRef?.current) containerRef.current.style.opacity = "1";
+    };
+
+    if (!device) return undefined;
+
+    if (!resolved) {
       requestIdRef.current += 1;
-      setImageUrl(undefined);
-      if (imageRef?.current) {
-        imageRef.current.style.opacity = "1";
-      }
-      if (containerRef?.current) {
-        containerRef.current.style.opacity = "1";
-      }
+      reveal(undefined);
+      return undefined;
+    }
+
+    if (resolved === displayedRef.current) return undefined;
+
+    if (!displayedRef.current) {
+      reveal(resolved);
       return undefined;
     }
 
     const requestId = ++requestIdRef.current;
     const preload = new Image();
-
     const apply = () => {
       if (requestId !== requestIdRef.current) return;
-      setImageUrl(url);
-      if (imageRef?.current) {
-        imageRef.current.style.opacity = "1";
-      }
-      if (containerRef?.current) {
-        containerRef.current.style.opacity = "1";
-      }
+      reveal(resolved);
     };
-
     preload.onload = apply;
     preload.onerror = apply;
-    preload.src = url;
+    preload.src = resolved;
 
     return () => {
       preload.onload = null;
       preload.onerror = null;
     };
-  }, [track, albumArtPath, imageRef, containerRef]);
+  }, [device, resolved, imageRef, containerRef]);
 
   return imageUrl;
 };

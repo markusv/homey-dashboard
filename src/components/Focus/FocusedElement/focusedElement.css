@@ -30,34 +30,100 @@
 
 .focused-element-header {
   display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
 }
 
 .focused-element-title {
   flex: 1;
   margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.focused-element-back-icon,
-.focused-element-close-icon {
-  font-weight: bold;
-  flex: 0;
-  border: none;
-  background: transparent;
-  padding: 0 1rem;
+.focused-element-icon-button {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0;
   color: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.focused-element-back-icon {
-  font-size: 1.5rem;
-  line-height: 1;
-  padding-left: 0;
+.focused-element-icon-button sl-icon {
+  font-size: 1.15rem;
+}
+
+.focused-element-icon-button:active {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .focused-element {
   /*flex: 1; tatt bort pga scroll i audiopro focus*/
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   flex-grow: 0;
   overflow: hidden;
   height: 100%;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+:root {
+  view-transition-name: none !important;
+}
+
+::view-transition-new(.focus-fade-in) {
+  animation: focus-fade-in 180ms ease both;
+}
+
+::view-transition-old(.focus-fade-out) {
+  animation: focus-fade-out 180ms ease both;
+}
+
+@keyframes focus-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes focus-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
