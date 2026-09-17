@@ -310,13 +310,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sonos-favorites-skeleton-block,
-  .sonos-favorites-skeleton-name {
-    animation: none;
-  }
-}
-
 .sonos-embedded {
   position: relative;
   width: 100%;

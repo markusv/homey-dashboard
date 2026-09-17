@@ -79,14 +79,3 @@
     transform: translate3d(7vw, 116vh, 0);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .weather-overlay {
-    transition: none;
-  }
-
-  .weather-overlay__drop,
-  .weather-overlay__flake {
-    animation: none;
-  }
-}

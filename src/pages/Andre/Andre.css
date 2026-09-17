@@ -954,12 +954,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .andre-fan-icon--spinning {
-    animation: none;
-  }
-}
-
 .andre-scene-button--off sl-icon {
   color: rgba(255, 255, 255, 0.82);
 }
