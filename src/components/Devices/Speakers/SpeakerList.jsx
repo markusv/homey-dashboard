@@ -47,20 +47,6 @@ const SpeakerRow = ({
     ? getSpeakerShareName("name", deviceId)
     : undefined;
 
-  const art = showArt ? (
-    <img
-      className="speaker-row-art"
-      src={coverUrl}
-      alt=""
-      onError={() => setCoverFailed(true)}
-    />
-  ) : (
-    <span className="speaker-row-art-empty" aria-hidden>
-      <sl-icon name="music-note-beamed" />
-    </span>
-  );
-  const speakerName = <span className="speaker-row-name">{name}</span>;
-
   useEffect(() => {
     setCoverFailed(false);
   }, [coverUrl, trackName]);
@@ -83,6 +69,32 @@ const SpeakerRow = ({
       cancelled = true;
     };
   }, [deviceId, track, setDevice]);
+
+  const art = showArt ? (
+    <img
+      className="speaker-row-art"
+      src={coverUrl}
+      alt=""
+      onError={() => setCoverFailed(true)}
+    />
+  ) : (
+    <span className="speaker-row-art-empty" aria-hidden>
+      <sl-icon name="music-note-beamed" />
+    </span>
+  );
+  const speakerName = <span className="speaker-row-name">{name}</span>;
+  const sharedName = nameShareName ? (
+    <ViewTransition
+      name={nameShareName}
+      share="speaker-share-name"
+      enter="none"
+      default="none"
+    >
+      {speakerName}
+    </ViewTransition>
+  ) : (
+    speakerName
+  );
 
   return (
     <button
@@ -113,24 +125,7 @@ const SpeakerRow = ({
         art
       )}
       <span className="speaker-row-text">
-        <span className="speaker-row-name-wrap">
-          {speakerName}
-          {nameShareName ? (
-            <ViewTransition
-              name={nameShareName}
-              share="speaker-share-name"
-              enter="none"
-              default="none"
-            >
-              <span
-                className="speaker-row-name speaker-row-name--ghost"
-                aria-hidden
-              >
-                {name}
-              </span>
-            </ViewTransition>
-          ) : null}
-        </span>
+        {sharedName}
         <span className="speaker-row-track">{nowPlaying}</span>
       </span>
       {isPlaying ? (
