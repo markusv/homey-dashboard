@@ -116,6 +116,11 @@
   gap: 12px;
 }
 
+.sonos-buttons button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .sonos-pause,
 .sonos-play,
 .sonos-next,

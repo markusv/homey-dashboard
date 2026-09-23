@@ -24,6 +24,8 @@ import {
 import { getDeviceAlbumArtUrl } from "../Sonos/helpers/getDeviceAlbumArtUrl";
 import { SpeakerList } from "./SpeakerList";
 import { SpotifyPlaylists } from "./SpotifyPlaylists";
+import { prefetchSonosFavorites } from "../Sonos/hooks/useGetFavoritees";
+import { prefetchSpotifyPlaylists } from "./hooks/useGetSpotifyPlaylists";
 import "./speakers.css";
 
 const playSonosFavorite = async (deviceId, favorite) => {
@@ -75,6 +77,14 @@ export const SpeakersFocus = ({ close, devices: initialDevices }) => {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    getMusicSpeakers(devices).forEach((speaker) => {
+      const kind = getSpeakerKind(speaker);
+      if (kind === SPEAKER_KIND.SONOS) prefetchSonosFavorites(speaker.id);
+      if (kind === SPEAKER_KIND.SPOTIFY) prefetchSpotifyPlaylists(speaker.id);
+    });
+  }, [devices]);
 
   const speakers = getMusicSpeakers(devices);
   const selected = speakers.find((speaker) => speaker.id === selectedId);
@@ -170,6 +180,7 @@ export const SpeakersFocus = ({ close, devices: initialDevices }) => {
             <SonosFocus
               overlay
               deviceId={selectedId}
+              device={selected}
               initialCoverUrl={selectedCover}
               artTransitionName={getSpeakerShareName("art", selectedId)}
               onBackgroundUrlChange={setPlayerBackgroundUrl}

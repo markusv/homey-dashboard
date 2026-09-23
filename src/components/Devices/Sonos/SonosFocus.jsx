@@ -12,6 +12,7 @@ import DefaultAlbumArt from "./assets/default_album_art.png";
 import { ShuffleIcon } from "./assets/ShuffleIcon";
 import { SPEAKER_KIND } from "../Speakers/Speakers.constants";
 import { getSpeakerKind } from "../Speakers/Speakers.helpers";
+import { getTransportControls } from "./helpers/getTransportControls";
 import "./sonos.css";
 
 export const SonosFocus = ({
@@ -26,24 +27,24 @@ export const SonosFocus = ({
   artTransitionName,
   onBackgroundUrlChange,
   initialCoverUrl,
+  device: knownDevice,
 }) => {
-  const [sonosDevice, setSonosDevice] = useGetDevice(deviceId);
+  const [fetchedDevice, setSonosDevice] = useGetDevice(deviceId);
+  const sonosDevice =
+    fetchedDevice || (knownDevice?.id === deviceId ? knownDevice : undefined);
   const [showFavorites, setShowFavorites] = useState(false);
   const [coverFailed, setCoverFailed] = useState(false);
   const artist = sonosDevice?.capabilitiesObj?.["speaker_artist"]?.value;
   const track = sonosDevice?.capabilitiesObj?.["speaker_track"]?.value ?? "";
   const trackName = typeof track === "string" ? track.trim() : "";
-  const isPlaying = sonosDevice?.capabilitiesObj?.["speaker_playing"]?.value;
   const isShuffle = sonosDevice?.capabilitiesObj?.["speaker_shuffle"]?.value;
-  const caps = sonosDevice?.capabilities || [];
-  const supportsShuffle = caps.includes("speaker_shuffle");
-  const supportsPrev = caps.includes("speaker_prev");
-  const supportsNext = caps.includes("speaker_next");
+  const transport = getTransportControls(sonosDevice);
+  const { isPlaying } = transport;
   const speakerKind = getSpeakerKind(sonosDevice);
   const isSonos =
     speakerKind === SPEAKER_KIND.SONOS || deviceId === SONOS_KITCHEN_ID;
   const isSpotify = speakerKind === SPEAKER_KIND.SPOTIFY;
-  const showLibraryButton = onShowLibrary ? isSonos || isSpotify : isSonos;
+  const showLibraryButton = Boolean(onShowLibrary) || isSonos;
   const imageRef = useRef();
   const containerRef = useRef();
   const imageUrl = useUpdateImageUrls(
@@ -95,40 +96,34 @@ export const SonosFocus = ({
     setPlayback(true);
   };
 
-  const onShuffleClick = async () => {
-    const homeyApi = await getHomey();
-    homeyApi.devices.setCapabilityValue({
-      deviceId: sonosDevice.id,
-      capabilityId: "speaker_shuffle",
-      value: !isShuffle,
-    });
+  const setSpeakerCapability = async (capabilityId, value) => {
+    if (!sonosDevice?.id) return;
+    try {
+      const homeyApi = await getHomey();
+      await homeyApi.devices.setCapabilityValue({
+        deviceId: sonosDevice.id,
+        capabilityId,
+        value,
+      });
+    } catch {
+      // Homey rejects the write when the speaker is offline.
+    }
   };
 
-  const onPrevClick = async () => {
-    const homeyApi = await getHomey();
-    homeyApi.devices.setCapabilityValue({
-      deviceId: sonosDevice.id,
-      capabilityId: "speaker_prev",
-      value: true,
-    });
+  const onShuffleClick = () => {
+    setSpeakerCapability("speaker_shuffle", !isShuffle);
   };
 
-  const onNextClick = async () => {
-    const homeyApi = await getHomey();
-    homeyApi.devices.setCapabilityValue({
-      deviceId: sonosDevice.id,
-      capabilityId: "speaker_next",
-      value: true,
-    });
+  const onPrevClick = () => {
+    setSpeakerCapability("speaker_prev", true);
   };
 
-  const setPlayback = async (playback) => {
-    const homeyApi = await getHomey();
-    homeyApi.devices.setCapabilityValue({
-      deviceId: sonosDevice.id,
-      capabilityId: "speaker_playing",
-      value: playback,
-    });
+  const onNextClick = () => {
+    setSpeakerCapability("speaker_next", true);
+  };
+
+  const setPlayback = (playback) => {
+    setSpeakerCapability("speaker_playing", playback);
   };
 
   const onFavoriteClick = async (favorite) => {
@@ -214,12 +209,16 @@ export const SonosFocus = ({
             <div className="sonos-track-name">{trackName}</div>
             <div className="sonos-artist-name">{artist}</div>
           </div>
-          <div className="sonos-buttons">
-            {supportsShuffle && (
+          <div
+            className="sonos-buttons"
+            aria-busy={transport.pending || undefined}
+          >
+            {transport.showShuffle && (
               <button
                 type="button"
                 className={`sonos-shuffle ${isShuffle ? "sonos-shuffle-on" : ""}`}
                 onClick={onShuffleClick}
+                aria-label="Tilfeldig rekkefølge"
               >
                 <ShuffleIcon
                   className="sonos-shuffle-icon"
@@ -227,31 +226,38 @@ export const SonosFocus = ({
                 />
               </button>
             )}
-            {supportsPrev && (
+            {transport.showPrev && (
               <button
                 type="button"
                 className="sonos-prev"
+                aria-label="Forrige"
+                disabled={transport.pending}
                 onClick={onPrevClick}
               />
             )}
-            {isPlaying && (
+            {isPlaying ? (
               <button
                 type="button"
                 className="sonos-pause"
+                aria-label="Pause"
+                disabled={transport.pending}
                 onClick={onPauseClick}
               />
-            )}
-            {!isPlaying && (
+            ) : (
               <button
                 type="button"
                 className="sonos-play"
+                aria-label="Spill av"
+                disabled={transport.pending}
                 onClick={onPlayClick}
               />
             )}
-            {supportsNext && (
+            {transport.showNext && (
               <button
                 type="button"
                 className="sonos-next"
+                aria-label="Neste"
+                disabled={transport.pending}
                 onClick={onNextClick}
               />
             )}
@@ -274,6 +280,7 @@ export const SonosFocus = ({
               min="0"
               max="100"
               value={volume}
+              disabled={transport.pending}
               onChange={onSliderChange}
             />
             <span className="sonos-volume-up" />

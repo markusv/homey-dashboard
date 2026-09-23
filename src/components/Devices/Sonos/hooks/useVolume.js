@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getVolumeFromDevice } from "../helpers/getVolumeFromDevice";
 import { useMakeCapabilityInstance } from "../../helpers/useMakeCapabilityInstance";
 import { useDebounce } from "../../../../helpers/useDebounce";
@@ -18,19 +18,32 @@ export const useVolume = (sonosKitchen) => {
   );
 
   const debouncedVolume = useDebounce(volume, 750);
+  const deviceRef = useRef(sonosKitchen);
+  const userAdjusted = useRef(false);
+  deviceRef.current = sonosKitchen;
+
   useEffect(() => {
-    const setV = async () => {
-      if (!sonosKitchen) {
-        return;
+    const device = deviceRef.current;
+    if (!device || !userAdjusted.current) return undefined;
+
+    let cancelled = false;
+    const writeVolume = async () => {
+      try {
+        const homeyApi = await getHomey();
+        await homeyApi.devices.setCapabilityValue({
+          deviceId: device.id,
+          capabilityId: "volume_set",
+          value: debouncedVolume / 100,
+        });
+      } catch {
+        // Homey rejects the write when the speaker is offline.
       }
-      const homeyApi = await getHomey();
-      homeyApi.devices.setCapabilityValue({
-        deviceId: sonosKitchen.id,
-        capabilityId: "volume_set",
-        value: debouncedVolume / 100,
-      });
+      if (cancelled) return;
     };
-    setV();
+    writeVolume();
+    return () => {
+      cancelled = true;
+    };
   }, [debouncedVolume]);
 
   return [
@@ -38,6 +51,7 @@ export const useVolume = (sonosKitchen) => {
     setVolume,
     (sliderEvent) => {
       sliderEvent.stopPropagation();
+      userAdjusted.current = true;
       setVolume(sliderEvent.target.value);
     },
   ];

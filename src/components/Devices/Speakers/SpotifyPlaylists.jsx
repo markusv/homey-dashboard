@@ -8,6 +8,7 @@ import {
   SPOTIFY_PLAYLISTS_RETRY_MS,
   useGetSpotifyPlaylists,
 } from "./hooks/useGetSpotifyPlaylists";
+import { playlistIdentity, uniquePlaylists } from "./helpers/uniquePlaylists";
 
 const SpotifyPlaylistsFallback = () => (
   <div className="speaker-library-cached">
@@ -64,7 +65,9 @@ const SpotifyPlaylistsList = ({ deviceId, onPlaylistClick }) => {
     return <div className="speaker-list-empty">{result.error}</div>;
   }
 
-  if (!result.playlists.length) {
+  const playlists = uniquePlaylists(result.playlists);
+
+  if (!playlists.length) {
     return <div className="speaker-list-empty">Ingen playlister funnet</div>;
   }
 
@@ -86,9 +89,9 @@ const SpotifyPlaylistsList = ({ deviceId, onPlaylistClick }) => {
         {status}
       </div>
       <div className="sonos-favorites-container">
-        {result.playlists.map((playlist) => (
+        {playlists.map((playlist, index) => (
           <div
-            key={playlist.id || playlist.uri || playlist.name}
+            key={`${playlistIdentity(playlist) || "playlist"}-${index}`}
             className="sonos-favorites"
             onClick={() => onClick(playlist)}
           >

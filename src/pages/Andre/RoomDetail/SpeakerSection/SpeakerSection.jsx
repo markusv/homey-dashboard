@@ -52,6 +52,7 @@ export const SpeakerSection = ({ deviceId, flows = [] }) => {
       {device && isCapabilitySpeaker && (
         <SonosFocus
           deviceId={deviceId}
+          device={device}
           embedded
           sectionTitle="Høyttaler"
           title={device.name}

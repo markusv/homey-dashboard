@@ -1,12 +1,41 @@
-import React, { Suspense } from "react";
-import { useGetFavoritees } from "./hooks/useGetFavoritees";
+import React, { Suspense, useEffect, useState } from "react";
+import {
+  loadLiveSonosFavorites,
+  SONOS_FAVORITES_RETRY_MS,
+  useGetFavoritees,
+} from "./hooks/useGetFavoritees";
 import { SONOS_KITCHEN_ID } from "./Sonos";
 import { FocusedElement } from "../../Focus/FocusedElement/FocusedElement";
 import { FavoritesSkeleton } from "./FavoritesSkeleton";
 import "./sonos.css";
 
 const SonosFavoritesList = ({ onFavoriteClick, deviceId }) => {
-  const { favorites } = useGetFavoritees(deviceId);
+  const initial = useGetFavoritees(deviceId);
+  const [favorites, setFavorites] = useState(initial.favorites);
+
+  useEffect(() => {
+    setFavorites(initial.favorites);
+    if (!initial.fromCache && !initial.error) return undefined;
+    let cancelled = false;
+    let retryTimer;
+
+    const refresh = () => {
+      loadLiveSonosFavorites(deviceId).then((next) => {
+        if (cancelled) return;
+        setFavorites(next.favorites);
+        if (next.error) {
+          retryTimer = setTimeout(refresh, SONOS_FAVORITES_RETRY_MS);
+        }
+      });
+    };
+
+    refresh();
+    return () => {
+      cancelled = true;
+      clearTimeout(retryTimer);
+    };
+  }, [deviceId, initial]);
+
   return (
     <div className="sonos-favorites-container">
       {favorites?.map((favorite) => (
