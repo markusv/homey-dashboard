@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-09-23. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-10-27. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -58,6 +58,7 @@ Zones: used on `/andre` via `room.homeyZoneId` + device `zone`. Stue/Entre use h
 | `src/server/insights.js`           | `bucketHourlyPoints`      |
 | `src/server/routes/temperature.js` | Insights temperature      |
 | `src/server/routes/weather.js`     | MET Norway forecast cache |
+| `src/server/routes/doorbell.js`    | Last Ring doorbell JPEG   |
 
 ### Temperature API
 
@@ -66,6 +67,14 @@ Zones: used on `/andre` via `room.homeyZoneId` + device `zone`. Stue/Entre use h
 - `GET /api/read/insights/device/:deviceId?capability=measure_co2&range=day|week|month` — generic Insights by capability
 
 Response shape: `{ current, points, unit, range, … }`.
+
+### Doorbell snapshot
+
+Ring (`Entre Inngangsdør ringeklokke`, `src/constants.js` `RING_DEVICE_ID`) does not keep the JPEG. Homey proxies `/api/image/…` and Ring deletes it, so a later fetch returns 500.
+
+- On startup the server ensures a Homey flow named `Ringeklokke: lagre snapshot`: trigger `ding` («Noen ringte på døren») → `POST` `DOORBELL_CAPTURE_URL` (default `http://192.168.68.91/api/read/doorbell/capture`).
+- Capture downloads the snapshot immediately and overwrites `data/doorbell.jpg` (gitignored). A failed fetch leaves the previous file in place.
+- `GET /api/read/doorbell` serves that JPEG (`Cache-Control: no-cache`), or 404 until the first successful ring.
 
 ## Weather (MET / “Yr”)
 

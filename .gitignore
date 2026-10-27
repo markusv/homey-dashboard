@@ -12,6 +12,9 @@
 /build
 /dist
 
+# doorbell snapshot (one JPEG, replaced on the next ring)
+/data
+
 # misc
 .DS_Store
 .env

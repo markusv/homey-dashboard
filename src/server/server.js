@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { registerTemperatureRoutes } from "./routes/temperature.js";
 import { registerWeatherRoutes } from "./routes/weather.js";
 import { registerDeparturesRoutes } from "./routes/departures.js";
+import { registerDoorbellRoutes } from "./routes/doorbell.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -30,6 +31,7 @@ app.use(
 registerTemperatureRoutes(app);
 registerWeatherRoutes(app);
 registerDeparturesRoutes(app);
+registerDoorbellRoutes(app);
 
 if (fs.existsSync(buildDir)) {
   app.use(express.static(buildDir));
