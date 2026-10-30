@@ -2,12 +2,14 @@ import React from "react";
 import { SlButton } from "@shoelace-style/shoelace/dist/react";
 import "./roborock.css";
 import { triggerFlow } from "../../Flows/helpers/triggerFlow";
+import { getHomey } from "../../../helpers/getHomey";
 import {
   ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID,
   ROBOROCK_STUE_CLEAN_ENTRE_FLOW_ID,
   ROBOROCK_STUE_CLEAN_KITCHEN_FLOW_ID,
   ROBOROCK_STUE_CLEAN_STUE_FLOW_ID,
 } from "../../../constants";
+import { ROBOROCK_RETURN_TO_DOCK_CAPABILITY_ID } from "./constants";
 
 export const RoborockFocus = ({ roborockDevice }) => {
   const cleanStue = () => {
@@ -22,6 +24,18 @@ export const RoborockFocus = ({ roborockDevice }) => {
   };
   const cleanAll = () => {
     triggerFlow(ROBOROCK_STUE_CLEAN_ALL_ROOMS__FLOW_ID);
+  };
+
+  const returnToDock = async () => {
+    if (!roborockDevice?.id) return;
+    const homeyApi = await getHomey();
+    await homeyApi.devices
+      .setCapabilityValue({
+        deviceId: roborockDevice.id,
+        capabilityId: ROBOROCK_RETURN_TO_DOCK_CAPABILITY_ID,
+        value: true,
+      })
+      .catch(console.error);
   };
 
   return (
@@ -60,6 +74,13 @@ export const RoborockFocus = ({ roborockDevice }) => {
           onClick={cleanAll}
         >
           Alle
+        </SlButton>
+        <SlButton
+          size="large"
+          className="roborock-focused-buttton"
+          onClick={returnToDock}
+        >
+          Gå tilbake til dock
         </SlButton>
       </div>
     </div>

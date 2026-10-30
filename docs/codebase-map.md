@@ -97,6 +97,7 @@ Response shape: `{ current, points, unit, range, … }`.
 ## Vacuum / Roborock
 
 - Stue/Entre: room-picker flows in `RoborockFocus` / Entre card; shared `VacuumIcon` glyph
+- Stue focus: “Gå tilbake til dock” sets device capability `cancel_and_dock` (stop clean, then dock). No extra Homey flow
 - `/andre`: start only via `clean_full` (or `onoff`) on configured `vacuumDeviceId`
 - Unused alternate: `useToggleRoborockClean`
 
