@@ -1,0 +1,60 @@
+.stue-stemninger {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: max-content;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stue-stemninger .moods-container {
+  padding-bottom: 0;
+}
+
+.briefing-buttons {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.briefing-button-label {
+  align-self: center;
+}
+
+::view-transition-group(.briefing-share-title) {
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-image-pair(.briefing-share-title) {
+  isolation: isolate;
+}
+
+::view-transition-old(.briefing-share-title),
+::view-transition-new(.briefing-share-title) {
+  mix-blend-mode: normal;
+  height: 100%;
+  object-fit: fill;
+  object-position: left center;
+}
+
+::view-transition-old(.briefing-share-title) {
+  animation: briefing-share-fade-out 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-new(.briefing-share-title) {
+  animation: briefing-share-fade-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes briefing-share-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes briefing-share-fade-in {
+  from {
+    opacity: 0;
+  }
+}

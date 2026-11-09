@@ -20,6 +20,7 @@ import { RINGEKLOKKE_BILDE_URL_VARIABLE } from "../../constants";
 import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
 import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
 import { WeatherOverlay } from "../../components/Weather/WeatherOverlay/WeatherOverlay";
+import { BriefingButtons } from "../../components/Briefing/BriefingButtons";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/"
@@ -90,8 +91,9 @@ export const Stue = () => {
   return (
     <div className="sl-theme-dark homey-dashboard">
       <WeatherOverlay dimmed={Boolean(focusElement)} />
-      <div className="first-column">
+      <div className="first-column stue-stemninger">
         <Moods flows={flows} moods={STUE_MOODS} onMoodClick={onMoodClick} />
+        <BriefingButtons onSetFocus={onSetFocus} />
       </div>
       <div className="second-column">
         <div className="first-row">
