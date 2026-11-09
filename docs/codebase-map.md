@@ -58,6 +58,15 @@ Zones: used on `/andre` via `room.homeyZoneId` + device `zone`. Stue/Entre use h
 | `src/server/insights.js`           | `bucketHourlyPoints`      |
 | `src/server/routes/temperature.js` | Insights temperature      |
 | `src/server/routes/weather.js`     | MET Norway forecast cache |
+| `src/server/routes/briefing.js`    | Proxy to HomeOS briefings |
+
+### Briefings (HomeOS)
+
+Stue `/` shows **Lys av** at the end of Stemninger, then **Morgendagen** and **Ukeplan** (`BriefingButtons`). The column scrolls when the buttons do not fit the 800×480 screen. A tap opens `BriefingFocus` in the focus panel and keeps it open until close. Switching briefing clears the body back to **Henter…** until the new text arrives. The button label and the focus heading share a view transition (`briefing-share-title`), same idea as the speaker name. Paired `**` in the briefing text render as bold; other characters stay as text.
+
+- Dashboard: `GET /api/read/briefing/evening` and `GET /api/read/briefing/next-week` → `{ text }`
+- HomeOS (`HOMEOS_URL`, default `https://127.0.0.1:3000`; a host:port is read as https): `GET /api/briefings/evening` and `GET /api/briefings/next-week`
+- The dashboard accepts the private LAN certificate from HomeOS. Set `HOMEOS_URL` on the Stue Pi to the machine that runs HomeOS.
 
 ### Temperature API
 

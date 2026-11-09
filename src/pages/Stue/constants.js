@@ -23,8 +23,4 @@ export const STUE_MOODS = {
     title: "Lys av",
     icon: "lightbulb",
   },
-  TURN_OFF_EVERYTHING: {
-    id: "f3fdbf62-a68b-468f-911e-6c41619d63b7",
-    title: "Slå av alt",
-  },
 };

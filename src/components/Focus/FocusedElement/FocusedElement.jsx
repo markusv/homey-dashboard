@@ -21,6 +21,7 @@ export const FocusedElement = forwardRef((props, ref) => {
     className,
     backgroundImageUrl,
     titleTransitionName,
+    titleTransitionShare = "speaker-share-name",
   } = props;
   const cls = (className ?? "") + " focused-element";
   return (
@@ -51,7 +52,7 @@ export const FocusedElement = forwardRef((props, ref) => {
           {titleTransitionName ? (
             <ViewTransition
               name={titleTransitionName}
-              share="speaker-share-name"
+              share={titleTransitionShare}
               default="none"
             >
               <h1 className="focused-element-title">{title}</h1>
