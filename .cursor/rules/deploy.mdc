@@ -13,7 +13,7 @@ alwaysApply: true
 | -- | ------- | ---- |
 | Stue | `pi@192.168.68.91` | Express + kiosk `/`. App: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` |
 | Entre | `rpi@192.168.68.99` | Kiosk `/entre` only (no app server) |
-| Andre | address TBD | Kiosk `/andre` from the Stue server; not in `scripts/deploy.sh` |
+| Andre (gang 2. etg) | `rpi@192.168.68.82` | Chromium on `http://192.168.68.91/andre` only (no app server). Fullscreen Chromium via systemd `dashboard.service` (`--start-fullscreen`, no `--kiosk`). Not in `scripts/deploy.sh` |
 
 - **User deploys** from the Mac. SSH keys only, `BatchMode`. Mac and the main Pi must be on `main`; the Pi pulls `origin/main`.
 - **Agents** do not SSH to the Pis unless the user explicitly asks. If they do, use `ssh -o BatchMode=yes` only. Never request a password or GitHub key passphrase, never run `ssh-copy-id`, never disable host-key checking.

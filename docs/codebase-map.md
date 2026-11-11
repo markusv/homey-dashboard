@@ -153,7 +153,7 @@ The agent must not ask for SSH/sudo passwords; deploy is key-based and run by th
 | ----------- | -------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Stue (main) | `192.168.68.91` (`pi`)           | Official Raspberry Pi 7" touch **v1**, **800×480** landscape        | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
 | Entre       | `192.168.68.99` (`rpi`)          | 13.1" touch, **1920×1080**                                          | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
-| Andre       | Raspberry Pi **5** (address TBD) | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium kiosk on `/andre` (loads the Stue app server). Not in `scripts/deploy.sh` yet.                                                                                 |
+| Andre (gang 2. etg) | `192.168.68.82` (`rpi`), Raspberry Pi **5** | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium on `http://192.168.68.91/andre` only — no Node server. systemd `dashboard.service` opens Chromium fullscreen (`--start-fullscreen`, no `--kiosk`). Not in `scripts/deploy.sh` yet. |
 
 Deploy from a Mac on the same LAN (`scripts/deploy.sh`):
 

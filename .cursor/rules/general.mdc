@@ -9,7 +9,7 @@ This is a Vite + React app serving Homey smarthome dashboards as Chromium kiosks
 | ---- | -- | ------ |
 | `/` Stue | `pi@192.168.68.91` (app server) | Official Pi 7" touch v1, **800×480** landscape |
 | `/entre` | `rpi@192.168.68.99` | 13.1" touch, **1920×1080** (`min-width: 1900px`) |
-| `/andre` | Raspberry Pi 5 (not in `npm run deploy` yet) | Official Pi **7" Touch Display 2**, **720×1280** portrait, touch-first |
+| `/andre` | `rpi@192.168.68.82` (not in `npm run deploy` yet) | Official Pi **7" Touch Display 2**, **720×1280** portrait, touch-first. Chromium opens `http://192.168.68.91/andre` at boot via systemd, fullscreen (`--start-fullscreen`), without `--kiosk` |
 
 Node LTS via nvm (`.nvmrc` = `lts/*`, engines `^24.19.0`).
 
