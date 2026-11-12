@@ -12,4 +12,4 @@ Design `/andre` for a **Raspberry Pi 5** + official **7" Touch Display 2**: **72
 - Shared UI (e.g. `SonosFocus`) must work in this portrait box: stacked player, not Stue’s landscape two-column overlay
 - Pi: `rpi@192.168.68.82`. Chromium opens `http://192.168.68.91/andre` at boot from systemd `dashboard.service` (same pattern as Entre). Fullscreen via `--start-fullscreen`. Do not add `--kiosk`
 - Touch Display 2 must be in multitouch mode (`mouseEmulation="no"` in labwc). Mouse emulation makes a finger-drag select text in every site, so Chromium cannot scroll
-- Not in `npm run deploy` yet; it loads the app from the Stue server, same pattern as Entre
+- Loads the app from the Stue server, same pattern as Entre. `npm run deploy` reboots this Pi after Stue is back so Chromium reloads `/andre`

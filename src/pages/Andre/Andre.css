@@ -164,6 +164,11 @@
   overscroll-behavior-x: contain;
   touch-action: pan-x;
   scrollbar-width: none;
+  /* Own compositor layer, same as Entre .weather-container. Otherwise Chromium
+     on the Pi repaints the blurred glass card on every swipe frame. */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout paint;
 }
 
 .andre-weather-scroll::-webkit-scrollbar {

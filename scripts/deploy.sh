@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Deploy Homey dashboard from your Mac to the living-room Pi, then reboot both kiosks.
+# Deploy Homey dashboard from your Mac to the living-room Pi, then reboot the kiosks.
 #
 # Screens:
 #   Stue  (pi@192.168.68.91)  official Raspberry Pi 7" touch v1, 800x480, kiosk /
 #   Entre (rpi@192.168.68.99) 13.1" touch, 1920x1080, kiosk /entre (no Node)
+#   Andre (rpi@192.168.68.82) Pi 5 + 7" Touch Display 2, 720x1280, Chromium /andre (no Node)
 #
 # Security: uses existing SSH keys only. Never prompts for a password
 # (BatchMode). Do not put passwords, tokens, or private keys in this file.
@@ -11,6 +12,7 @@
 # One-time on your Mac (you type any password locally; the agent never sees it):
 #   ssh-copy-id pi@192.168.68.91
 #   ssh-copy-id rpi@192.168.68.99
+#   ssh-copy-id rpi@192.168.68.82
 #   ssh-add --apple-use-keychain   # optional: forward this Mac's GitHub key during deploy
 #
 # GitHub on the Pi: prefer a passphrase-less read-only deploy key for `git pull`.
@@ -23,8 +25,10 @@
 # Optional env:
 #   MAIN_PI     default pi@192.168.68.91
 #   ENTRE_PI    default rpi@192.168.68.99
+#   ANDRE_PI    default rpi@192.168.68.82
 #   APP_DIR     default /home/pi/Projects/homey-dashboard
 #   SKIP_ENTRE=1   skip rebooting the entre kiosk
+#   SKIP_ANDRE=1   skip rebooting the 2nd-floor kiosk
 #   SKIP_VERIFY=1  skip HTTP 200 checks after the main Pi is back
 #
 # Deploys origin/main. This Mac and the main Pi must both be on main.
@@ -36,9 +40,11 @@ cd "$ROOT"
 
 MAIN_PI="${MAIN_PI:-pi@192.168.68.91}"
 ENTRE_PI="${ENTRE_PI:-rpi@192.168.68.99}"
+ANDRE_PI="${ANDRE_PI:-rpi@192.168.68.82}"
 APP_DIR="${APP_DIR:-/home/pi/Projects/homey-dashboard}"
 BRANCH="main"
 SKIP_ENTRE="${SKIP_ENTRE:-0}"
+SKIP_ANDRE="${SKIP_ANDRE:-0}"
 SKIP_VERIFY="${SKIP_VERIFY:-0}"
 SSH_OPTS=(-o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=15)
 SSH_GIT_OPTS=("${SSH_OPTS[@]}" -o ForwardAgent=yes)
@@ -151,6 +157,7 @@ reboot_pi() {
 echo "Deploy branch: $BRANCH"
 echo "Main Pi:       $MAIN_PI  ($APP_DIR)"
 echo "Entre Pi:      $ENTRE_PI"
+echo "Andre Pi:      $ANDRE_PI"
 
 local_branch="$(git rev-parse --abbrev-ref HEAD)"
 if [[ "$local_branch" != "main" ]]; then
@@ -160,6 +167,9 @@ fi
 preflight_ssh "$MAIN_PI"
 if [[ "$SKIP_ENTRE" != "1" ]]; then
   preflight_ssh "$ENTRE_PI"
+fi
+if [[ "$SKIP_ANDRE" != "1" ]]; then
+  preflight_ssh "$ANDRE_PI"
 fi
 ensure_mac_agent
 
@@ -223,5 +233,10 @@ if [[ "${SKIP_ENTRE}" != "1" ]]; then
   wait_for_ssh "${ENTRE_PI}"
 fi
 
-printf 'Deploy done. Stue kiosk: %s/  Entre kiosk: %s/entre\n' \
-  "${VERIFY_BASE_URL}" "${VERIFY_BASE_URL}"
+if [[ "${SKIP_ANDRE}" != "1" ]]; then
+  reboot_pi "${ANDRE_PI}"
+  wait_for_ssh "${ANDRE_PI}"
+fi
+
+printf 'Deploy done. Stue kiosk: %s/  Entre kiosk: %s/entre  Andre kiosk: %s/andre\n' \
+  "${VERIFY_BASE_URL}" "${VERIFY_BASE_URL}" "${VERIFY_BASE_URL}"

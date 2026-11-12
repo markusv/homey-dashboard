@@ -1,6 +1,6 @@
 # Homey dashboard — codebase map
 
-Last updated: 2026-09-23. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
+Last updated: 2026-11-12. Prefer reading this file over broad codebase exploration when adding dashboards or Homey features.
 
 ## Stack
 
@@ -84,7 +84,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - Day slots: `getForecastItemsForDay` (4 points/day; past hours mostly absent from MET)
 - Icons: `public/dashboardAssets/weatherIcons/{symbol_code}.svg`
 - Full-screen overlay: `WeatherOverlay` on `/`, `/entre`, `/andre` — CSS rain/snow/sleet drops (one element per drop, GPU `transform` + staggered `animation-delay`) scaled from MET `next_1_hours.details.precipitation_amount` + symbol; daytime `clearsky`/`fair`/`partlycloudy` sun glow; fades on tap (`pointer-events: none`)
-- `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row)
+- `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row). The swipe scroller (`.andre-weather-scroll`) is a compositor layer (`translateZ(0)`, `will-change: transform`, `contain: layout paint`), same as Entre `.weather-container`, so the Pi 5 does not repaint the glass card while swiping
 
 ## Public transport (Entre)
 
@@ -147,24 +147,24 @@ Response shape: `{ current, points, unit, range, … }`.
 
 ## Production (Raspberry Pi)
 
-The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`). That script currently reboots **Stue + Entre** only.
+The agent must not ask for SSH/sudo passwords; deploy is key-based and run by the user (`npm run deploy`). That script reboots **Stue, Entre, and the 2nd-floor hallway Pi**.
 
-| Device      | Address                          | Screen                                                              | Role                                                                                                                                                                    |
-| ----------- | -------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stue (main) | `192.168.68.91` (`pi`)           | Official Raspberry Pi 7" touch **v1**, **800×480** landscape        | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`) |
-| Entre       | `192.168.68.99` (`rpi`)          | 13.1" touch, **1920×1080**                                          | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                    |
-| Andre (gang 2. etg) | `192.168.68.82` (`rpi`), Raspberry Pi **5** | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium on `http://192.168.68.91/andre` only — no Node server. systemd `dashboard.service` opens Chromium fullscreen (`--start-fullscreen`, no `--kiosk`). Not in `scripts/deploy.sh` yet. |
+| Device              | Address                                     | Screen                                                              | Role                                                                                                                                                                                                           |
+| ------------------- | ------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stue (main)         | `192.168.68.91` (`pi`)                      | Official Raspberry Pi 7" touch **v1**, **800×480** landscape        | Express serves `build/` + `/api` on port 80; Chromium kiosk on `/`. Repo: `/home/pi/Projects/homey-dashboard`. systemd: `dashboard.service` (starts `scripts/start.sh`)                                        |
+| Entre               | `192.168.68.99` (`rpi`)                     | 13.1" touch, **1920×1080**                                          | Chromium kiosk on `http://192.168.68.91/entre` only — no Node server                                                                                                                                           |
+| Andre (gang 2. etg) | `192.168.68.82` (`rpi`), Raspberry Pi **5** | Official Raspberry Pi **7" Touch Display 2**, **720×1280** portrait | Chromium on `http://192.168.68.91/andre` only — no Node server. systemd `dashboard.service` opens Chromium fullscreen (`--start-fullscreen`, no `--kiosk`). `scripts/deploy.sh` reboots it after Stue is back. |
 
 Deploy from a Mac on the same LAN (`scripts/deploy.sh`):
 
 1. Push the branch to GitHub (the Pi only pulls `origin`).
-2. SSH key auth to both Pis (`BatchMode` — no password prompt).
+2. SSH key auth to all three Pis (`BatchMode` — no password prompt).
 3. On the main Pi: `git pull`, `npm install`, `npm run build`.
 4. Reboot the main Pi; wait until SSH and HTTP 200 on `/`.
 5. Run `VERIFY_BASE_URL=http://192.168.68.91 npm run verify`.
-6. Reboot the entre Pi so its kiosk reloads `/entre`.
+6. Reboot the entre Pi so its kiosk reloads `/entre`, then the 2nd-floor Pi so Chromium reloads `/andre`.
 
-One-time SSH keys (run locally, never commit keys or paste passwords into chat): `ssh-copy-id pi@192.168.68.91` and `ssh-copy-id rpi@192.168.68.99`. Reboot needs passwordless `sudo /sbin/reboot` on each Pi.
+One-time SSH keys (run locally, never commit keys or paste passwords into chat): `ssh-copy-id pi@192.168.68.91`, `ssh-copy-id rpi@192.168.68.99`, and `ssh-copy-id rpi@192.168.68.82`. Reboot needs passwordless `sudo /sbin/reboot` on each Pi.
 
 ## Adding a dashboard / room
 
