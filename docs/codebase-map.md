@@ -83,7 +83,7 @@ Response shape: `{ current, points, unit, range, … }`.
 - UI: `Weather`, `WeatherLarge`, `ForecastDay`, `ForecastItem`
 - Day slots: `getForecastItemsForDay` (4 points/day; past hours mostly absent from MET)
 - Icons: `public/dashboardAssets/weatherIcons/{symbol_code}.svg`
-- Full-screen overlay: `WeatherOverlay` on `/`, `/entre`, `/andre` — CSS rain/snow/sleet drops (one element per drop, GPU `transform` + staggered `animation-delay`) scaled from MET `next_1_hours.details.precipitation_amount` + symbol; daytime `clearsky`/`fair`/`partlycloudy` sun glow; fades on tap (`pointer-events: none`)
+- Full-screen overlay: `WeatherOverlay` on `/` and `/entre` only — CSS rain/snow/sleet drops (one element per drop, GPU `transform` + staggered `animation-delay`) scaled from MET `next_1_hours.details.precipitation_amount` + symbol; daytime `clearsky`/`fair`/`partlycloudy` sun glow; fades on tap (`pointer-events: none`). `/andre` does not mount it: the animated drops sit over the portrait kiosk and hitch the horizontal weather swipe on the Pi 5
 - `/andre` uses horizontal `WeatherStrip`: remaining hours today + all MET days (4 points/day, swipe row). The swipe scroller (`.andre-weather-scroll`) is a compositor layer (`translateZ(0)`, `will-change: transform`, `contain: layout paint`), same as Entre `.weather-container`, so the Pi 5 does not repaint the glass card while swiping
 
 ## Public transport (Entre)
