@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FocusedElement } from "../Focus/FocusedElement/FocusedElement";
 import { briefingReadPath } from "../../helpers/briefingKind";
 import { briefingTitleName } from "./Briefing.constants";
-import { briefingRuns } from "./helpers/briefingRuns";
+import { briefingBlocks, twemojiSrc } from "./helpers/briefingBlocks";
 import "./BriefingFocus.css";
 
 const OFFLINE_TEXT = "Får ikke kontakt med HomeOS.";
@@ -61,15 +61,29 @@ export const BriefingFocus = ({ kind, title, close }) => {
       {text === null ? (
         <p className="briefing-focus-status">Henter…</p>
       ) : (
-        <p className="briefing-focus-text">
-          {briefingRuns(text).map((run, index) =>
-            run.bold ? (
-              <strong key={index}>{run.text}</strong>
-            ) : (
-              <span key={index}>{run.text}</span>
-            )
-          )}
-        </p>
+        <div className="briefing-focus-text">
+          {briefingBlocks(text).map((paragraph, index) => (
+            <p key={index}>
+              {paragraph.map((part, partIndex) => {
+                const Tag = part.bold ? "strong" : "span";
+                return (
+                  <Tag key={partIndex}>
+                    {part.emoji ? (
+                      <img
+                        className="briefing-emoji"
+                        alt=""
+                        draggable={false}
+                        src={twemojiSrc(part.text)}
+                      />
+                    ) : (
+                      part.text
+                    )}
+                  </Tag>
+                );
+              })}
+            </p>
+          ))}
+        </div>
       )}
     </FocusedElement>
   );

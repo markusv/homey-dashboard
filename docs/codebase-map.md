@@ -62,7 +62,7 @@ Zones: used on `/andre` via `room.homeyZoneId` + device `zone`. Stue/Entre use h
 
 ### Briefings (HomeOS)
 
-Stue `/` shows **Lys av** at the end of Stemninger, then **Morgendagen** and **Ukeplan** (`BriefingButtons`). The column scrolls when the buttons do not fit the 800×480 screen. A tap opens `BriefingFocus` in the focus panel and keeps it open until close. Switching briefing clears the body back to **Henter…** until the new text arrives. The button label and the focus heading share a view transition (`briefing-share-title`), same idea as the speaker name. Paired `**` in the briefing text render as bold; other characters stay as text.
+Stue `/` shows **Lys av** at the end of Stemninger, then **Morgendagen** and **Ukeplan** (`BriefingButtons`). The column scrolls when the buttons do not fit the 800×480 screen. A tap opens `BriefingFocus` in the focus panel and keeps it open until close. Switching briefing clears the body back to **Henter…** until the new text arrives. The button label and the focus heading share a view transition (`briefing-share-title`), same idea as the speaker name. Each non-empty line is its own paragraph with space between them. Emoji render as Twemoji images so the Pi kiosk does not need a system emoji font. Paired `**` in a line render as bold.
 
 - Dashboard: `GET /api/read/briefing/evening` and `GET /api/read/briefing/next-week` → `{ text }`
 - HomeOS (`HOMEOS_URL`, default `https://127.0.0.1:3000`; a host:port is read as https): `GET /api/briefings/evening` and `GET /api/briefings/next-week`
