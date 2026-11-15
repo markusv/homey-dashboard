@@ -128,7 +128,10 @@
   text-transform: capitalize;
 }
 
-/* Weather — pinned current + swipeable hours/days */
+/* Weather — pinned current + swipeable hours/days.
+   No backdrop-filter here: a blur on the card that owns the swipe is
+   recomputed on every frame on the Pi. The strip sits on a flat page,
+   so a solid tint matches the glass look without that cost. */
 .andre-weather {
   flex-shrink: 0;
   display: flex;
@@ -136,6 +139,12 @@
   margin: 10px 0 14px;
   padding: 12px 16px;
   overflow: hidden;
+}
+
+.andre-weather.andre-glass {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(16, 16, 24, 0.94);
 }
 
 .andre-weather--empty {
@@ -164,8 +173,8 @@
   overscroll-behavior-x: contain;
   touch-action: pan-x;
   scrollbar-width: none;
-  /* Own compositor layer, same as Entre .weather-container. Otherwise Chromium
-     on the Pi repaints the blurred glass card on every swipe frame. */
+  /* Own compositor layer, same as Entre .weather-container, so the swipe
+     moves without repainting the card. */
   transform: translateZ(0);
   will-change: transform;
   contain: layout paint;
