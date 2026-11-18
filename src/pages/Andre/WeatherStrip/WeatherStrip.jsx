@@ -7,6 +7,7 @@ import {
   getWeatherPeriod,
   getWeatherSymbolLabel,
 } from "./WeatherStrip.helpers";
+import { useWeatherStripSwipe } from "./hooks/useWeatherStripSwipe";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -77,6 +78,7 @@ const getUpcomingForecastDays = (forecast) => {
 
 export const WeatherStrip = () => {
   const [forecast] = useFetchForecast();
+  const { viewportRef, trackRef } = useWeatherStripSwipe();
 
   const { current, hourly, days } = useMemo(() => {
     if (!forecast?.length) {
@@ -133,8 +135,8 @@ export const WeatherStrip = () => {
         </div>
       </div>
 
-      <div className="andre-weather-scroll">
-        <div className="andre-weather-track">
+      <div className="andre-weather-scroll" ref={viewportRef}>
+        <div className="andre-weather-track" ref={trackRef}>
           {hourly.map((item) => (
             <div key={item.key} className="andre-weather-hour">
               <div className="andre-weather-hour-time">{item.timeLabel}</div>

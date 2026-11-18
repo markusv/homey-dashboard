@@ -167,21 +167,10 @@
 .andre-weather-scroll {
   flex: 1;
   min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  touch-action: pan-x;
-  scrollbar-width: none;
-  /* Own compositor layer, same as Entre .weather-container, so the swipe
-     moves without repainting the card. */
-  transform: translateZ(0);
-  will-change: transform;
-  contain: layout paint;
-}
-
-.andre-weather-scroll::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
+  /* Native overflow scroll repainted this strip on the Pi. The track is
+     moved with translate3d instead, so the swipe stays on the compositor. */
+  touch-action: none;
 }
 
 .andre-weather-track {
@@ -190,6 +179,8 @@
   gap: 10px;
   width: max-content;
   min-height: 96px;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 .andre-weather-now-icon {
@@ -239,6 +230,7 @@
 .andre-weather-hour-icon {
   width: 36px;
   height: 36px;
+  pointer-events: none;
 }
 
 .andre-weather-hour-temp {
@@ -259,9 +251,6 @@
 }
 
 .andre-weather-day-label {
-  position: sticky;
-  left: 0;
-  z-index: 2;
   width: max-content;
   max-width: 100%;
   font-size: 1.05rem;
@@ -269,9 +258,6 @@
   color: var(--andre-text-muted);
   white-space: nowrap;
   line-height: 1.2;
-  padding: 2px 16px 2px 0;
-  box-sizing: content-box;
-  background: none;
 }
 
 .andre-weather-day-points {
@@ -291,6 +277,7 @@
 .andre-weather-day-icon {
   width: 36px;
   height: 36px;
+  pointer-events: none;
 }
 
 .andre-weather-day-temp {
