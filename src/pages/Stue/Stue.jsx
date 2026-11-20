@@ -21,6 +21,8 @@ import { useGetLogicVariable } from "../../helpers/useGetLogicVariable";
 import { ImageFocus } from "../../components/ImageFocus/ImageFocus";
 import { WeatherOverlay } from "../../components/Weather/WeatherOverlay/WeatherOverlay";
 import { BriefingButtons } from "../../components/Briefing/BriefingButtons";
+import { useStueActivity } from "./hooks/useStueActivity";
+import { StueActivityFocus } from "./StueActivityFocus";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/"
@@ -32,6 +34,11 @@ export const Stue = () => {
   const [flows] = useGetFlows();
   const [focusElement, setFocusElement] = useState();
   const [autoClearFocus, setAutoClearFocus] = useState(true);
+  const [dismissedActivityId, setDismissedActivityId] = useState(null);
+  const activityId = useStueActivity(devices);
+  const activityVisible = Boolean(
+    activityId && dismissedActivityId !== activityId
+  );
   useEffect(() => {
     if (!focusElement || !autoClearFocus) {
       return;
@@ -39,6 +46,11 @@ export const Stue = () => {
     const timer = setTimeout(clearFocus, focusElement.timer ?? 10000);
     return () => clearTimeout(timer);
   }, [focusElement]);
+
+  useEffect(() => {
+    setDismissedActivityId(null);
+    if (activityId) setFocusElement(null);
+  }, [activityId]);
 
   const onSetFocus = (obj, clearFocusAutomaitcally) => {
     if (!obj) {
@@ -56,7 +68,9 @@ export const Stue = () => {
   const clearFocus = () => {
     if (focusElement) {
       setFocusElement(null);
+      return;
     }
+    if (activityId) setDismissedActivityId(activityId);
   };
 
   const [initialized, setInitialized] = useState(false);
@@ -90,7 +104,7 @@ export const Stue = () => {
 
   return (
     <div className="sl-theme-dark homey-dashboard">
-      <WeatherOverlay dimmed={Boolean(focusElement)} />
+      <WeatherOverlay dimmed={Boolean(focusElement || activityVisible)} />
       <div className="first-column stue-stemninger">
         <Moods flows={flows} moods={STUE_MOODS} onMoodClick={onMoodClick} />
         <BriefingButtons onSetFocus={onSetFocus} />
@@ -99,7 +113,16 @@ export const Stue = () => {
         <div className="first-row">
           <div className="focus-area">
             {focusElement && focusElement.render(clearFocus)}
-            {!focusElement && <Focus onSetFocus={onSetFocus} />}
+            {!focusElement && activityVisible && (
+              <StueActivityFocus
+                activityId={activityId}
+                devices={devices}
+                onClose={clearFocus}
+              />
+            )}
+            {!focusElement && !activityVisible && (
+              <Focus onSetFocus={onSetFocus} />
+            )}
           </div>
         </div>
         <div className="second-row">

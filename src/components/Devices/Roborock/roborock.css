@@ -1,25 +1,68 @@
+.roborock-focus.focused-element {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  margin-top: 0.35rem;
+}
+
 .roborock-focused-container {
   display: flex;
   height: 100%;
+  min-height: 0;
+  gap: 0.75rem;
+  align-items: stretch;
 }
 
-.roborock-focused-icon-image {
-  width: 128px;
-  height: 128px;
-  filter: invert(100%);
-}
-
-.roborock-focused-content {
-  margin-left: 1rem;
-  flex: 1 1;
+.roborock-actions {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
   display: flex;
-  flex-direction: row;
-  overflow-y: scroll;
-  gap: 1rem;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  flex-direction: column;
+  gap: 0.45rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
-.roborock-focused-buttton {
-  width: 40%;
+.roborock-action {
+  flex: 1 0 3.15rem;
+  min-height: 3.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #262830;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.roborock-action:active {
+  background: #34363f;
+}
+
+.roborock-action--dock {
+  flex: 1 0 3.15rem;
+  min-height: 3.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: transparent;
+  color: rgb(125, 178, 214);
+  border-color: rgba(125, 178, 214, 0.85);
+}
+
+.roborock-action--dock:active {
+  background: rgba(125, 178, 214, 0.12);
+}
+
+.roborock-dock-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: block;
 }

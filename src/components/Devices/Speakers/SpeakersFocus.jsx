@@ -54,10 +54,16 @@ const SpeakersPane = ({ children }) => (
   </ViewTransition>
 );
 
-export const SpeakersFocus = ({ close, devices: initialDevices }) => {
+export const SpeakersFocus = ({
+  close,
+  devices: initialDevices,
+  initialDeviceId,
+}) => {
   const [devices, setDevices] = useState(initialDevices);
-  const [view, setView] = useState(SPEAKERS_VIEW.LIST);
-  const [selectedId, setSelectedId] = useState();
+  const [view, setView] = useState(
+    initialDeviceId ? SPEAKERS_VIEW.PLAYER : SPEAKERS_VIEW.LIST
+  );
+  const [selectedId, setSelectedId] = useState(initialDeviceId);
   const [clickedCoverUrl, setClickedCoverUrl] = useState();
   const [playerBackgroundUrl, setPlayerBackgroundUrl] = useState();
 

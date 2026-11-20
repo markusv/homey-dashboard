@@ -1,0 +1,159 @@
+/* Pi 4: only transform and opacity animate, so the frames stay on the GPU.
+   While the robot is out, the floor grid scrolls and the robot stays still.
+   Rings exist only while charging. */
+
+.roborock-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 240px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.roborock-stage {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.roborock-floor {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 520px;
+}
+
+.roborock-grid {
+  position: absolute;
+  left: -30%;
+  width: 160%;
+  top: -28%;
+  height: 175%;
+  background-image:
+    linear-gradient(rgba(125, 178, 214, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 178, 214, 0.5) 1px, transparent 1px);
+  background-size: 26px 26px;
+  transform: rotateX(46deg);
+  transform-origin: center 78%;
+}
+
+.roborock-floor--drive .roborock-grid {
+  animation: roborock-grid-drive 1.1s linear infinite;
+  will-change: transform;
+}
+
+.roborock-floor--return .roborock-grid {
+  animation: roborock-grid-return 1.1s linear infinite;
+  will-change: transform;
+}
+
+@keyframes roborock-grid-drive {
+  from {
+    transform: rotateX(46deg) translate3d(0, 0, 0);
+  }
+  to {
+    transform: rotateX(46deg) translate3d(0, 26px, 0);
+  }
+}
+
+@keyframes roborock-grid-return {
+  from {
+    transform: rotateX(46deg) translate3d(0, 26px, 0);
+  }
+  to {
+    transform: rotateX(46deg) translate3d(0, 0, 0);
+  }
+}
+
+.roborock-mover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roborock-scene--cleaning .roborock-mover,
+.roborock-scene--paused .roborock-mover,
+.roborock-scene--returning .roborock-mover {
+  align-items: flex-end;
+  padding-bottom: 6%;
+}
+
+.roborock-scene--cleaning .roborock-photo,
+.roborock-scene--paused .roborock-photo,
+.roborock-scene--returning .roborock-photo {
+  width: 50%;
+  height: 50%;
+}
+
+/* Same box as the contained dock photo (628×747, bottom-centered),
+   so the ring center stays on the robot and the photo does not move. */
+.roborock-rings {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 0;
+  height: 100%;
+  aspect-ratio: 628 / 747;
+  transform: translate3d(-50%, 0, 0);
+  perspective: 340px;
+  pointer-events: none;
+}
+
+.roborock-rings span {
+  position: absolute;
+  left: 48%;
+  top: 76%;
+  width: 158%;
+  height: 133%;
+  border-radius: 50%;
+  border: 3px solid rgba(74, 222, 128, 0.95);
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) rotateX(64deg) scale(0.5);
+  animation: roborock-ring 2.8s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+.roborock-rings span:nth-child(2) {
+  animation-delay: 1.4s;
+}
+
+@keyframes roborock-ring {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotateX(64deg) scale(0.5);
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotateX(64deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+.roborock-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  pointer-events: none;
+}
+
+.roborock-status {
+  margin: 0.3rem 0 0;
+  min-height: 1.25rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+  text-align: center;
+}
